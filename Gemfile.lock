@@ -35,9 +35,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: 2974287d8fb67dfbe1f4f517918e75a014237c3c
+  revision: 55464dd77c588a0f9058637c0519049d3b9986a1
   specs:
-    project_metric_github_flow (0.1.0)
+    project_metric_github_flow (0.2.0)
       octokit (~> 4.0)
 
 GIT
@@ -389,7 +389,7 @@ GEM
     rspec-mocks (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
-    rspec-rails (3.7.0)
+    rspec-rails (3.7.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)

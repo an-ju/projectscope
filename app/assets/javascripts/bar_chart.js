@@ -7,6 +7,13 @@ function bar_chart(containerID, data) {
     if (!container.select('svg').empty()) {
         container.select('svg').remove();
     }
+    if(data.series.length === 0) {
+        d3.select('#' + containerID)
+            .append('div')
+            .style('width', '100%')
+            .html('No Data');
+        return;
+    }
     var margin = {top: 1, right: 2, bottom: 1, left: 2};
     var height = d3.max([parseFloat(container.style('height').slice(0, -2)), 30]);
     var width = 150;

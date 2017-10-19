@@ -30,7 +30,7 @@ METRIC_NAMES = {
   test_coverage: 'Test Coverage',
   pull_requests: 'PR Status',
   github_files: 'Edited Lines',
-  github_flow: 'Commit Frequency',
+  github_flow: 'Commit Counting',
   travis_ci: 'Build Status',
   smart_story: 'Story Format',
   point_estimation: 'Story Points',
