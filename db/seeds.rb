@@ -131,7 +131,7 @@ projects_list.each do |project|
         m = MetricSample.create!(:metric_name => metric,
                                  :project_id => project.id,
                                  :score => rand(0.0..4.0).round(2),
-                                 :image => dummies[metric][rand(3)],
+                                 :image => dummies[metric].sample,
                                  :created_at => date)
         rand(3).times do
           m.comments << Comment.new(content: "Comment on #{date} for #{metric}",
