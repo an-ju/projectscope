@@ -95,6 +95,10 @@ smart_story1 = File.read './db/fake_data/smart_story1.json'
 smart_story2 = File.read './db/fake_data/smart_story2.json'
 smart_story3 = File.read './db/fake_data/smart_story3.json'
 
+commit_message1 = File.read './db/fake_data/commit_message1.json'
+commit_message2 = File.read './db/fake_data/commit_message2.json'
+commit_message3 = File.read './db/fake_data/commit_message3.json'
+
 dummies = Hash.new
 dummies["code_climate"] = [code_climate1, code_climate2, code_climate3]
 dummies["github"] = [github1, github2, github3]
@@ -113,6 +117,7 @@ dummies["github_flow"] = [github_flow1, github_flow2, github_flow3]
 dummies["tracker_velocity"] = [tracker_velocity1, tracker_velocity2, tracker_velocity3]
 dummies["point_distribution"] = [point_distribution1, point_distribution2, point_distribution3]
 dummies["smart_story"] = [smart_story1, smart_story2, smart_story3]
+dummies["commit_message"] = [commit_message1, commit_message2, commit_message3]
 
 projects_list = []
 0.upto(10).each do |num|

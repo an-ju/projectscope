@@ -58,8 +58,10 @@ function drawMetricCharts(containerID, metric_sample) {
         bar_chart(containerID, JSONStr.data);
     } else if (JSONStr['chartType'] === 'story_overall_v2') {
         story_overall(containerID, JSONStr.data);
-    } else if (JSONStr['chartType'] ==='smart_story') {
+    } else if (JSONStr['chartType'] === 'smart_story') {
         smart_story(containerID, metric_sample);
+    } else if (JSONStr['chartType'] === 'commit_message') {
+        commit_message(containerID, JSONStr.data);
     }
     else {
         error_message(containerID, metric_sample);
