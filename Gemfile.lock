@@ -20,6 +20,13 @@ GIT
       octokit (~> 4.0)
 
 GIT
+  remote: https://github.com/an-ju/project_metric_commit_message.git
+  revision: f1871f5dadc0103e4296761c2e1ea93538fdb863
+  specs:
+    project_metric_commit_message (0.1.0)
+      octokit (~> 4.0)
+
+GIT
   remote: https://github.com/an-ju/project_metric_github.git
   revision: 15bd08639f20067e7375b48d153c6fbbffccadb7
   specs:
@@ -505,6 +512,7 @@ DEPENDENCIES
   poltergeist
   project_metric_code_climate!
   project_metric_collective_overview!
+  project_metric_commit_message!
   project_metric_github!
   project_metric_github_files!
   project_metric_github_flow!
