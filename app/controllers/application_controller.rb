@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
   def update_all_projects
     Project.all.each{|ele| ele.resample_all_metrics}
     redirect_to projects_path
