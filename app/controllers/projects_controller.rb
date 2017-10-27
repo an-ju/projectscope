@@ -89,8 +89,10 @@ class ProjectsController < ApplicationController
     notice = ''
     @project.configs.each do |config|
       if config_params.has_key? config.metric_name and config_params[config.metric_name].has_key? config.metrics_params
-        config.token = config_params[config.metric_name][config.metrics_params]
-        notice += "Failed to update config #{config.metric_name}: #{config.metrics_params}\n" unless config.save
+        unless config_params[config.metric_name][config.metrics_params].empty?
+          config.token = config_params[config.metric_name][config.metrics_params]
+          notice += "Failed to update config #{config.metric_name}: #{config.metrics_params}\n" unless config.save
+        end
       end
     end
     @project.attributes = update_params
