@@ -32,6 +32,6 @@ METRIC_NAMES = {
   smart_story: 'Story Relevance',
   point_estimation: 'Story Points',
   story_overall: 'Story Status',
-  point_distribution: 'Story Assignment',
+  point_distribution: 'Finished Stories',
   commit_message: 'Commit Message'
 }
