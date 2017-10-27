@@ -31,7 +31,7 @@ METRIC_NAMES = {
   travis_ci: 'Build Status',
   smart_story: 'Story Relevance',
   point_estimation: 'Story Points',
-  story_overall: 'Story Assignment',
-  point_distribution: 'Finished Work',
+  story_overall: 'Story Status',
+  point_distribution: 'Story Assignment',
   commit_message: 'Commit Message'
 }
