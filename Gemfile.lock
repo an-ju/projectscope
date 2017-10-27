@@ -85,7 +85,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_smart_story.git
-  revision: b5c366274b889a4b0b821f88ab25040bfa0427a8
+  revision: 9acaf0fc22d8a570281dddfdae946e6bb21b3e47
   specs:
     project_metric_smart_story (0.1.0)
       faraday (~> 0.1, >= 0.1.0.0)
