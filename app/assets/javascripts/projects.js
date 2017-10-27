@@ -190,7 +190,7 @@ var render_charts = function () {
     total_number = $(".chart_place").length;
     current_progress = 0;
     $(".chart_place").each(function () {
-        get_charts_json(this.id);
+        $.when(get_charts_json(this.id));
     });
 };
 
