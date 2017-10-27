@@ -3,4 +3,14 @@ namespace :project do
   task :resample_all => :environment do
     Project.all.each &:resample_all_metrics
   end
+
+  desc 'Resample all metrics for a given project'
+  task :resample, [:pid] => :environment do |t, args|
+    Project.find(args[:pid]).resample_all_metrics
+  end
+
+  desc 'Resample a given metric for a given project'
+  task :resample_metric, [:pid, :metric] => :environment do |t, args|
+    Project.find(args[:pid]).resample_metric(args[:metric])
+  end
 end
