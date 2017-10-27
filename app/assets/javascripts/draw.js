@@ -62,6 +62,10 @@ function drawMetricCharts(containerID, metric_sample) {
         smart_story(containerID, metric_sample);
     } else if (JSONStr['chartType'] === 'commit_message') {
         commit_message(containerID, JSONStr.data);
+    } else if (JSONStr['chartType'] === 'code_climate_v2') {
+        index_score(containerID, metric_sample.score.toPrecision(3), 0.0, 4.0);
+    } else if (JSONStr['chartType'] === 'test_coverage_v2') {
+        index_score(containerID, metric_sample.score.toPrecision(3), 0.0, 100.0);
     }
     else {
         error_message(containerID, metric_sample);

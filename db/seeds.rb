@@ -23,13 +23,10 @@ MetricSample.delete_all
 # slack_trends2 = File.read './db/fake_data/spline2.json'
 # slack_trends3 = File.read './db/fake_data/spline3.json'
 
+#TODO: code climate fake data is not consistent with real format.
 code_climate1 = File.read './db/fake_data/codeclimate1.json'
 code_climate2 = File.read './db/fake_data/codeclimate2.json'
 code_climate3 = File.read './db/fake_data/codeclimate3.json'
-
-gauge1 = '{"chartType" : "gauge", "titleText" : "Story Management GPA", "data" : {"score" : 3.5}}'
-gauge2 = '{"chartType" : "gauge", "titleText" : "Story Management GPA", "data" : {"score" : 2.3}}'
-gauge3 = '{"chartType" : "gauge", "titleText" : "Story Management GPA", "data" : {"score" : 1.6}}'
 
 collective_gauge1 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 3.5}}'
 collective_gauge2 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 2.3}}'
@@ -51,6 +48,7 @@ github1 = File.read './db/fake_data/spline1.json'
 github2 = File.read './db/fake_data/spline2.json'
 github3 = File.read './db/fake_data/spline3.json'
 
+#TODO: test coverage fake data is not consistent with real format.
 test_coverage1 = File.read './db/fake_data/test_coverage1.json'
 test_coverage2 = File.read './db/fake_data/test_coverage2.json'
 test_coverage3 = File.read './db/fake_data/test_coverage3.json'

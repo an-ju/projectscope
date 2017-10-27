@@ -1,5 +1,5 @@
 {
-  "chartType":"test_coverage",
+  "chartType":"test_coverage_v2",
   "titleText":"Test Coverage",
   "data": {
     "GPA": "3.5",
