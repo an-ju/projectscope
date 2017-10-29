@@ -42,8 +42,7 @@
               %td
                 %a.detail-link{href:"/projects/#{@project.id}/metrics/#{sample.metric_name}/detail", style: 'width:100%;height:100%;'}
                   = METRIC_NAMES[sample.metric_name.to_sym]
-                  %span.badge
-                    = sample.comments.length
+                %span.glyphicon.glyphicon-question-sign{type: 'button', 'data-toggle': 'modal', 'data-target': "##{sample.metric_name}_explanation"}
               %td{style: 'text-align: center'}
                 %div.chart_place{:id => "project-#{@project.id}-metric-#{sample.try(:metric_name)}"}
               %td{style: 'text-align: center'}
@@ -74,5 +73,9 @@
          :locals => { metric_names: metric_names[@current_page],
                       projects: Project.all.reject { |p| p.id == @project.id } }
 
+- metric_names.each do |page|
+  = render partial: 'explanations',
+           locals: { metric_names: page }
+
 :javascript
-  keep_log=true;
+  keep_log=false;
