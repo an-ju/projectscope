@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_commit_message.git
-  revision: f1871f5dadc0103e4296761c2e1ea93538fdb863
+  revision: 594e39824da4b308eff2dc3a941934cdddef9422
   specs:
     project_metric_commit_message (0.1.0)
       octokit (~> 4.0)
@@ -35,14 +35,14 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_files.git
-  revision: 982813b9435160044ca9bbdf90799e035611e3fc
+  revision: c2e9318f16a194ca064b0cd07fe0626d1e36dc4f
   specs:
     project_metric_github_files (0.1.0)
       octokit (~> 4.0)
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: 55464dd77c588a0f9058637c0519049d3b9986a1
+  revision: 3bcbb72d579e840a189840638dddd6ec13acd19b
   specs:
     project_metric_github_flow (0.2.0)
       octokit (~> 4.0)
@@ -235,7 +235,7 @@ GEM
       cucumber-rails (>= 1.1.1)
     cucumber-tag_expressions (1.0.1)
     cucumber-wire (0.0.1)
-    database_cleaner (1.6.1)
+    database_cleaner (1.6.2)
     debug_inspector (0.0.3)
     devise (4.3.0)
       bcrypt (~> 3.0)
@@ -306,8 +306,8 @@ GEM
     loofah (2.1.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.6.6)
-      mime-types (>= 1.16, < 4)
+    mail (2.7.0)
+      mini_mime (>= 0.1.1)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
