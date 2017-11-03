@@ -48,11 +48,19 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @configs = {}
-    all_configs = @project.configs.select(:metric_name, :metrics_params, :token).map(&:attributes)
-    all_configs.each do |config|
-      @configs[config["metric_name"]] ||= []
-      @configs[config["metric_name"]] << {config["metrics_params"] => config["token"]}
+    ProjectMetrics.metric_names.each do |metric|
+      all_configs = @project.config_for metric
+      ProjectMetrics.class_for(metric).credentials.each do |c|
+        config = all_configs.select { |m| m.metrics_params.eql? c }.first
+        @configs[metric] ||= []
+        @configs[metric] << { c => config }
+      end
     end
+    # all_configs = @project.configs.select(:metric_name, :metrics_params, :token).map(&:attributes)
+    # all_configs.each do |config|
+    #   @configs[config["metric_name"]] ||= []
+    #   @configs[config["metric_name"]] << {config["metrics_params"] => config["token"]}
+    # end
   end
 
   # POST /projects
