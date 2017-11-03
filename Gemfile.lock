@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_code_climate.git
-  revision: d5cd8dc74c70b869969d9d09a4dd7bc1b43b3c5a
+  revision: 958328a25559a76a74dac6fa0ba4db149db851e2
   specs:
     project_metric_code_climate (0.2.0)
       faraday
@@ -278,7 +278,7 @@ GEM
     hashie (3.5.6)
     highcharts-rails (5.0.7)
       railties (>= 3.1)
-    i18n (0.9.0)
+    i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     jasmine (2.8.0)
       jasmine-core (>= 2.8.0, < 3.0.0)
