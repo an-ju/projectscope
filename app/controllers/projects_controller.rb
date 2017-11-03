@@ -51,9 +51,9 @@ class ProjectsController < ApplicationController
     ProjectMetrics.metric_names.each do |metric|
       all_configs = @project.config_for metric
       ProjectMetrics.class_for(metric).credentials.each do |c|
-        config = all_configs.select { |m| m.metrics_params.eql? c }.first
+        config = all_configs.select { |m| m.metrics_params.eql? c.to_s }.first
         @configs[metric] ||= []
-        @configs[metric] << { c => config }
+        @configs[metric] << { c => config.nil? ? '' : config.token }
       end
     end
     # all_configs = @project.configs.select(:metric_name, :metrics_params, :token).map(&:attributes)
