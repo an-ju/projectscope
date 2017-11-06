@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_code_climate.git
-  revision: 3f7a6ecc765ee6d823db1cc7bb70a28f1266bebc
+  revision: 871092c5d2a55b7a3c442abba8bad1c0feb495b1
   specs:
     project_metric_code_climate (0.2.0)
       faraday
