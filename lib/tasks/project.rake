@@ -1,7 +1,7 @@
 namespace :project do
   desc "Resample all the metrics for all the projects"
   task :resample_all => :environment do
-    Project.all.each &:resample_all_metrics
+    Project.all.shuffle.each &:resample_all_metrics
   end
 
   desc 'Resample all metrics for a given project'
