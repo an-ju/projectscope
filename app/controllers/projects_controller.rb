@@ -22,8 +22,8 @@ class ProjectsController < ApplicationController
     @projects = Project.all
     update_session
 
-    metric_min_date = MetricSample.min_date || Date.today
-    @num_days_from_today = (Date.today - metric_min_date).to_i
+    # metric_min_date = MetricSample.min_date || Date.today
+    # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
 
   # GET /projects/1
@@ -32,8 +32,8 @@ class ProjectsController < ApplicationController
     @owners = @project.owners
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
-    metric_min_date = MetricSample.min_date || Date.today
-    @num_days_from_today = (Date.today - metric_min_date).to_i
+    # metric_min_date = MetricSample.min_date || Date.today
+    # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
 
   # GET /projects/new
