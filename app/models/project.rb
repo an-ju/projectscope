@@ -54,15 +54,10 @@ class Project < ActiveRecord::Base
     metric_samples.latest_for metric
   end
 
-  def latest_metric_samples(metrics = nil)
-    metrics = ProjectMetrics.metric_names if metrics.nil?
-    metrics.map do |metric_name|
-      metric_samples.latest_for(metric_name)
-    end
-  end
-
   def metric_on_date(metric, date)
-    metric_samples.where(created_at: (date.beginning_of_day.utc..date.end_of_day.utc), metric_name: metric)
+    metric_samples
+      .select(%I[id project_id metric_name image score created_at])
+      .where(created_at: (date.beginning_of_day.utc..date.end_of_day.utc), metric_name: metric)
   end
 
   def resample_all_metrics
