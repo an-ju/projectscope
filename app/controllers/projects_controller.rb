@@ -166,7 +166,7 @@ class ProjectsController < ApplicationController
   # GET /projects/:id/metrics/:metric/series
   def get_metric_series
     #TODO: put it to the new controller
-    metric_samples = @project.metric_samples.where(metric_name: params[:metric])
+    metric_samples = @project.metric_samples.limit(8).where(metric_name: params[:metric])
     if metric_samples.empty?
       render json: { error: 'not found' }, status: 404
     else
