@@ -15,6 +15,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :ownerships
   has_many :owners, :class_name => "User", :through => :ownerships, :source => :user
+  has_many :comments, through: :metric_samples
 
   validates :name, :presence => true, :uniqueness => true
 
@@ -99,7 +100,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def comments
-    metric_samples.flat_map { |ms| ms.comments.where(ctype: 'general_comment') }.sort_by { |cmnt| Time.now - cmnt.created_at }
-  end
+  # def comments
+  #   metric_samples.flat_map { |ms| ms.comments.where(ctype: 'general_comment') }.sort_by { |cmnt| Time.now - cmnt.created_at }
+  # end
 end
