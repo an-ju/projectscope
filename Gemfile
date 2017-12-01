@@ -77,6 +77,8 @@ gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
 gem 'sprockets-rails', '~> 3.1.1'
 
+gem 'newrelic_rpm'
+
 group :development, :test do
   gem 'sqlite3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

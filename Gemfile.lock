@@ -318,6 +318,7 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    newrelic_rpm (4.6.0.338)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     oauth2 (1.4.0)
@@ -506,6 +507,7 @@ DEPENDENCIES
   jquery-ui-rails
   json
   launchy
+  newrelic_rpm
   omniauth-github
   pg
   phantomjs
