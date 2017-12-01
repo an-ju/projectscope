@@ -29,9 +29,9 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @owners = @project.owners
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
+    @other_projects = Project.select([:id, :name]).where.not(id: @project.id)
     # metric_min_date = MetricSample.min_date || Date.today
     # @num_days_from_today = (Date.today - metric_min_date).to_i
   end

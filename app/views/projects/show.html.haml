@@ -70,7 +70,7 @@
 
 = render :partial => 'metric_table',
          :locals => { metric_names: metric_names[@current_page],
-                      projects: Project.all.reject { |p| p.id == @project.id } }
+                      projects: @other_projects }
 
 - metric_names.each do |page|
   = render partial: 'explanations',

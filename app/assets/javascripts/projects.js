@@ -23,52 +23,6 @@ var outdate_all_metrics = function () {
     d3.select('#day-after').classed('disabled', true);
 };
 
-// var update_parent_metric = function () {
-//     if (parent_metric) {
-//         $.ajax({url: "/projects/" + global_project_id.toString() + "/metrics/" + parent_metric.metric_name + '?days_from_now=' + days,
-//             success: function(metric) {
-//                 parent_metric['metric_name'] = metric.metric_name;
-//                 parent_metric['id'] = metric.id;
-//                 $.ajax({
-//                     url: "/metric_samples/" + parent_metric.id + "/comments",
-//                     success: function (comments) {
-//                         d3.selectAll('.comments').remove();
-//                         d3.select('#comment_column').selectAll('.comments')
-//                             .data(comments).enter()
-//                             .append('div')
-//                             .style('top', function (d) {
-//                                 return JSON.parse(d.params).offset_top + 'px';
-//                             })
-//                             .attr('class', 'comments well')
-//                             .append('p')
-//                             .attr('class', 'comment-contents')
-//                             .html(function (d) {
-//                                 return d.content;
-//                             });
-//                     },
-//                     error: function (a, b, c) {
-//                         if (a.status != 404) {
-//                             console.log(a);
-//                             console.log(b);
-//                             console.log(c);
-//                         } else {
-//                         }
-//                     }
-//                 })
-//             },
-//             error: function(a, b, c) {
-//                 if (a.status !== 404) {
-//                     console.log(a);
-//                     console.log(b);
-//                     console.log(c);
-//                 } else {
-//                     //TODO: Add some place holder for data not found
-//                 }
-//             }
-//         });
-//     }
-// };
-
 var update_slider_indicator = function (is_successful) {
     var indicator = $("#slider-progress-indicator");
     if (indicator.css("display") === "none" || indicator.hasClass('slider-error-msg')) {
