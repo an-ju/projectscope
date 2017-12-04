@@ -194,6 +194,12 @@ var render_charts = function () {
     });
 };
 
+function ajax_err(a, b, c){
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+
 function read_comment(comment_id) {
     read_sample(comment_id, ["/comments", "#comment_"], ["", ""])
 }
@@ -211,11 +217,7 @@ function read_sample(sample_id, url_start_end, row_start_end) {
         success: function (result) {
             $(row_start + sample_id + row_end).remove();
         },
-        error: function(a, b, c){
-                    console.log(a);
-                    console.log(b);
-                    console.log(c);
-        }
+        error: ajax_err
     });
 }
 
@@ -230,11 +232,7 @@ function read_general_metric(project_id, metric_name, url_end, row_start) {
         success: function (result) {
             $(row_start + project_id + "_row").remove();
         },
-        error: function(a, b, c){
-            console.log(a);
-            console.log(b);
-            console.log(c);
-        }
+        error: ajax_err
     });
 }
 
@@ -244,12 +242,6 @@ function read_iteration(project_id, iteration_id) {
 
 function read_task(task_id) {
     read_sample(task_id, ["/student_task/", "/read_comments"], [".task_", "_row"])
-}
-
-function ajax_err(a, b, c){
-    console.log(a);
-    console.log(b);
-    console.log(c);
 }
 
 function toggle_element(element_id, toggle_link_id) {
