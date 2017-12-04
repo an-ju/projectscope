@@ -2,7 +2,22 @@
 
 
 ### TeamScope
+
 [Overall README](./iterations/README.md)
+
+#### Instructions to run the app locally:
+* bundle install --without production
+* rake db:setup
+
+##### To run without github login
+* ADMIN_PASSWORD=some_password rails s -p $PORT -b $IP (to run app locally on cloud9 ide) 
+* ADMIN_PASSWORD=some_password rails server (to run app locally in terminal)
+Then go to login/uadmin?passwd=some_password to login as admin or login/ustudent?passwd=some_password to login as student
+
+##### To run normally 
+* rails s -p $PORT -b $IP (to run app locally on cloud9 ide) 
+* rails server (to run app locally in terminal
+
 #### CodeClimate badge showing project's current GPA
 [![Maintainability](https://api.codeclimate.com/v1/badges/f110c3a7cd4b257abdd3/maintainability)](https://codeclimate.com/github/PeijieLi/cs169projectscope/maintainability)
 #### Code Climate badge showing percent code coverage
