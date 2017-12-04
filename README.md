@@ -16,7 +16,7 @@ We can not support github login when running locally, so please use the instruct
 * ADMIN_PASSWORD=some_password rails server (to run app locally in terminal)
 Then go to login/uadmin?passwd=some_password to login as admin or login/ustudent?passwd=some_password to login as student
 
-##### To run normally (not supported for test/development locally)
+##### To run normally (not support for github login for test/development locally)
 * rails s -p $PORT -b $IP (to run app locally on cloud9 ide) 
 * rails server (to run app locally in terminal
 
