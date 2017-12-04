@@ -204,18 +204,28 @@ function read_comment(comment_id) {
     read_sample(comment_id, ["/comments", "#comment_"], ["", ""])
 }
 
+function start_end(value, type) {
+    if (value == null) {
+        if (type == "row") {
+            return [".sample_", "_row"]
+        } else {
+            return ["/metric_samples/", ""]
+        }
+    } else {
+        return value
+    }
+}
+
 function read_sample(sample_id, url_start_end, row_start_end) {
-    if (row_start_end == null) { row_start = ".sample_"; row_end = "_row";
-    } else { row_start = row_start_end[0]; row_end = row_start_end[1]; }
-    if (url_start_end == null) { url_start = "/metric_samples/"; url_end = "";
-    } else { url_start = url_start_end[0]; url_end = url_start_end[1]; }
+    row_start_end = start_end(row_start_end, "row")
+    url_start_end = start_end(url_start_end, "url")
     $.ajax({
-        url: url_start + sample_id + url_end,
+        url: url_start_end[0] + sample_id + url_start_end[1],
         type: 'PUT',
         data: { comment: { status: 'read' } },
         dataType: "json",
         success: function (result) {
-            $(row_start + sample_id + row_end).remove();
+            $(row_start_end[0] + sample_id + row_start_end[1]).remove();
         },
         error: ajax_err
     });
