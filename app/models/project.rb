@@ -132,7 +132,7 @@ class Project < ActiveRecord::Base
   end
   
   def metrics_with_unread_comments(current_user)
-    metric_samples.select{|ms| ms.comments.where(ctype: 'general_comment').any?{|cmnt| cmnt.unread? current_user}}.sort_by {|ms| ms.comments.min_by{ Time.now - created_at}}
+    select_unread(metric_samples, current_user)
   end
   
   def general_metrics_with_unread_comments(current_user)
@@ -149,7 +149,7 @@ class Project < ActiveRecord::Base
   
   def student_tasks_with_unread_comments(current_user)
     comment_groups = []
-    s_tasks = student_tasks.select{|st| st.comments.where(ctype: 'general_comment').any?{|cmnt| cmnt.unread? current_user}}.sort_by {|st| st.comments.min_by{ Time.now - created_at}}
+    s_tasks = select_unread(student_tasks, current_user)
     s_tasks.each do |s_task|
       comment_groups << [s_task, s_task.comments]
     end
@@ -165,7 +165,7 @@ class Project < ActiveRecord::Base
     comment_groups
   end
   
-  def has_unread_comments(user)
+  def contains_unread_comments(user)
     if self.comments.any?{|comment| comment.unread?(user)} or 
       self.general_metric_comments.any?{|comment| comment.unread?(user)} or
       self.student_tasks.any?{|st| st.comments.any?{|comment| comment.unread?(user)}}
@@ -173,5 +173,9 @@ class Project < ActiveRecord::Base
     else
       return false
     end
+  end
+  
+  def select_unread(object, current_user)
+    object.select{|o| o.comments.where(ctype: 'general_comment').any?{|cmnt| cmnt.unread? current_user}}.sort_by {|o| o.comments.min_by{ Time.now - created_at}}
   end
 end

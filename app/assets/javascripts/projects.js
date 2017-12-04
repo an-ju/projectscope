@@ -194,90 +194,64 @@ var render_charts = function () {
     });
 };
 
+function ajax_err(a, b, c){
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+
 function read_comment(comment_id) {
+    read_sample(comment_id, ["/comments", "#comment_"], ["", ""])
+}
+
+function start_end(value, type) {
+    if (value == null) {
+        if (type == "row") {
+            return [".sample_", "_row"]
+        } else {
+            return ["/metric_samples/", ""]
+        }
+    } else {
+        return value
+    }
+}
+
+function read_sample(sample_id, url_start_end, row_start_end) {
+    row_start_end = start_end(row_start_end, "row")
+    url_start_end = start_end(url_start_end, "url")
     $.ajax({
-        url: "/comments/" + comment_id + "",
+        url: url_start_end[0] + sample_id + url_start_end[1],
         type: 'PUT',
         data: { comment: { status: 'read' } },
         dataType: "json",
         success: function (result) {
-            d3.select('#comment_' + comment_id).remove();
+            $(row_start_end[0] + sample_id + row_start_end[1]).remove();
         },
-        error: function (a, b, c) {
-            console.log(a);
-            console.log(b);
-            console.log(c);
-        }
+        error: ajax_err
     });
 }
 
-
-function read_sample(sample_id, metric_name) {
+function read_general_metric(project_id, metric_name, url_end, row_start) {
+    if (url_end == null){url_end = "/read_comments"}
+    if (row_start == null){row_start = ".general_metric_"}
     $.ajax({
-        url: "/metric_samples/" + sample_id + "",
+        url: "/projects/" + project_id + "/" + metric_name + url_end,
         type: 'PUT',
         data: { comment: { status: 'read' } },
         dataType: "json",
         success: function (result) {
-            $(".sample_" + sample_id + "_row").remove();
+            $(row_start + project_id + "_row").remove();
         },
-        error: function (a, b, c) {
-            console.log(a);
-            console.log(b);
-            console.log(c);
-        }
-    });
-}
-
-function read_general_metric(project_id, metric_name) {
-    $.ajax({
-        url: "/projects/" + project_id + "/" + metric_name + "/read_comments",
-        type: 'PUT',
-        data: { comment: { status: 'read' } },
-        dataType: "json",
-        success: function (result) {
-            $(".general_metric_" + project_id + "_row").remove();
-        },
-        error: function (a, b, c) {
-            console.log(a);
-            console.log(b);
-            console.log(c);
-        }
+        error: ajax_err
     });
 }
 
 function read_iteration(project_id, iteration_id) {
-    $.ajax({
-        url: "/projects/" + project_id + "/" + iteration_id + "/read_iteration_comments",
-        type: 'PUT',
-        data: { comment: { status: 'read' } },
-        dataType: "json",
-        success: function (result) {
-            $(".iteration_" + project_id + "_row").remove();
-        },
-        error: function (a, b, c) {
-            console.log(a);
-            console.log(b);
-            console.log(c);
-        }
-    });
+    read_general_metric(project_id, iteration_id, "/read_iteration_comments", ".iteration_")
 }
 
 function read_task(task_id) {
-    $.ajax({
-        url: "/student_task/" + task_id + "/read_comments",
-        type: 'PUT',
-        data: { comment: { status: 'read' } },
-        dataType: "json",
-        success: function (result) {
-            $(".task_" + task_id + "_row").remove();
-        },
-        error: function (a, b, c) {
-            console.log(a);
-            console.log(b);
-            console.log(c);
-        }
-    });
+    read_sample(task_id, ["/student_task/", "/read_comments"], [".task_", "_row"])
 }
 
 function toggle_element(element_id, toggle_link_id) {
@@ -308,7 +282,7 @@ function write_log(msg) {
         success: function (r) {
             return;
         },
-        error: function (a, b, c) {
+        error: function(a, b, c){
             console.log(a);
             console.log(b);
             console.log(c);

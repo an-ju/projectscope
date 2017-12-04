@@ -114,10 +114,10 @@ class User < ActiveRecord::Base
   def has_unread_comments?
     
     if self.project
-      return self.project.has_unread_comments(self)
+      return self.project.contains_unread_comments(self)
     else 
       for project in Project.all
-        if project.has_unread_comments(self)
+        if project.contains_unread_comments(self)
           return true
         end
       end
