@@ -1,4 +1,5 @@
+%p= link_to "Back", root_path
 %h2 Import Projects
 = form_tag submit_projects_path, multipart: true do
     = file_field_tag :file, accept: ".xlsx"
-    = submit_tag "Import"
+    = submit_tag "Import", :class => "btn btn-primary", :style=>"margin-top: 20px;"
