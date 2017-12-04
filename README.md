@@ -11,7 +11,7 @@ https://youtu.be/j4X8y6C8Gw8
 * rake db:setup
 
 We can not support github login when running locally, so please use the instructions to run without github login locally.
-##### To run without github login
+##### To run without github login(bypass github login)
 * ADMIN_PASSWORD=some_password rails s -p $PORT -b $IP (to run app locally on cloud9 ide) 
 * ADMIN_PASSWORD=some_password rails server (to run app locally in terminal)
 Then go to login/uadmin?passwd=some_password to login as admin or login/ustudent?passwd=some_password to login as student
