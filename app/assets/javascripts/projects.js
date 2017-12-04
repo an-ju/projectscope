@@ -195,22 +195,14 @@ var render_charts = function () {
 };
 
 function read_comment(comment_id) {
-    read_sample(comment_id, null, "/comments", "#comment_", "", "")
+    read_sample(comment_id, ["/comments", "#comment_"], ["", ""])
 }
 
-function read_sample(sample_id, metric_name, url_start, url_end, row_start, row_end) {
-    if (url_start == null){
-        url_start = "/metric_samples/"
-    }
-    if (row_start == null){
-        row_start = ".sample_"
-    }
-    if (row_end == null){
-        row_end = "_row"
-    }
-    if (url_end == null){
-        url_end = ""
-    }
+function read_sample(sample_id, url_start_end, row_start_end) {
+    if (row_start_end == null) { row_start = ".sample_"; row_end = "_row";
+    } else { row_start = row_start_end[0]; row_end = row_start_end[1]; }
+    if (url_start_end == null) { url_start = "/metric_samples/"; url_end = "";
+    } else { url_start = url_start_end[0]; url_end = url_start_end[1]; }
     $.ajax({
         url: url_start + sample_id + url_end,
         type: 'PUT',
@@ -219,21 +211,17 @@ function read_sample(sample_id, metric_name, url_start, url_end, row_start, row_
         success: function (result) {
             $(row_start + sample_id + row_end).remove();
         },
-        error: function (a, b, c) {
-            console.log(a);
-            console.log(b);
-            console.log(c);
+        error: function(a, b, c){
+                    console.log(a);
+                    console.log(b);
+                    console.log(c);
         }
     });
 }
 
 function read_general_metric(project_id, metric_name, url_end, row_start) {
-    if (url_end == null){
-        url_end = "/read_comments"
-    }
-    if (row_start == null){
-        row_start = ".general_metric_"
-    }
+    if (url_end == null){url_end = "/read_comments"}
+    if (row_start == null){row_start = ".general_metric_"}
     $.ajax({
         url: "/projects/" + project_id + "/" + metric_name + url_end,
         type: 'PUT',
@@ -242,7 +230,7 @@ function read_general_metric(project_id, metric_name, url_end, row_start) {
         success: function (result) {
             $(row_start + project_id + "_row").remove();
         },
-        error: function (a, b, c) {
+        error: function(a, b, c){
             console.log(a);
             console.log(b);
             console.log(c);
@@ -251,11 +239,17 @@ function read_general_metric(project_id, metric_name, url_end, row_start) {
 }
 
 function read_iteration(project_id, iteration_id) {
-    read_general_metric(project_id, iteration_id, "/read_iteration_comments", ".iteration_");
+    read_general_metric(project_id, iteration_id, "/read_iteration_comments", ".iteration_")
 }
 
 function read_task(task_id) {
-    read_sample(task_id, null, "/student_task/", "/read_comments", ".task_", "_row")
+    read_sample(task_id, ["/student_task/", "/read_comments"], [".task_", "_row"])
+}
+
+function ajax_err(a, b, c){
+    console.log(a);
+    console.log(b);
+    console.log(c);
 }
 
 function toggle_element(element_id, toggle_link_id) {
@@ -286,7 +280,7 @@ function write_log(msg) {
         success: function (r) {
             return;
         },
-        error: function (a, b, c) {
+        error: function(a, b, c){
             console.log(a);
             console.log(b);
             console.log(c);
