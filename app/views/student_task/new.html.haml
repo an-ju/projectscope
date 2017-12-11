@@ -1,0 +1,23 @@
+%h1 Create New Task For Team #{@team.name} 
+// - if flash[:message]
+//     %p= flash[:message]
+= form_tag create_new_student_task_path(:team =>@team.id,:iter =>@iteration.id), :method => :put do
+    .form_row
+        .form-group
+        = label :task, :title, 'Title: '
+        = text_field :task, 'title', class: "form-control"
+        .form-group
+        = label :task, :description, 'Description: '
+        = text_field :task, 'description', class: "form-control"
+    .form-group
+        .form-check
+        %br
+        .form_row
+            %p{:style => "font-weight: bold;"} Parent Tasks:
+            .form_row
+            // 1. to do, retrive parents from task db
+            - @all_tasks.each do |t|
+                = t.title
+                = check_box_tag "tasks[#{t.title}]", true
+    .form-group
+        = submit_tag 'Save', :class => "btn btn-primary"

@@ -1,9 +1,10 @@
 class WhitelistsController < ApplicationController
-  before_action :check_if_coach
+  # load_and_authorize_resource
 
   # GET /whitelists
   def index
-    @permitted_users = User.all 
+    authorize! :manage, User
+    @permitted_users = User.all
   end
   
   # GET /whitelists/new
@@ -38,15 +39,9 @@ class WhitelistsController < ApplicationController
     end
     redirect_to whitelists_path
   end
-  
-  def check_if_coach
-    unless current_user.role.eql?("admin") or current_user.role.eql?("instructor")
-       flash[:notice] = "You have no privilege to manipulate privilege control."
-       redirect_to projects_url
-    end
-  end
 
   def upgrade
+    authorize! :manage, User
     unless current_user.role.eql?("admin") or current_user.role.eql?("instructor")
       flash[:alert] = "You do not have privilege to change other user's role. "
       redirect_to whitelists_path
@@ -63,6 +58,7 @@ class WhitelistsController < ApplicationController
   end
 
   def downgrade
+    authorize! :manage, User
     unless current_user.role.eql?("admin") or current_user.role.eql?("instructor")
       flash[:alert] = "You do not have privilege to change other user's role. "
       redirect_to whitelists_path

@@ -1,0 +1,13 @@
+- user = User.find_by(id: comment.user_id)
+-if comment.unread?(current_user)
+  %div.unread_indicator(title="comment not yet read")
+-else
+  %div.read_indicator(title="comment read")
+- if not user.nil? and user.provider_username
+  %div.commenter_name
+    = user.provider_username + ":   "
+  %div.comment_text
+    = comment.content.to_s
+- else
+  %div.comment_text
+    = comment.content

@@ -1,0 +1,45 @@
+%p= link_to "Back", iterations_path
+- if flash[:message]
+    %p= flash[:message]
+
+
+%table.table#Tasks
+    %thead
+        
+      
+        %tr
+            %th= "Iteration Name"
+            %th="Start"
+            %th="End"
+    %tbody        
+        
+        %tr
+            %td= @iteration.name
+            %td= @iteration.start
+            %td= @iteration.end
+
+.btn.btn-primary= link_to "Edit Iteration", edit_iteration_path(@iteration.id), :style => "color: white;text-decoration: none;"
+
+
+
+%table.table.table-bordered
+    %thead
+        %h2 Teams:
+        %tr
+        
+            %th= "Teams"
+
+            -if !@teams[0].nil?
+                %th{:colspan => "#{@student_tasks.where('project_id':@teams[0].id).length}", :style => "text-align: center;"} Tasks Update
+
+    %tbody
+        - @teams.each do |team|
+            %tr
+                %td= link_to team.name, show_a_team_path(:iter =>@iteration.id, :team =>team.id)
+                -@student_tasks.where('project_id':team.id).each do |t|
+                    %td{:class => t.status}
+                        %table
+                            %tr
+                                %td= t.title
+                            %tr
+                                %td= t.status

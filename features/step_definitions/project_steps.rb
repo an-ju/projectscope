@@ -12,9 +12,13 @@ When /^I enter new "(.*)" config values/ do |metric, table|
 end
 
 Then /^there should be a project "(.*)" with config values/ do |name, table|
-  proj = Project.includes(:configs).find_by_name!(name)
+  project = Project.includes(:configs).where(name: name).first
+  expect(project).not_to be_nil
   table.hashes.each do |h|
-    expect(proj.config_for(h['metric_name']).options[h['key']]).to eq(h['value'])
+    configs = project.config_for(h['metric_name']).inject({}) do |chash, config|
+      chash.update config.metrics_params.to_sym => config.token
+    end
+    expect(configs[h['key'].to_sym]).to eq(h['value'])
   end
 end
 
@@ -28,11 +32,16 @@ end
 Given(/^they have the following metric configs:$/) do |table|
   table.hashes.each do |hash|
     project = Project.find_by(name: hash.delete('project'))
-    existing_config = project.config_for(hash['metric_name'])
-    new_options = existing_config.options
-    new_options[hash['key'].to_sym] = hash['value']
-    existing_config.options = new_options
-    existing_config.save!
+    project.configs << Config.create(
+      metric_name: hash['metric_name'],
+      metrics_params: hash['key'],
+      token: hash['value']
+    )
+    # existing_config = project.config_for(hash['metric_name'])
+    # new_options = existing_config.options
+    # new_options[hash['key'].to_sym] = hash['value']
+    # existing_config.options = new_options
+    # existing_config.save!
   end
 end
 
@@ -48,23 +57,24 @@ Given(/^A project update job has been run$/) do
 end
 
 And(/^I am logged in$/) do
-  Whitelist.create :username => "test-coach"
-  visit path_to("the login page")
-  OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
-    {
-      :uid => '12345',
-      :info => {
-        :email => "test-coach@test.com"
-      },
-      :extra => {
-        :raw_info => {
-          :email => "test-coach@test.com",
-          :login => "test-coach"
-        }
-      }
-    })
-  click_link "Sign in with GitHub"
-  sleep(1)
+  admin_user = User.create!(provider_username: "Admin", uid: "uadmin", email: 'uadmin@example.com',
+                            provider: "developer", role: User::ADMIN, password: Devise.friendly_token[0,20])
+  ENV['ADMIN_PASSWORD'] = 'password'
+  visit "/login/#{admin_user.uid}?passwd=password"
+  # OmniAuth.config.mock_auth[admin_user.provider] = OmniAuth::AuthHash.new(
+  #   uid: admin_user.uid,
+  #   info: {
+  #     email: admin_user.email
+  #   },
+  #   extra: {
+  #     raw_info: {
+  #       email: admin_user.email,
+  #       login: admin_user.provider_username
+  #     }
+  #   }
+  # )
+  # click_link "Sign in with GitHub"
+  # sleep(1)
 end
 
 Given /^user with username "(.*)" exists/ do |name|

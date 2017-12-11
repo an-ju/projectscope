@@ -1,26 +1,30 @@
 ## Iteration 0
 
+
+### TeamScope
+[Overall README](./README.md)
+
+
 Entry video
----
-URL: https://youtu.be/0qMtzclG9Is
+-----------
+
+#### Initial customer meeting has taken place, with 2-minute filmed interview summarizing results
+URL: https://www.youtube.com/watch?v=bk9rM8TrdC0&feature=youtu.be
+
 
 Development Environment Setup Screencast
----
-Junyu Wang: https://youtu.be/pPfSiQsZm5I
+----------------------------------------
 
-Jiacheng Wu: https://youtu.be/x8AOtKAzmaQ
+#### Screencast of each member showing successful development environment
+Luke Larson: https://youtu.be/mqGLGiVu8Rs
 
-Shuotong Wu: http://youtu.be/-65Oz8VtzDw?hd=1
+Jacob Green: https://www.youtube.com/watch?v=CBjZf4Uecek&feature=youtu.be
 
-Yibing Chen: https://youtu.be/U1Z-9KzoL7c
+Peijie Li: https://youtu.be/9SwN5Rbu0Og
 
-Jiawei Jiang: https://youtu.be/ClqYbe2Ipnc
+Sharon Li: https://youtu.be/aTH2VwmiUN8
 
-Pivotal Tracker Project
----
-URL: https://www.pivotaltracker.com/n/projects/1886749
+Leyla Shams: https://youtu.be/-Gg5Z2PFgko
 
-Heroku
----
-URL: https://projectscope-cs169-junyu.herokuapp.com/
+Zixuan Ge: https://www.youtube.com/watch?v=fCCjcRHNgCc
 

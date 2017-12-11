@@ -1,0 +1,17 @@
+%table.table#iterations
+    %thead
+        %h2 Iterations:
+        %tr
+            %th= "Name"
+            %th="Start Date"
+            %th="End Date"
+    %tbody
+        - @iterations.each do |iteration|
+            %tr
+                %td= link_to iteration.name, show_iteration_path(iteration.id)
+                %td= iteration.start
+                %td= iteration.end
+
+%br
+= form_tag iterations_path, :method => :post do
+    = submit_tag "New Iteration", :class => "btn btn-primary"

@@ -1,7 +1,16 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=bed82fe5f8a847514da8f7ea26a5f07ff0c8cbb921b1d51c9548a4d0cae4de12
 language: ruby
 rvm:
   - 2.3.1
+addons:
+    code_climate:
+        repo_token: bed82fe5f8a847514da8f7ea26a5f07ff0c8cbb921b1d51c9548a4d0cae4de12
 before_install:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
   - "phantomjs --version"
   - "export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH"
   - "phantomjs --version"
@@ -10,10 +19,13 @@ before_install:
   - "if [ $(phantomjs --version) != '2.1.1' ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"
   - "phantomjs --version"
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
+
+
+  - bundle exec rake db:migrate RAILS_ENV=test --trace
   - bundle exec rake db:test:prepare
   - bundle exec rspec
   - bundle exec cucumber
   - bundle exec rake jasmine:ci
 after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - bundle exec rake send_to_codeclimate 

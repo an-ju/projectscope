@@ -1,0 +1,24 @@
+= form_tag comments_path, id: "#{thread_type}_#{object.id}_form", remote: true do
+  = hidden_field_tag 'ctype', 'general_comment'
+  = hidden_field_tag 'params', '{}'
+  = hidden_field_tag 'user_id', current_user.id
+  - if thread_type == "general_metric"
+    = hidden_field_tag 'metric', @metric_name
+    = hidden_field_tag 'project_id', @project.id
+  - elsif thread_type == "iteration"
+    = hidden_field_tag 'iteration_id', object.id
+    - if @team
+      = hidden_field_tag 'project_id', @team.id
+    -else
+      = hidden_field_tag 'project_id', @project
+  - elsif thread_type == "task"
+    = hidden_field_tag 'student_task_id', object.id
+  - else 
+    = hidden_field_tag 'metric_sample_id', object.id
+  %div.input-group
+    %textarea.form-control#content{placeholder: 'Add Comment', rows: 1, name: "content", form: "#{thread_type}_#{object.id}_form"}
+    %span.input-group-btn
+      %button.btn.btn-danger#button_clear
+        Clear
+      %button.btn.btn-primary{role: 'submit'}
+        = button_name

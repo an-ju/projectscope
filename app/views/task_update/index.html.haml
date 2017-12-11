@@ -1,0 +1,24 @@
+%div.col-xs-6
+    - if flash[:message]
+        %p= flash[:message]
+    %h2= "#{@task.title}  update history"
+    %table.table#iterations
+    
+        %tbody
+            - @histories.each do |h|
+                %tr
+                    %td= h.getUpdate
+                   
+    
+    %br
+    = form_tag iterations_path, :method => :post do
+        = submit_tag "New Iteration", :class => "btn btn-primary"
+        
+%div.col-xs-4
+    %div
+        %h2
+            Comments
+            
+        = render partial: 'projects/comment_thread', :locals => {:comments => @task_comments,
+                                                                :object => @task,
+                                                                :thread_type => "task"}

@@ -1,0 +1,63 @@
+%div.col-xs-2
+  %div.metric_overview
+    %h4
+      Metric
+    %p
+      %strong
+        = METRIC_NAMES[@metric_name.to_sym]
+    %h4
+      Team
+    %p
+      %strong
+        = link_to @project.name, project_path(@project.id)
+    %h4
+      Score Trend
+    %div.chart_place{id: "project-#{@project.id}-series-#{@metric_name}"}
+    = link_to 'Return', project_path(@project.id), class: 'btn btn-default'
+    
+%div.col-xs-6
+  %h2
+    Timeline
+  - num = 0
+  - @comments.each do |mc_pair|
+    %h3
+      = (Date.today-mc_pair.first).strftime('%Y-%m-%d')
+    = render partial: 'comment_thread', :locals => {:days_ago => mc_pair.first,
+                                                    :object => mc_pair.second,
+                                                    :comments => mc_pair.third, 
+                                                    :thread_type => "sample"}
+    - num = num + 1
+
+%div.col-xs-4
+  %div
+    %h2
+      Comments
+                                                    
+    = render partial: 'comment_thread', :locals => {:comments => @general_metric_comments,
+                                                    :object => @project,
+                                                    :thread_type => "general_metric",
+                                                    :metric_name => @metric_name}
+      
+  
+-#    %div{style: 'text-align:center'}
+-#      %div.chart_place{id: "project-#{@project.id}-ondate-#{@metric_name}-#{mc_pair.first}"}
+-#    %br
+-#    %table.table-striped.table
+-#      %tbody
+-#        - mc_pair[1].each do |comment|
+-#          - if can? :read, comment
+-#            %tr{class: comment.unread? ? 'success' : 'active'}
+-#              %td
+-#                =render partial: 'comment_view', :locals => {:comment => comment}
+-#        %tr
+-#          %td
+-#            - if can? :create, Comment and can? :create_comment, @project
+-#              = render partial: 'comment_form', :locals => { :identity => "#{@project.id}-ondate-#{@metric_name}-#{mc_pair[0]}", 
+-#                                                              :num => "#{num}", 
+-#                                                              :ms_id => mc_pair[2], 
+-#                                                              :button_name => "Submit"}
+
+:javascript
+  days = #{@days_from_now};
+  parent_metric = {'id': #{@parent_metric.id}, 'metric_name': '#{@parent_metric.metric_name}'};
+  global_project_id = #{@project.id};

@@ -1,0 +1,32 @@
+%div.col-xs-6
+    - if flash[:message]
+        %p= flash[:message]
+    %table.table.table-striped
+        %thead
+            %h2 Team #{@team.name}:
+            %tr
+                %th= "Title"
+                %th= "Description"
+                %th= "Parents"
+                %th= "Status"
+                
+        %tbody
+            - @tasks.each do |task|
+                %tr
+                    %td= link_to task.title, edit_student_task_path(task.id)
+                    %td= task.description
+                    %td= task.get_parents
+                    %td= link_to task.status, detail_history_path(task.id), :id=> task.title+"history"
+
+                   
+    .btn.btn-primary= link_to "Add new task", new_student_task_path(:team =>@team.id, :iter =>params[:iter]), :style => "color: white;text-decoration: none;"
+
+%div.col-xs-4
+    %div
+        %h2
+            Comments
+            
+        = render partial: 'projects/comment_thread', :locals => {:comments => @iteration_comments,
+                                                                :object => @iteration,
+                                                                :thread_type => "iteration"}
+

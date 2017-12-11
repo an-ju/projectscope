@@ -1,0 +1,14 @@
+%table.table.table-striped#iterations
+    %thead
+        %h2 Iterations:
+        %tr
+            %th= "Name"
+            %th="Start Date"
+            %th="End Date"
+    
+    %tbody
+        - @iterations.each do |iteration|
+            %tr
+                %td= link_to iteration.name, show_students_task_path(iteration.id)
+                %td= iteration.start
+                %td= iteration.end

@@ -1,44 +1,38 @@
-%h3#gap Project List
+- metric_names = ProjectMetrics.hierarchies :metric
+%div.col-md-6
 
-#gap= link_to "Preference", user_path(current_user), :class => "btn btn-primary"
-
-%div.slider-container
-  %div
-    Current date:
-    = fa_icon "angle-left", :class => "btn btn-default btn-sm date-nav", :id => "day-before"
-    %strong{:id => "date-label"}= Date.today.to_s
-    = fa_icon "angle-right", :class => "btn btn-default btn-sm date-nav", :id => "day-after"
-  %br/
-  %div{:id => "date-slider", :num_days_from_min => @num_days_from_today }
-  %div#slider-progress-indicator
-    Loading...
+  %h3#gap Team List
+  - if @display_type.eql? 'metric'
+    = link_to 'switch to time view', projects_path(page: @current_page+1, type: 'series')
+  - else
+    = link_to 'switch to metric view', projects_path(page: @current_page+1, type: 'metric')
+%div.col-md-6
+  %nav{style: 'float: right'}
+    %ul.pagination
+      - metric_names.each_with_index do |m, index|
+        - if index == @current_page
+          %li.active
+            %a{href: projects_path(page: index+1, type: @display_type)}
+              = index + 1
+        - else
+          %li
+            %a{href: projects_path(page: index+1, type: @display_type)}
+              = index + 1
+- if @display_type.eql? 'metric'
+  = render partial: 'time_slider'
 %br/
+= render partial: 'metric_table',
+         locals: { metric_names: metric_names[@current_page],
+                   projects: @projects }
 
-%table#projectlist
-  %thead
-    %tr
-      %th{:class => @class}= link_to "Project Name", projects_path(:type => "project_name"), :id => "project_name", :method => :get
-      - @metric_names.each do |metric_name|
-        %th{:class => @class}= link_to metric_name.humanize, projects_path(:type => metric_name), :id => metric_name, :method => :get
-  
-  %tbody
-    - @projects.each do |project|
-      %tr
-        %td= link_to project.name, project
-        - project.latest_metric_samples.each do |sample|
-          - if is_selected_metric? sample
-            %td{:id => "project_#{project.id}_#{sample.try(:metric_name)}_metric", :class => metric_content_class_label(sample)}
-              %span{:class => "metric_score"}= '%.2f'.try(:%,sample.try(:score) || 0.0)
-              %span{:class => "metric_image"}#{raw sample.try(:image)}
-%br/
--unless current_user.role.eql?("instructor") or current_user.role.eql?("admin")
-  %div
+%div{:class => 'col-md-12'}
+  -if can? :create, :project
     = link_to 'Create New Project', new_project_path, :class => "btn btn-primary"
-
--else
-  %div
+    = link_to "Iterations", iterations_path, :class => "btn btn-primary"
+  -if can? :manage, :whitelist
     = link_to 'Privilege Control', whitelists_path, :class => "btn btn-primary"
-  %br/
-  %div
-    = link_to 'Create New Project', new_project_path, :class => "btn btn-primary"
-
+  - if current_user.is_admin?||current_user.is_instructor?
+    = link_to "Import Project", show_import_projects_path, :class => "btn btn-primary"
+    = link_to "Import Users", show_import_users_path, :class => "btn btn-primary"
+:javascript
+  keep_log=false;

@@ -1,0 +1,52 @@
+// Place all the styles related to the Comments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.function_link {
+    cursor:pointer;
+    margin-right:20px;
+}
+
+.commenter_name {
+    font-weight:bold;
+    display:inline;
+    margin-right:8px;
+}
+.comment_text {
+    display:inline;
+}
+.comment_thread_head {
+    background-color: #f1f1f1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.unread_indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: #d84444;
+    margin-top: 4px;
+    margin-right: 4px;
+    float:left;
+}
+
+.read_indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: #40A000;
+    margin-top: 4px;
+    margin-right: 4px;
+    float:left;
+}
+
+#top-bar-comment-notice{
+    float:right;
+    background-color:#d84444;
+    width:20px;
+    height:20px;
+    border-radius:10px;
+    margin-top:12px;
+    margin-right:10px;
+    border: 2px solid white;
+}

@@ -11,7 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201212334) do
+ActiveRecord::Schema.define(version: 20171119043147) do
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "metric_sample_id"
+    t.integer  "user_id"
+    t.string   "ctype"
+    t.text     "content"
+    t.text     "params"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "status",           default: "unread"
+    t.integer  "project_id"
+    t.integer  "student_task_id"
+    t.integer  "iteration_id"
+    t.string   "metric"
+    t.string   "admin_read"
+    t.string   "student_read"
+  end
+
+  add_index "comments", ["iteration_id"], name: "index_comments_on_iteration_id"
+  add_index "comments", ["metric_sample_id"], name: "index_comments_on_metric_sample_id"
+  add_index "comments", ["project_id"], name: "index_comments_on_project_id"
+  add_index "comments", ["student_task_id"], name: "index_comments_on_student_task_id"
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "configs", force: :cascade do |t|
     t.integer  "project_id"
@@ -20,9 +43,20 @@ ActiveRecord::Schema.define(version: 20161201212334) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.string   "encrypted_options_iv"
+    t.string   "metrics_params"
+    t.string   "token"
   end
 
   add_index "configs", ["project_id"], name: "index_configs_on_project_id"
+
+  create_table "iterations", force: :cascade do |t|
+    t.string   "name"
+    t.date     "start"
+    t.date     "end"
+    t.integer  "tasks_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "metric_samples", force: :cascade do |t|
     t.integer  "project_id"
@@ -63,6 +97,45 @@ ActiveRecord::Schema.define(version: 20161201212334) do
   add_index "projects_users", ["project_id"], name: "index_projects_users_on_project_id"
   add_index "projects_users", ["user_id"], name: "index_projects_users_on_user_id"
 
+  create_table "student_tasks", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "iteration_id"
+    t.integer  "project_id"
+    t.integer  "student_task_id"
+    t.string   "status",          default: "In Screen"
+  end
+
+  add_index "student_tasks", ["iteration_id"], name: "index_student_tasks_on_iteration_id"
+  add_index "student_tasks", ["project_id"], name: "index_student_tasks_on_project_id"
+  add_index "student_tasks", ["student_task_id"], name: "index_student_tasks_on_student_task_id"
+
+  create_table "task_updates", force: :cascade do |t|
+    t.string   "before"
+    t.string   "after"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "user_id"
+    t.integer  "student_task_id"
+  end
+
+  add_index "task_updates", ["student_task_id"], name: "index_task_updates_on_student_task_id"
+  add_index "task_updates", ["user_id"], name: "index_task_updates_on_user_id"
+
+  create_table "tasks", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "task_id"
+    t.integer  "iteration_id"
+  end
+
+  add_index "tasks", ["iteration_id"], name: "index_tasks_on_iteration_id"
+  add_index "tasks", ["task_id"], name: "index_tasks_on_task_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "provider_username",      default: "",        null: false
     t.string   "email",                  default: ""
@@ -81,9 +154,11 @@ ActiveRecord::Schema.define(version: 20161201212334) do
     t.string   "uid"
     t.string   "role",                   default: "student", null: false
     t.text     "preferred_metrics"
+    t.integer  "project_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["project_id"], name: "index_users_on_project_id"
   add_index "users", ["provider_username"], name: "index_users_on_provider_username", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 

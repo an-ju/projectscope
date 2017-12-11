@@ -1,0 +1,22 @@
+%p= link_to "Back", iterations_path
+- if flash[:message]
+    %p= flash[:message]
+
+
+%table.table#Tasks
+    %thead
+        -if !@tasks.empty?
+            %h2 Current Tasks:
+            %tr
+                %th= "Title"
+                %th="Description"
+                %th="Status"
+                %th="Parents"
+    %tbody        
+        - @tasks.each do |t|
+            %tr
+                %td= t.title
+                %td= t.description
+                // current status
+                // parents tasks
+                //button to toggle status

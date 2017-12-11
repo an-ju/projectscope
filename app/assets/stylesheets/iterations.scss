@@ -1,0 +1,19 @@
+// Place all the styles related to the Iterations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+[class='In Screen']{
+    background-color: red;
+}
+
+[class='In Process'] {
+    background-color: orange;
+}
+
+[class='Finished'] {
+    background-color: green;
+}
+
+.buttonInLine {
+    float:left; 
+    margin-right: 20px;
+}

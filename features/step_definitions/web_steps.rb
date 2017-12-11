@@ -36,6 +36,16 @@ When /^(.*) within (.*[^:])$/ do |string, parent|
   with_scope(parent) { steps "Then #{string}" }
 end
 
+Given("I upload users file") do
+  attach_file(:file, File.join(Rails.root, 'features', 'upload-files', 'users.xlsx'))
+   # Write code here that turns the phrase above into concrete actions
+end
+
+Given("I upload projects file") do
+  attach_file(:file, File.join(Rails.root, 'features', 'upload-files', 'team.xlsx'))
+   # Write code here that turns the phrase above into concrete actions
+end
+
 # BELOW SYNTAX IS OUTDATED AND BROKEN I THINK :SRHJ
 # # Multi-line step scoper
 # When /^(.*) within (.*[^:]):$/ do |step, parent, table_or_string|
@@ -51,7 +61,7 @@ When /^(?:|I )go to (.+)$/ do |page_name|
 end
 
 When /^(?:|I )press "([^"]*)"$/ do |button|
-  click_button(button)
+  click_button(button, visible: false)
 end
 
 When /^(?:|I )follow "([^"]*)"$/ do |link|
@@ -231,7 +241,7 @@ end
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
   if current_path.respond_to? :should
-    current_path.should == path_to(page_name)
+    expect(current_path).to eql(path_to(page_name))
   else
     assert_equal path_to(page_name), current_path
   end
@@ -241,8 +251,7 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query
   actual_params = query ? CGI.parse(query) : {}
   expected_params = {}
-  expected_pairs.rows_hash.each_pair{|k,v| expected_params[k] = v.split(',')} 
-  
+  expected_pairs.rows_hash.each_pair{ |k,v| expected_params[k] = v.split(',') }
   if actual_params.respond_to? :should
     actual_params.should == expected_params
   else

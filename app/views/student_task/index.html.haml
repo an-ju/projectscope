@@ -1,0 +1,35 @@
+%table.table.table-striped#Tasks
+    %thead
+        %h2 Tasks:
+      
+    %tbody        
+        - @tasks.each do |l|
+            %tr
+                
+                -l.each do |t|
+                    %td{:class => t.status}
+                        %table
+                            %tr
+                                %td= link_to t.title, detail_history_path(t.id)
+                            %tr
+                                %td= t.description
+                            %tr
+                                %td= t.get_parents
+                            %tr
+                                %td= t.status
+                            %tr
+                                %td
+                                    - if !t.is_blocked
+                                        = form_tag update_status_path(t.id), :method => :put, :name =>"form:"+t.title do 
+                                            = select_tag((t.title+"status").to_sym, options_for_select([["In Screen", "In Screen"], ["In Process", "In Process"], ["Finished", "Finished"]]))
+                                            = submit_tag 'Save For '+t.title, :class => "btn btn-primary left"
+                        
+%div.col-xs-4
+    %div
+        %h2
+            Comments
+            
+        = render partial: 'projects/comment_thread', :locals => {:comments => @iteration_comments,
+                                                                :object => @iteration,
+                                                                :thread_type => "iteration"}
+                

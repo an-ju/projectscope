@@ -1,0 +1,38 @@
+%div.col-xs-6
+    %h1 Edit Task "#{@task.title}"
+    - if flash[:message]
+        %p= flash[:message]
+    = form_tag save_student_task_path(@task.id), :method => :put do
+        .form_row
+            .form-group
+            = label :task, :title, 'Title: '
+            = text_field :task, 'title', class: "form-control"
+            .form-group
+            = label :task, :description, 'Description: '
+            = text_field :task, 'description', class: "form-control"
+        .form-group
+            .form-check
+            %br
+            .form_row
+                %p{:style => "font-weight: bold;"} Parent Tasks:
+                .form_row
+                // 1. to do, retrive parents from task db
+                - @parents.each do |t|
+                    .div.buttonInLine
+                        .buttonInLine= t.title
+                        = check_box_tag "tasks[#{t.title}]", true, (@selected_parents.include? t)
+        %br
+        %br
+        .form-group
+            = submit_tag 'Save Edit', :class => "btn btn-primary buttonInLine top"
+    = form_tag delete_student_task_path(@task.id), :method => :delete do
+        = submit_tag 'Delete Task', :class => "btn btn-primary"
+        
+%div.col-xs-4
+    %div
+        %h2
+            Comments
+            
+        = render partial: 'projects/comment_thread', :locals => {:comments => @task_comments,
+                                                                :object => @task,
+                                                                :thread_type => "task"}

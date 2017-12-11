@@ -1,0 +1,49 @@
+%table.table
+  %tbody
+  
+    - if thread_type == "sample"
+      %tr{id: "sample_#{object.id}", class: "#{thread_type}_#{object.id}_row comment_thread_head"}
+        %td{style: 'text-align: center'}
+          %div.chart_place{:id => "project-#{@project.id}-ondate-#{object.name}-#{days_ago}"}
+    - elsif thread_type == "iteration"
+      %tr.comment_thread_head
+        %td
+          %div
+            = object.name
+    -elsif thread_type == "general_metric"
+      %tr.comment_thread_head
+        %td
+          %div
+            = metric_name
+    -elsif thread_type == "task"
+      %tr.comment_thread_head
+        %td
+          %div
+            = object.title
+            
+    - comments.each do |cmnt|
+      %tr{id: "comment_#{cmnt.id}", class: "#{thread_type}_#{object.id}_row"}
+        %td
+          = render partial: 'projects/comment_view', :locals => {:comment => cmnt}
+    - if can? :create, Comment and can? :create_comment, @project
+      %tr{id: "#{thread_type}_#{object.id}_buttons", class: "#{thread_type}_#{object.id}_row"}
+        %td
+          - if thread_type == "general_metric"
+            %a.function_link{onclick: "read_#{thread_type}(#{object.id},'#{metric_name}')", id: "#{thread_type}_#{object.id}_read_button"}
+              Mark All Read
+          - elsif thread_type == "iteration"
+            %a.function_link{onclick: "read_#{thread_type}(#{@project.id}, #{object.id})", id: "#{thread_type}_#{object.id}_read_button"}
+              Mark All Read
+          - else
+            %a.function_link{onclick: "read_#{thread_type}(#{object.id})", id: "#{thread_type}_#{object.id}_read_button"}
+              Mark All Read
+          %a.function_link{onclick: "toggle_element('#{thread_type}_#{object.id}_row_form','#{thread_type}_#{object.id}_reply_button')", id: "#{thread_type}_#{object.id}_reply_button"}
+            Add Reply
+      %tr{id: "#{thread_type}_#{object.id}_row_form", class: "#{thread_type}_#{object.id}_row", style:"display:none"}
+        %td
+          = render partial: 'projects/comment_form', :locals => {:object => object,
+                                                                :button_name => "Reply",
+                                                                :thread_type => thread_type}
+                                                        
+                                                        
+                                                        

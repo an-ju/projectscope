@@ -23,6 +23,8 @@
 #
 
 class User < ActiveRecord::Base
+  require 'csv'
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :recoverable, 
@@ -33,14 +35,13 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :selected_projects, :foreign_key => "user_id", :class_name => "Project"
   has_many :ownerships
   has_many :owned_projects, :class_name => "Project", :through => :ownerships, :source => :project
-
+  belongs_to :project
 
   after_initialize :set_default_preferred_metrics
 
   ADMIN = "admin"
   INSTRUCTOR = "instructor"
   STUDENT = "student"
-
   def self.from_omniauth(auth)
     email = auth.info.email.nil? ? auth.extra.raw_info.email : auth.info.email
     login = auth.extra.raw_info.login
@@ -54,7 +55,28 @@ class User < ActiveRecord::Base
     	end
     end
   end
-
+  def self.import(file)
+    spreadsheet = Roo::Spreadsheet.open(file.path)
+    
+    header=spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      puts i
+     
+      row=Hash[[header,spreadsheet.row(i)].transpose]
+      puts row
+      puts "dhahdah"
+      user=find_by_id(row["id"])||new
+      user.attributes=row.to_hash.slice(*accessible_attributes)
+      user.email = row["email"]
+      user.provider_username = row["provider_username"]
+      user.uid = row["uid"]
+      user.provider= row["provider"]
+      user.project_id=row["project_id"]
+      user.password=Devise.friendly_token[0,20]
+      user.save
+  end
+ 
+  end
   def email_required?
     false
   end
@@ -88,6 +110,20 @@ class User < ActiveRecord::Base
   def is_owner_of? project
     self.owned_projects.include? project
   end
+  
+  def has_unread_comments?
+    
+    if self.project
+      return self.project.contains_unread_comments(self)
+    else 
+      for project in Project.all
+        if project.contains_unread_comments(self)
+          return true
+        end
+      end
+    end
+    return false
+  end
 
   private
 
@@ -96,4 +132,5 @@ class User < ActiveRecord::Base
       self.preferred_metrics = ProjectMetrics.metric_names 
     end
   end
+  
 end

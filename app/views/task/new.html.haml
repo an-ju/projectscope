@@ -1,0 +1,23 @@
+%p= link_to "Back", edit_iteration_path(@iteration.id)
+%h1 Create New Tasks for #{@iteration.name}
+- if flash[:message]
+    %p= flash[:message]
+= form_tag create_new_task_path(@iteration.id), :method => :post do
+    .form_row
+        .form-group
+        = label :task, :title, 'Title: '
+        = text_field :task, 'title', class: "form-control"
+        .form-group
+        = label :task, :description, 'Description: '
+        = text_field :task, 'description', class: "form-control"
+    .form-group
+        .form-check
+        %br
+        .form_row
+            %p{:style => "font-weight: bold;"} Parent Tasks:
+            .form_row
+            - @all_tasks.each do |t|
+                = t
+                = check_box_tag "tasks[#{t}]", true
+    .form-group
+        = submit_tag 'Create Task', :class => "btn btn-primary"

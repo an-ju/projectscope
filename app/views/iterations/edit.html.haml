@@ -1,0 +1,65 @@
+%p= link_to "Back", iterations_path
+- if flash[:message]
+    %p= flash[:message]
+
+%h2 Iteration "#{@iteration.name}":
+= form_tag iteration_path(@iteration.id), :method => :put do
+    %br
+    .form-group
+        = label :iteration, :name, 'Name: '
+        = text_field :iteration, 'name', class: "form-control"
+    %br
+    = label :iteration, :start, 'Start Date: '
+    = date_select :iteration, "start"
+    %br
+    %br
+    = label :iteration, :end, 'End Date: '
+    = date_select :iteration, :end
+    %br
+    %br
+    
+    = submit_tag 'Save Iteration', :class => "buttonInLine btn btn-primary"
+
+= form_tag iteration_path(@iteration.id), :method => :delete do
+    = submit_tag 'Delete Iteration', :class => "btn btn-primary"
+%br
+%table.table.table-striped#Tasks
+    %thead
+        -if !@tasks.empty?
+            %h2 Current Tasks:
+            %tr
+                %th= "Title"
+                %th="Description"
+    %tbody        
+        - @tasks.each do |t|
+            %tr
+                %td= link_to t.title, edit_task_path(t.id)
+                %td= t.description
+                // %td= iteration.end
+
+
+.btn.btn-primary.buttonInLine= link_to "Add new task", new_task_view_path(@iteration.id), :style => "color: white;text-decoration: none;"
+.btn.btn-primary= link_to "Publish tasks", publish_tasks_path(@iteration.id), :style => "color: white;text-decoration: none;"
+%br    
+%h2 Copy tasks to "#{@iteration.name}":    
+
+= form_tag copy_iterations_path(:id =>@iteration.id), :method => :put do
+
+    .form-group
+        .form-check
+        %br
+        .form_row
+            %p{:style => "font-weight: bold;"} Iterations:
+            .form_row
+            // 1. to do, retrive parents from task db
+            - @iterations.each do |i|
+                .div.buttonInLine
+                    .buttonInLine= i.name
+                    = check_box_tag "iterations[#{i.id}]", true
+    %br
+    %br
+    .form-group
+        = submit_tag 'Copy', :class => "btn btn-primary"
+
+
+

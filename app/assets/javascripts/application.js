@@ -17,3 +17,10 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
+
+//= require highcharts
+//= require highcharts/highcharts-more
+//= require highcharts/modules/solid-gauge
+
+//= require d3
+//= require d3-tip
