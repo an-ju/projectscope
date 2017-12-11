@@ -110,19 +110,16 @@ class User < ActiveRecord::Base
   def is_owner_of? project
     self.owned_projects.include? project
   end
-  
+
   def has_unread_comments?
-    
-    if self.project
-      return self.project.contains_unread_comments(self)
-    else 
-      for project in Project.all
-        if project.contains_unread_comments(self)
-          return true
-        end
+    if project
+      project.contains_unread_comments(self)
+    else
+      Project.all.each do |project|
+        return true if project.contains_unread_comments(self)
       end
+      false
     end
-    return false
   end
 
   private

@@ -7,14 +7,15 @@ class MetricSamplesController < ApplicationController
       @metrics.flat_map { |m| project.metric_on_date m, date }
     end
   end
-  
+
   def mark_read
     metric_sample = MetricSample.find_by(id: params["id"].to_i)
-    for cmnt in metric_sample.comments
+    metric_sample.comments.each do |cmnt|
       cmnt.read_comment(current_user)
     end
-    @comment = cmnt
-    render "comments/show/", status: :ok, location: cmnt
+    @comment = metric_sample.comments.first #TODO: Unsure what this @comment is used for.
+    render json: { status: :ok }
+    # render "comments/show/", status: :ok
   end
 
   private

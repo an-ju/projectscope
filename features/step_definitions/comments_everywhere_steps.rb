@@ -10,7 +10,7 @@ end
 
 Given(/the following tasks exist:/) do |task_table|
   
-  puts(Project.where(name: "Project_1").first.id)
+  # puts(Project.where(name: "Project_1").first.id)
   
   task_table.hashes.each do |task|
     p_id = Project.where(name: "Project_1").first.id

@@ -157,6 +157,7 @@ projects_list.each do |project|
   end
 end
 
+
 # preferred_metrics = [{
 #                          'code_climate' => [],
 #                          'test_coverage' => [],
@@ -175,9 +176,9 @@ end
                        provider: "developer", role: User::ADMIN, password: Devise.friendly_token[0,20],
                        preferred_metrics: [], preferred_projects: projects_list)
 @user02 = User.create!(provider_username: "Instructor", uid: "uinstructor", email: 'uinstructor@example.com',
-											 provider: "developer", role: User::INSTRUCTOR, password: Devise.friendly_token[0,20],
-											 preferred_metrics: [], preferred_projects: projects_list)
+                       provider: "developer", role: User::INSTRUCTOR, password: Devise.friendly_token[0,20],
+                       preferred_metrics: [], preferred_projects: projects_list)
 @user03 = User.create!(provider_username: "Student", uid: "ustudent", email: 'ustudent@example.com',
-											 provider: "developer", role: User::STUDENT, password: Devise.friendly_token[0,20],
-											 preferred_metrics: [], preferred_projects: projects_list)
+                       provider: "developer", role: User::STUDENT, password: Devise.friendly_token[0,20],
+                       preferred_metrics: [], preferred_projects: projects_list)
 Whitelist.create!(username: @user01.provider_username)

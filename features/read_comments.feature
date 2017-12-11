@@ -61,6 +61,7 @@ Scenario: student read comment from dashboard
   And I Mark All Read for the "sample" comment thread "1"
   And I am on the "student task index page for iteration 'iteration_01'"
   And I am on the "view project 'Project_1'" page
+  And show me the page
   Then I should not see "admin comm sample"
   And I should see "admin comm g_metric"
 

@@ -38,15 +38,15 @@ class ProjectsController < ApplicationController
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     metric_min_date = MetricSample.min_date || Date.today
     @num_days_from_today = (Date.today - metric_min_date).to_i
-    
+
     @comment_groups = @project.metrics_with_unread_comments(current_user)
-    
+
     @comment_groups = @comment_groups.map do |metric_sample|
       [days_ago(metric_sample.created_at),
       metric_sample,
       metric_sample.comments.where(ctype: 'general_comment').sort_by { |elem| elem.created_at - Time.now}]
     end
-    
+
     @general_comment_groups = @project.general_metrics_with_unread_comments(current_user)
     @student_task_comment_groups = @project.student_tasks_with_unread_comments(current_user)
     @iteration_comment_groups = @project.iterations_with_unread_comments(current_user)
@@ -150,28 +150,24 @@ class ProjectsController < ApplicationController
   def show_metric
     @metric_name = params[:metric]
 
-<<<<<<< HEAD
     @comments = @project.metric_samples.where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
     @comments = @comments.map do |metric_sample|
       [days_ago(metric_sample.created_at), 
       metric_sample, 
       metric_sample.comments.where(ctype: 'general_comment').sort_by { |elem| elem.created_at - Time.now}]
     end
-    
     @general_metric_comments = @project.general_metric_comments.where(metric: @metric_name).sort_by { |elem| elem.created_at - Time.now }
-=======
-    samples = @project.metric_samples.limit(50).where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
-    date_filter = {}
-    samples.each do |metric_sample|
-      k = days_ago(metric_sample.created_at)
-      if date_filter.key? k
-        date_filter[k] += metric_sample.comments.select(&:general_comment?)
-      else
-        date_filter[k] = metric_sample.comments.select(&:general_comment?)
-      end
-    end
-    @comments = date_filter.map { |k, v| [k, v] }.sort_by { |elem| elem[0] }
->>>>>>> develop
+    # samples = @project.metric_samples.limit(50).where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
+    # date_filter = {}
+    # samples.each do |metric_sample|
+    #   k = days_ago(metric_sample.created_at)
+    #   if date_filter.key? k
+    #     date_filter[k] += metric_sample.comments.select(&:general_comment?)
+    #   else
+    #     date_filter[k] = metric_sample.comments.select(&:general_comment?)
+    #   end
+    # end
+    # @comments = date_filter.map { |k, v| [k, v] }.sort_by { |elem| elem[0] }
 
     @parent_metric = @project.latest_metric_sample params[:metric]
     render template: 'projects/metric_detail'

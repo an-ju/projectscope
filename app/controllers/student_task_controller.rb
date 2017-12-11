@@ -6,11 +6,7 @@ class StudentTaskController < ApplicationController
         @iter = params[:iter]
         @iteration = Iteration.find_by(id: @iter)
         @project = @team
-        
-        puts("--------------------------------------")
-        puts(@iter)
-        puts(@iteraion)
-        
+
         @iteration_comments = @iteration.get_comments(@team)
         
         #testing only purpose
@@ -28,7 +24,7 @@ class StudentTaskController < ApplicationController
         @team = Project.find(team_id)
         iteration_id = params[:iter]
         @iteration = Iteration.find(iteration_id)
-        @all_tasks = StudentTask.where('iteration_id': iteration_id, 'project_id': team_id)
+        @all_tasks = StudentTask.where(iteration_id: iteration_id, project_id: team_id)
         
     end
     #save the new task
@@ -45,7 +41,7 @@ class StudentTaskController < ApplicationController
         new_added.title = task_param[:title]
         new_added.description = task_param[:description]
         new_added.save!
-        @tasks = StudentTask.where('iteration_id': iteration_id, 'project_id': team_id)
+        @tasks = StudentTask.where(iteration_id: iteration_id, project_id: team_id)
         if !@tasks
             @tasks =[]
         end
@@ -59,7 +55,7 @@ class StudentTaskController < ApplicationController
    
         ##need to add display message and direct to some page 
         flash[:message]= "Successfully create the task"
-        redirect_to   show_a_team_path(:iter =>params[:iter],:team => params[:team])
+        redirect_to show_a_team_path(:iter =>params[:iter],:team => params[:team])
     
     end
     def destroy
@@ -75,7 +71,7 @@ class StudentTaskController < ApplicationController
     #retrive the form for editing a task(instructor only)
     def edit
         @task = StudentTask.find(params[:id])
-        @parents = StudentTask.where('iteration_id': @task.iteration_id, 'project_id': @task.project_id)
+        @parents = StudentTask.where(iteration_id: @task.iteration_id, project_id: @task.project_id)
         #to do : display the task in the view
         @selected_parents = @task.parents
         @task_comments = @task.comments
@@ -87,7 +83,7 @@ class StudentTaskController < ApplicationController
         @target_task = StudentTask.find(params[:id])
         #get all the information from the form submitted and save the change to targe task
      
-        @tasks = StudentTask.where('iteration_id': @target_task.iteration_id, 'project_id': @target_task.project_id)
+        @tasks = StudentTask.where(iteration_id: @target_task.iteration_id, project_id: @target_task.project_id)
         if !@tasks
             @tasks =[]
         end
@@ -120,7 +116,7 @@ class StudentTaskController < ApplicationController
             redirect_to team_index_path(task.iteration_id)
             return 
         else
-            puts task.title+"status"+params[statusKey]
+            # puts task.title+"status"+params[statusKey]
             history = TaskUpdate.new
             history.user_id=current_user.id
             history.before = task.status

@@ -96,8 +96,8 @@ Given("I am logged in as {string}") do |string|
   admin_user = User.create!(provider_username: "Admin_stu", uid: "uadmin_stu", email: 'uadmin_stu@example.com',
                             provider: "developer", role: User::STUDENT, password: Devise.friendly_token[0,20])
   ENV['ADMIN_PASSWORD'] = 'password'
-  puts "log in"
-  puts admin_user.role
+  # puts "log in"
+  # puts admin_user.role
   admin_user.project_id = Project.find_by_name(string).id
   admin_user.save
   visit "/login/#{admin_user.uid}?passwd=password"
