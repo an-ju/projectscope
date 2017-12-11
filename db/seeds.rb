@@ -146,10 +146,11 @@ projects_list.each do |project|
         end
       end
       ProjectMetrics.class_for(metric).credentials.each do |param|
-        Config.create(:metric_name => metric,
-                      :project_id => project.id,
-                      :token => (0...50).map { ('a'..'z').to_a[rand(26)] }.join,
-                      :metrics_params => param)
+        next unless rand > 0.5
+        Config.create(metric_name: metric,
+                      project_id: project.id,
+                      token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join,
+                      metrics_params: param)
       end
     end
   end

@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(update_params)
     ProjectMetrics.metric_names.each do |m|
       ProjectMetrics.class_for(m).credentials.each do |param|
-        if config_params.has_key? param.to_s
+        if config_params.key? param.to_s
           @project.configs << Config.new(metric_name: m, metrics_params: param, token: config_params[param])
         end
       end
@@ -93,11 +93,15 @@ class ProjectsController < ApplicationController
     update_params = project_params
     config_params = update_params.delete 'configs'
     notice = ''
-    @project.configs.each do |config|
-      if config_params.has_key? config.metric_name and config_params[config.metric_name].has_key? config.metrics_params
-        unless config_params[config.metric_name][config.metrics_params].empty?
-          config.token = config_params[config.metric_name][config.metrics_params]
+    ProjectMetrics.metric_names.each do |m|
+      ProjectMetrics.class_for(m).credentials.each do |param|
+        next unless config_params[m].key? param.to_s
+        config = @project.configs.where(metric_name: m, metrics_params: param).take
+        if config
+          config.token = config_params[m][param]
           notice += "Failed to update config #{config.metric_name}: #{config.metrics_params}\n" unless config.save
+        else
+          @project.configs << Config.new(metric_name: m, metrics_params: param, token: config_params[m][param])
         end
       end
     end
