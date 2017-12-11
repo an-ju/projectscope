@@ -119,7 +119,7 @@ dummies["commit_message"] = [commit_message1, commit_message2, commit_message3]
 
 projects_list = []
 0.upto(10).each do |num|
-  projects_list << Project.create!(:name => "Project #{num}")
+  projects_list << Project.create!(name: "Project #{num}")
 end
 
 end_date = Date.today
@@ -131,16 +131,18 @@ projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
     if TRUE
       start_date.upto(end_date) do |date|
-        m = MetricSample.create!(:metric_name => metric,
-                                 :project_id => project.id,
-                                 :score => rand(0.0..4.0).round(2),
-                                 :image => dummies[metric].sample,
-                                 :created_at => date)
-        rand(3).times do
-          m.comments << Comment.new(content: "Comment on #{date} for #{metric}",
-                                    ctype: 'general_comment',
-                                    params: '{}',
-                                    created_at: date.beginning_of_day)
+        3.times do
+          m = MetricSample.create!(:metric_name => metric,
+                                   :project_id => project.id,
+                                   :score => rand(0.0..4.0).round(2),
+                                   :image => dummies[metric].sample,
+                                   :created_at => date)
+          rand(3).times do
+            m.comments << Comment.new(content: "Comment on #{date} for #{metric}",
+                                      ctype: 'general_comment',
+                                      params: '{}',
+                                      created_at: date.beginning_of_day)
+          end
         end
       end
       ProjectMetrics.class_for(metric).credentials.each do |param|

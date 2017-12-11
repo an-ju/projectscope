@@ -32,8 +32,6 @@ class ProjectsController < ApplicationController
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     @other_projects = Project.select([:id, :name]).where.not(id: @project.id)
-    # metric_min_date = MetricSample.min_date || Date.today
-    # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
 
   # GET /projects/new
@@ -129,10 +127,17 @@ class ProjectsController < ApplicationController
   def show_metric
     @metric_name = params[:metric]
 
-    @comments = @project.metric_samples.where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
-    @comments = @comments.map do |metric_sample|
-      [days_ago(metric_sample.created_at), metric_sample.comments.select(&:general_comment?)]
+    samples = @project.metric_samples.limit(50).where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
+    date_filter = {}
+    samples.each do |metric_sample|
+      k = days_ago(metric_sample.created_at)
+      if date_filter.key? k
+        date_filter[k] += metric_sample.comments.select(&:general_comment?)
+      else
+        date_filter[k] = metric_sample.comments.select(&:general_comment?)
+      end
     end
+    @comments = date_filter.map { |k, v| [k, v] }.sort_by { |elem| elem[0] }
 
     @parent_metric = @project.latest_metric_sample params[:metric]
     render template: 'projects/metric_detail'
