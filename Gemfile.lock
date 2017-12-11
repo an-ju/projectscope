@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_code_climate.git
-  revision: 0a1497cfa8b1abc70573d91ebea443aac2917039
+  revision: 871092c5d2a55b7a3c442abba8bad1c0feb495b1
   specs:
     project_metric_code_climate (0.2.0)
       faraday
@@ -20,6 +20,13 @@ GIT
       octokit (~> 4.0)
 
 GIT
+  remote: https://github.com/an-ju/project_metric_commit_message.git
+  revision: 594e39824da4b308eff2dc3a941934cdddef9422
+  specs:
+    project_metric_commit_message (0.1.0)
+      octokit (~> 4.0)
+
+GIT
   remote: https://github.com/an-ju/project_metric_github.git
   revision: 15bd08639f20067e7375b48d153c6fbbffccadb7
   specs:
@@ -28,16 +35,16 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_files.git
-  revision: 982813b9435160044ca9bbdf90799e035611e3fc
+  revision: c2e9318f16a194ca064b0cd07fe0626d1e36dc4f
   specs:
     project_metric_github_files (0.1.0)
       octokit (~> 4.0)
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: 2974287d8fb67dfbe1f4f517918e75a014237c3c
+  revision: 3bcbb72d579e840a189840638dddd6ec13acd19b
   specs:
-    project_metric_github_flow (0.1.0)
+    project_metric_github_flow (0.2.0)
       octokit (~> 4.0)
 
 GIT
@@ -78,7 +85,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_smart_story.git
-  revision: b5c366274b889a4b0b821f88ab25040bfa0427a8
+  revision: 33e83cb2a263d556acfd2226e7de6ddabd9fd63c
   specs:
     project_metric_smart_story (0.1.0)
       faraday (~> 0.1, >= 0.1.0.0)
@@ -99,7 +106,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_test_coverage.git
-  revision: 448f0a42259db0bcbfa96affce7a69add19188e0
+  revision: f5cb68ed04d980f4582fad88f714b8ccc2337477
   specs:
     project_metric_test_coverage (0.2.0)
       faraday (~> 0.12.0)
@@ -113,7 +120,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_travis_ci.git
-  revision: a9ea680c791f706d40c7c931e59eb24af80b2ff5
+  revision: e577e9d8ee8544bc29e100ed13d88e562435ca57
   specs:
     project_metric_travis_ci (0.2.0)
       faraday (~> 0.1, >= 0.1.0.0)
@@ -164,7 +171,7 @@ GEM
     arel (6.0.4)
     attr_encrypted (3.0.3)
       encryptor (~> 3.0.0)
-    autoprefixer-rails (7.1.5)
+    autoprefixer-rails (7.1.6)
       execjs
     backports (3.10.3)
     bcrypt (3.1.11)
@@ -172,7 +179,7 @@ GEM
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
-    binding_of_caller (0.7.2)
+    binding_of_caller (0.7.3)
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
@@ -228,7 +235,7 @@ GEM
       cucumber-rails (>= 1.1.1)
     cucumber-tag_expressions (1.0.1)
     cucumber-wire (0.0.1)
-    database_cleaner (1.6.1)
+    database_cleaner (1.6.2)
     debug_inspector (0.0.3)
     devise (4.3.0)
       bcrypt (~> 3.0)
@@ -246,10 +253,10 @@ GEM
     erubi (1.7.0)
     erubis (2.7.0)
     execjs (2.7.0)
-    factory_girl (4.8.1)
+    factory_girl (4.9.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.8.0)
-      factory_girl (~> 4.8.0)
+    factory_girl_rails (4.9.0)
+      factory_girl (~> 4.9.0)
       railties (>= 3.0.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -261,8 +268,8 @@ GEM
     font-awesome-rails (4.7.0.2)
       railties (>= 3.2, < 5.2)
     gherkin (4.1.3)
-    gli (2.16.1)
-    globalid (0.4.0)
+    gli (2.17.0)
+    globalid (0.4.1)
       activesupport (>= 4.2.0)
     haml (5.0.4)
       temple (>= 0.8.0)
@@ -271,7 +278,7 @@ GEM
     hashie (3.5.6)
     highcharts-rails (5.0.7)
       railties (>= 3.1)
-    i18n (0.9.0)
+    i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     jasmine (2.8.0)
       jasmine-core (>= 2.8.0, < 3.0.0)
@@ -299,8 +306,8 @@ GEM
     loofah (2.1.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.6.6)
-      mime-types (>= 1.16, < 4)
+    mail (2.7.0)
+      mini_mime (>= 0.1.1)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -311,6 +318,7 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    newrelic_rpm (4.6.0.338)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     oauth2 (1.4.0)
@@ -372,7 +380,7 @@ GEM
       activesupport (= 4.2.6)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (12.1.0)
+    rake (12.2.1)
     rasem (0.6.1)
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
@@ -392,7 +400,7 @@ GEM
     rspec-mocks (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
-    rspec-rails (3.7.0)
+    rspec-rails (3.7.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -403,7 +411,7 @@ GEM
     rspec-support (3.7.0)
     rubyzip (1.2.1)
     safe_yaml (1.0.4)
-    sass (3.5.2)
+    sass (3.5.3)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -449,7 +457,7 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.3)
-    tzinfo (1.2.3)
+    tzinfo (1.2.4)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
@@ -503,12 +511,14 @@ DEPENDENCIES
   jquery-ui-rails
   json
   launchy
+  newrelic_rpm
   omniauth-github
   pg
   phantomjs
   poltergeist
   project_metric_code_climate!
   project_metric_collective_overview!
+  project_metric_commit_message!
   project_metric_github!
   project_metric_github_files!
   project_metric_github_flow!

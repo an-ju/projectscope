@@ -15,8 +15,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :ownerships
   has_many :owners, :class_name => "User", :through => :ownerships, :source => :user
-  has_many :comments
   has_many :student_tasks
+  has_many :comments, through: :metric_samples
 
   validates :name, :presence => true, :uniqueness => true
 
@@ -73,15 +73,10 @@ class Project < ActiveRecord::Base
     metric_samples.latest_for metric
   end
 
-  def latest_metric_samples(metrics = nil)
-    metrics = ProjectMetrics.metric_names if metrics.nil?
-    metrics.map do |metric_name|
-      metric_samples.latest_for(metric_name)
-    end
-  end
-
   def metric_on_date(metric, date)
-    metric_samples.where(created_at: (date.beginning_of_day.utc..date.end_of_day.utc), metric_name: metric)
+    metric_samples
+      .select(%I[id project_id metric_name image score created_at])
+      .where(created_at: (date.beginning_of_day.utc..date.end_of_day.utc), metric_name: metric)
   end
 
   def resample_all_metrics
@@ -123,18 +118,14 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def comments
-    metric_samples.flat_map { |ms| ms.comments.where(ctype: 'general_comment') }.sort_by { |cmnt| Time.now - cmnt.created_at }
-  end
-  
-  def general_metric_comments 
+  def general_metric_comments
     Comment.where(project_id: self.id)
   end
-  
+
   def metrics_with_unread_comments(current_user)
     select_unread(metric_samples, current_user)
   end
-  
+
   def general_metrics_with_unread_comments(current_user)
     metric_names = ProjectMetrics.metric_names
     comment_groups = []
@@ -143,10 +134,9 @@ class Project < ActiveRecord::Base
         comment_groups << [metric, general_metric_comments.where(metric: metric)]
       end
     end
-    
     comment_groups
   end
-  
+
   def student_tasks_with_unread_comments(current_user)
     comment_groups = []
     s_tasks = select_unread(student_tasks, current_user)
@@ -155,7 +145,7 @@ class Project < ActiveRecord::Base
     end
     comment_groups
   end
-  
+
   def iterations_with_unread_comments(current_user)
     comment_groups = []
     iterations = Iteration.all.select{|iter| iter.get_comments(self).where(ctype: 'general_comment').any?{|cmnt| cmnt.unread? current_user}}.sort_by {|iter| iter.comments.min_by{ Time.now - created_at}}
@@ -164,17 +154,17 @@ class Project < ActiveRecord::Base
     end
     comment_groups
   end
-  
+
   def contains_unread_comments(user)
     if self.comments.any?{|comment| comment.unread?(user)} or 
       self.general_metric_comments.any?{|comment| comment.unread?(user)} or
       self.student_tasks.any?{|st| st.comments.any?{|comment| comment.unread?(user)}}
-        return true
+      true
     else
-      return false
+      false
     end
   end
-  
+
   def select_unread(object, current_user)
     object.select{|o| o.comments.where(ctype: 'general_comment').any?{|cmnt| cmnt.unread? current_user}}.sort_by {|o| o.comments.min_by{ Time.now - created_at}}
   end

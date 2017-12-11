@@ -1,12 +1,13 @@
 env:
   global:
-    - CC_TEST_REPORTER_ID=bed82fe5f8a847514da8f7ea26a5f07ff0c8cbb921b1d51c9548a4d0cae4de12
+    - CC_TEST_REPORTER_ID=7bee48f8a6b81501d9ac7d0f45517d7721c15fe1b09a6d23d3928bb05c122b90
 language: ruby
 rvm:
   - 2.3.1
-addons:
-    code_climate:
-        repo_token: bed82fe5f8a847514da8f7ea26a5f07ff0c8cbb921b1d51c9548a4d0cae4de12
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 before_install:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
@@ -28,4 +29,3 @@ script:
   - bundle exec rake jasmine:ci
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-  - bundle exec rake send_to_codeclimate 

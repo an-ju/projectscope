@@ -1,11 +1,17 @@
-## Iteration 1
+# Projectscope
 
+Travis CI: [![Build Status](https://travis-ci.org/an-ju/projectscope.svg?branch=develop)](https://travis-ci.org/an-ju/projectscope)
 
-### TeamScope
+Code Climate: [![Code Climate](https://codeclimate.com/github/an-ju/projectscope/badges/gpa.svg)](https://codeclimate.com/github/an-ju/projectscope)
 
-[Overall README](./iterations/README.md)
-#### Demo Video
-https://youtu.be/j4X8y6C8Gw8
+Test Coverage: [![Test Coverage](https://codeclimate.com/github/an-ju/projectscope/badges/coverage.svg)](https://codeclimate.com/github/an-ju/projectscope/coverage)
+
+A dashboard to show project metrics such as those supported by gems like
+[project_metric_code_climate](https://github.com/an-ju/project_metric_code_climate),
+[project_metric_github](https://github.com/an-ju/project_metric_github),
+and others, using the [project_metrics](https://github.com/an-ju/project_metrics) gem to wrap
+them for consumption by a Rails app
+
 #### Instructions to run the app locally:
 * bundle install --without production
 * rake db:setup
@@ -20,24 +26,48 @@ We can not support github login when running locally, so please use the instruct
 * rails s -p $PORT -b $IP (to run app locally on cloud9 ide) 
 * rails server (to run app locally in terminal
 
-#### CodeClimate badge showing project's current GPA
-[![Maintainability](https://api.codeclimate.com/v1/badges/f110c3a7cd4b257abdd3/maintainability)](https://codeclimate.com/github/PeijieLi/cs169projectscope/maintainability)
-#### Code Climate badge showing percent code coverage
- [![Test Coverage](https://api.codeclimate.com/v1/badges/f110c3a7cd4b257abdd3/test_coverage)](https://codeclimate.com/github/PeijieLi/cs169projectscope/test_coverage)
- 
-#### Travis CI badge showing build status for master branch (should be "passing")
-[![Build Status](https://travis-ci.org/PeijieLi/cs169projectscope.svg?branch=master)](https://travis-ci.org/PeijieLi/cs169projectscope)
-#### Link to deployed app on Heroku (General)
-https://young-headland-90238.herokuapp.com/users/sign_in
-#### Link to Pivotal Tracker project
-https://www.pivotaltracker.com/n/projects/2118219
-#### A brief explanation of the customer's business need that the app addresses, including a link to the customer's website
-+A dashboard for teachers and students to track and visualize live metrics for progress and success in small engineering teams. TeamScope allows teachers to follow students as they work through a project, checking their adherence to protocols such as test driven development, pair programming, and point estimation for stories in real time. 
- +
- +Teachers create and manage classes of students, comparing metrics across groups in order to ensure good practices across a project’s lifecycle. Teachers can also send comments to project groups for more personalized feedback on the group’s metrics. This ensures constant feedback for students on their projects, allowing them to better measure successes, and practice software engineering techniques.
- +
- +website: http://acelab.berkeley.edu/research/teamscope/
 
-#### Videos
-[Videos](./iterations/iter0.md)
+Standing up an instance
+-----------------------
 
+Environment variables required to set up the app are:
+- ADMIN_PASSWORD: used to bypass the oauth system
+- github_app_id: used for GitHub oauth
+- github_app_token: used for GitHub oauth
+
+Then you can use the web interface to create projects.
+
+
+```rails c```
+
+
+if you then run
+
+```Project.all.each &:resample_all_metrics```
+
+on the console it will generate a set of samples you can then see in the interface
+
+or execute
+
+```rake project:resample_all```
+
+# Managing the app secret
+
+The file `config/application.yml.asc` is a symmetric-key-encrypted YAML
+file that itself contains the encryption keys for encrypting sensitive
+database attributes at rest.  It is safe to version this file.  The secrets
+in this file are managed [as described in this article.](http://saasbook.blogspot.com/2016/08/keeping-secrets.html)
+
+# Creating new metric gems
+
+Each metric gem *must* provide the following methods:
+
+* `initialize(credentials={}, raw_data=nil)` Constructor that takes any credentials needed for the gem to contact any remote services, as a hash, and optionally takes an initial set of raw data (i.e. what would be delivered by the API of the remote service)
+* `score`: computes the metric score given the current raw data
+* `refresh`: refresh raw data from remote API
+* `raw_data=(new_data)`: explicitly set raw data, rather than fetching from remote API
+* `raw_data`: return most recent raw data
+* `image`: return an image representation of the current metric state. At the moment it is a JSON string with
+    * `chartType`: specifies the type of the chart, which will decide how the chart gets rendered.
+    * `data`: contains data used for rendering the graph.
+* `scredentials`: class method that returns a list of symbols that are the names of the configuration variables the gem expects to find in the `credentials` hash passed to it.

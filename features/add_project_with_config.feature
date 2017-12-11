@@ -14,10 +14,6 @@ Feature: add project and its config/credentials info
       | project      | a.com  |
       | access_token | 12345  |
       | main_branch  | master |
-    And I enter new "Slack" config values:
-      | key     | value |
-      | channel | 1     |
-      | token   | 5     |
     And I enter new "Tracker" config values:
       | key     | value |
       | project | b.com |
@@ -27,5 +23,4 @@ Feature: add project and its config/credentials info
       | metric_name      | key             | value |
       | pull_requests    | github_project  | a.com |
       | github_files     | github_project  | a.com |
-      | slack            | slack_channel   | 1     |
       | tracker_velocity | tracker_project | b.com |

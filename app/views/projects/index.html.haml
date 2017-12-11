@@ -24,6 +24,8 @@
 = render partial: 'metric_table',
          locals: { metric_names: metric_names[@current_page],
                    projects: @projects }
+= render partial: 'explanations',
+         locals: { metric_names: metric_names[@current_page] }
 
 %div{:class => 'col-md-12'}
   -if can? :create, :project

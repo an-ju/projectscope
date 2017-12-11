@@ -51,18 +51,16 @@
   %table.table.table-striped
     %tbody
       - metric_names.each do |page|
-        - @project.latest_metric_samples(page).each do |sample|
-          - unless sample.nil?
-            %tr
-              %td
-                %a.detail-link{href:"/projects/#{@project.id}/metrics/#{sample.metric_name}/detail", style: 'width:100%;height:100%;'}
-                  = METRIC_NAMES[sample.metric_name.to_sym]
-                  %span.badge
-                    = sample.comments.length
-              %td{style: 'text-align: center'}
-                %div.chart_place{:id => "project-#{@project.id}-metric-#{sample.try(:metric_name)}"}
-              %td{style: 'text-align: center'}
-                %div.chart_place{id: "project-#{@project.id}-series-#{sample.try(:metric_name)}"}
+        - page.each do |metric_name|
+          %tr
+            %td
+              %a.detail-link{href:"/projects/#{@project.id}/metrics/#{metric_name}/detail", style: 'width:100%;height:100%;'}
+                = METRIC_NAMES[metric_name.to_sym]
+              %span.glyphicon.glyphicon-question-sign{type: 'button', 'data-toggle': 'modal', 'data-target': "##{metric_name}_explanation"}
+            %td{style: 'text-align: center'}
+              %div.chart_place{:id => "project-#{@project.id}-metric-#{metric_name}"}
+            %td{style: 'text-align: center'}
+              %div.chart_place{id: "project-#{@project.id}-series-#{metric_name}"}
 
 %div.col-md-12
   %div.col-md-6
@@ -87,7 +85,11 @@
 
 = render :partial => 'metric_table',
          :locals => { metric_names: metric_names[@current_page],
-                      projects: Project.all.reject { |p| p.id == @project.id } }
+                      projects: @other_projects }
+
+- metric_names.each do |page|
+  = render partial: 'explanations',
+           locals: { metric_names: page }
 
 :javascript
-  keep_log=true;
+  keep_log=false;

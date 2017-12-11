@@ -27,14 +27,13 @@ class ProjectsController < ApplicationController
     @projects = Project.all
     update_session
 
-    metric_min_date = MetricSample.min_date || Date.today
-    @num_days_from_today = (Date.today - metric_min_date).to_i
+    # metric_min_date = MetricSample.min_date || Date.today
+    # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
 
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @owners = @project.owners
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     metric_min_date = MetricSample.min_date || Date.today
@@ -51,6 +50,7 @@ class ProjectsController < ApplicationController
     @general_comment_groups = @project.general_metrics_with_unread_comments(current_user)
     @student_task_comment_groups = @project.student_tasks_with_unread_comments(current_user)
     @iteration_comment_groups = @project.iterations_with_unread_comments(current_user)
+    @other_projects = Project.select([:id, :name]).where.not(id: @project.id)
   end
 
   # GET /projects/new
@@ -65,11 +65,19 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @configs = {}
-    all_configs = @project.configs.select(:metric_name, :metrics_params, :token).map(&:attributes)
-    all_configs.each do |config|
-      @configs[config["metric_name"]] ||= []
-      @configs[config["metric_name"]] << {config["metrics_params"] => config["token"]}
+    ProjectMetrics.metric_names.each do |metric|
+      all_configs = @project.config_for metric
+      ProjectMetrics.class_for(metric).credentials.each do |c|
+        config = all_configs.select { |m| m.metrics_params.eql? c.to_s }.first
+        @configs[metric] ||= []
+        @configs[metric] << { c => config.nil? ? '' : config.token }
+      end
     end
+    # all_configs = @project.configs.select(:metric_name, :metrics_params, :token).map(&:attributes)
+    # all_configs.each do |config|
+    #   @configs[config["metric_name"]] ||= []
+    #   @configs[config["metric_name"]] << {config["metrics_params"] => config["token"]}
+    # end
   end
 
   # POST /projects
@@ -80,7 +88,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(update_params)
     ProjectMetrics.metric_names.each do |m|
       ProjectMetrics.class_for(m).credentials.each do |param|
-        if config_params.has_key? param.to_s
+        if config_params.key? param.to_s
           @project.configs << Config.new(metric_name: m, metrics_params: param, token: config_params[param])
         end
       end
@@ -104,10 +112,16 @@ class ProjectsController < ApplicationController
     update_params = project_params
     config_params = update_params.delete 'configs'
     notice = ''
-    @project.configs.each do |config|
-      if config_params.has_key? config.metric_name and config_params[config.metric_name].has_key? config.metrics_params
-        config.token = config_params[config.metric_name][config.metrics_params]
-        notice += "Failed to update config #{config.metric_name}: #{config.metrics_params}\n" unless config.save
+    ProjectMetrics.metric_names.each do |m|
+      ProjectMetrics.class_for(m).credentials.each do |param|
+        next unless config_params[m].key? param.to_s
+        config = @project.configs.where(metric_name: m, metrics_params: param).take
+        if config
+          config.token = config_params[m][param]
+          notice += "Failed to update config #{config.metric_name}: #{config.metrics_params}\n" unless config.save
+        else
+          @project.configs << Config.new(metric_name: m, metrics_params: param, token: config_params[m][param])
+        end
       end
     end
     @project.attributes = update_params
@@ -136,6 +150,7 @@ class ProjectsController < ApplicationController
   def show_metric
     @metric_name = params[:metric]
 
+<<<<<<< HEAD
     @comments = @project.metric_samples.where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
     @comments = @comments.map do |metric_sample|
       [days_ago(metric_sample.created_at), 
@@ -144,6 +159,19 @@ class ProjectsController < ApplicationController
     end
     
     @general_metric_comments = @project.general_metric_comments.where(metric: @metric_name).sort_by { |elem| elem.created_at - Time.now }
+=======
+    samples = @project.metric_samples.limit(50).where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
+    date_filter = {}
+    samples.each do |metric_sample|
+      k = days_ago(metric_sample.created_at)
+      if date_filter.key? k
+        date_filter[k] += metric_sample.comments.select(&:general_comment?)
+      else
+        date_filter[k] = metric_sample.comments.select(&:general_comment?)
+      end
+    end
+    @comments = date_filter.map { |k, v| [k, v] }.sort_by { |elem| elem[0] }
+>>>>>>> develop
 
     @parent_metric = @project.latest_metric_sample params[:metric]
     render template: 'projects/metric_detail'
@@ -163,6 +191,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects/:id/metrics/:metric
   def get_metric_data
+    #TODO: put this to the new controller
     days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
     date = Date.today - days_from_now.days
     metric = @project.metric_on_date params[:metric], date
@@ -175,17 +204,18 @@ class ProjectsController < ApplicationController
 
   # GET /projects/:id/metrics/:metric/series
   def get_metric_series
-    metric_samples = @project.metric_samples.where(metric_name: params[:metric])
-    if metric_samples.length > 0
-      metric_samples = metric_samples.sort_by { |m| m.created_at }.map &:attributes
+    #TODO: put it to the new controller
+    metric_samples = @project.metric_samples.limit(3).where(metric_name: params[:metric])
+    if metric_samples.empty?
+      render json: { error: 'not found' }, status: 404
+    else
+      metric_samples = metric_samples.sort_by(&:created_at).map(&:attributes)
       metric_samples = metric_samples.map do |m|
         m.delete('encrypted_raw_data')
         m.delete('encrypted_raw_data_iv')
         m.update datetime: m['created_at'].strftime('%Y-%m-%dT%H:%M')
       end
       render json: metric_samples
-    else
-      render json: {:error => 'not found'}, status: 404
     end
   end
 

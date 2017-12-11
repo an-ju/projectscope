@@ -24,13 +24,10 @@ MetricSample.delete_all
 # slack_trends2 = File.read './db/fake_data/spline2.json'
 # slack_trends3 = File.read './db/fake_data/spline3.json'
 
+#TODO: code climate fake data is not consistent with real format.
 code_climate1 = File.read './db/fake_data/codeclimate1.json'
 code_climate2 = File.read './db/fake_data/codeclimate2.json'
 code_climate3 = File.read './db/fake_data/codeclimate3.json'
-
-gauge1 = '{"chartType" : "gauge", "titleText" : "Story Management GPA", "data" : {"score" : 3.5}}'
-gauge2 = '{"chartType" : "gauge", "titleText" : "Story Management GPA", "data" : {"score" : 2.3}}'
-gauge3 = '{"chartType" : "gauge", "titleText" : "Story Management GPA", "data" : {"score" : 1.6}}'
 
 collective_gauge1 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 3.5}}'
 collective_gauge2 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 2.3}}'
@@ -52,6 +49,7 @@ github1 = File.read './db/fake_data/spline1.json'
 github2 = File.read './db/fake_data/spline2.json'
 github3 = File.read './db/fake_data/spline3.json'
 
+#TODO: test coverage fake data is not consistent with real format.
 test_coverage1 = File.read './db/fake_data/test_coverage1.json'
 test_coverage2 = File.read './db/fake_data/test_coverage2.json'
 test_coverage3 = File.read './db/fake_data/test_coverage3.json'
@@ -96,6 +94,10 @@ smart_story1 = File.read './db/fake_data/smart_story1.json'
 smart_story2 = File.read './db/fake_data/smart_story2.json'
 smart_story3 = File.read './db/fake_data/smart_story3.json'
 
+commit_message1 = File.read './db/fake_data/commit_message1.json'
+commit_message2 = File.read './db/fake_data/commit_message2.json'
+commit_message3 = File.read './db/fake_data/commit_message3.json'
+
 dummies = Hash.new
 dummies["code_climate"] = [code_climate1, code_climate2, code_climate3]
 dummies["github"] = [github1, github2, github3]
@@ -114,10 +116,11 @@ dummies["github_flow"] = [github_flow1, github_flow2, github_flow3]
 dummies["tracker_velocity"] = [tracker_velocity1, tracker_velocity2, tracker_velocity3]
 dummies["point_distribution"] = [point_distribution1, point_distribution2, point_distribution3]
 dummies["smart_story"] = [smart_story1, smart_story2, smart_story3]
+dummies["commit_message"] = [commit_message1, commit_message2, commit_message3]
 
 projects_list = []
 0.upto(10).each do |num|
-  projects_list << Project.create!(:name => "Project #{num}")
+  projects_list << Project.create!(name: "Project #{num}")
 end
 
 end_date = Date.today
@@ -129,23 +132,26 @@ projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
     if TRUE
       start_date.upto(end_date) do |date|
-        m = MetricSample.create!(:metric_name => metric,
-                                 :project_id => project.id,
-                                 :score => rand(0.0..4.0).round(2),
-                                 :image => dummies[metric][rand(3)],
-                                 :created_at => date)
-        rand(3).times do
-          m.comments << Comment.new(content: "Comment on #{date} for #{metric}",
-                                    ctype: 'general_comment',
-                                    params: '{}',
-                                    created_at: date.beginning_of_day)
+        3.times do
+          m = MetricSample.create!(:metric_name => metric,
+                                   :project_id => project.id,
+                                   :score => rand(0.0..4.0).round(2),
+                                   :image => dummies[metric].sample,
+                                   :created_at => date)
+          rand(3).times do
+            m.comments << Comment.new(content: "Comment on #{date} for #{metric}",
+                                      ctype: 'general_comment',
+                                      params: '{}',
+                                      created_at: date.beginning_of_day)
+          end
         end
       end
       ProjectMetrics.class_for(metric).credentials.each do |param|
-        Config.create(:metric_name => metric,
-                      :project_id => project.id,
-                      :token => (0...50).map { ('a'..'z').to_a[rand(26)] }.join,
-                      :metrics_params => param)
+        next unless rand > 0.5
+        Config.create(metric_name: metric,
+                      project_id: project.id,
+                      token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join,
+                      metrics_params: param)
       end
     end
   end
