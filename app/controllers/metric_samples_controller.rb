@@ -1,4 +1,5 @@
 class MetricSamplesController < ApplicationController
+  load_and_authorize_resource
 
   def index
     @metrics = ProjectMetrics.hierarchies :metric
@@ -8,6 +9,10 @@ class MetricSamplesController < ApplicationController
     end
   end
 
+  def raw_data
+    @metric_sample = MetricSample.find(params[:id])
+    render json: @metric_sample.raw_data
+  end
   private
 
   def date

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       get '/:metric/series', to: 'projects#get_metric_series'
       get '/:metric/detail', to: 'projects#show_metric'
       get '/:metric/report', to: 'projects#show_report'
+      get 'raw_data'
     end
   end
 
