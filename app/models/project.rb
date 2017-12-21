@@ -86,7 +86,7 @@ class Project < ActiveRecord::Base
         return
       end
       self.metric_samples.create!( metric_name: metric_name,
-                                   raw_data: metric.raw_data,
+                                   raw_data: metric.raw_data.to_json,
                                    score: score,
                                    image: image )
     end
