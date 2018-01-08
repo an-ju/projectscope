@@ -11,7 +11,7 @@ class MetricSamplesController < ApplicationController
 
   def raw_data
     @metric_sample = MetricSample.find(params[:id])
-    new_rd = @metric_sample.raw_data.gsub(/[^'"](\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC)[^'"]/) {|s| s[0] + '"' + $1 + '"' + s[-1]}
+    new_rd = @metric_sample.raw_data.gsub(/[>:][ ]*(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC)/) {|s| s[0] + '"' + $1 + '"'}
     render json: eval(new_rd)
   end
 
