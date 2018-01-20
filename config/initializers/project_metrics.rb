@@ -21,9 +21,8 @@ ProjectMetrics.configure do
   # add_hierarchy metric: [%I[code_climate test_coverage travis_ci point_estimation],
   #                        %I[pull_requests github_flow point_distribution smart_story],
   #                        %I[github_files commit_message story_overall]]
-  add_hierarchy metric: [%I[pull_requests github_files commit_message test_coverage],
-                         %I[code_climate travis_ci point_estimation github_flow],
-                         %I[point_distribution smart_story story_overall]]
+  add_hierarchy metric: [%I[pull_requests github_files commit_message test_coverage code_climate travis_ci],
+                         %I[point_estimation github_flow point_distribution smart_story story_overall]]
 end
 
 METRIC_NAMES = {
