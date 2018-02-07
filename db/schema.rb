@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612211747) do
+ActiveRecord::Schema.define(version: 20180207072553) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "metric_sample_id"
@@ -78,6 +78,9 @@ ActiveRecord::Schema.define(version: 20170612211747) do
 
   add_index "projects_users", ["project_id"], name: "index_projects_users_on_project_id"
   add_index "projects_users", ["user_id"], name: "index_projects_users_on_user_id"
+
+# Could not dump table "tasks" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "users", force: :cascade do |t|
     t.string   "provider_username",      default: "",        null: false
