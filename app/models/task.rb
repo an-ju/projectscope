@@ -1,5 +1,10 @@
 class Task < ActiveRecord::Base
-  has_many :inedge, class_name: "Task", foreign_key: "outedge_id"
-  belongs_to :outedge, class_name: "Task", foreign_key: "inedge_id"
+  belongs_to :projects
 
+  # many to many self join to realise the task graph join table
+  has_many :childrentask, through: :childedge, source: :childtask
+  has_many :childedge, foreign_key: :childedge_id, class_name: "Taskedge"
+
+  has_many :parentstask, through: :parentedge, source: :parenttask
+  has_many :parentedge, foreign_key: :parentedge_id, class_name: "Taskedge"
 end
