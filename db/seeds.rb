@@ -13,7 +13,8 @@ User.delete_all
 Whitelist.delete_all
 Project.delete_all
 MetricSample.delete_all
-
+Task.delete_all
+Taskedge.delete_all
 
 # dummy1_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/WebsiteOne'
 # dummy2_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/project_metric_slack'
@@ -120,6 +121,24 @@ dummies["commit_message"] = [commit_message1, commit_message2, commit_message3]
 projects_list = []
 0.upto(10).each do |num|
   projects_list << Project.create!(name: "Project #{num}")
+end
+
+# create the seed for task graph
+0.upto(15).each do |num|
+  Task.create(title: "no.#{num} task")
+end
+
+0.upto(14).each do |num|
+  Taskedge.create(childtask_id: num, parenttask_id: num + 1)
+end
+4.upto(10).each do |num|
+  Taskedge.create(childtask_id: num + 3, parenttask_id: num)
+end
+2.upto(8).each do |num|
+  Taskedge.create(childtask_id: num + 4, parenttask_id: num)
+end
+5.upto(11).each do |num|
+  Taskedge.create(childtask_id: num - 2, parenttask_id: num)
 end
 
 end_date = Date.today
