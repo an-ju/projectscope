@@ -23,4 +23,15 @@ class Task < ActiveRecord::Base
     end
     JSON.generate(graph)
   end
+
+  def self.add_taskedge parent_id, child_id
+    if(Task.exists?(parent_id) and Task.exists?(child_id))
+      edge = Taskedge.new
+      edge.parenttask_id = parent_id
+      edge.childtask_id = child_id
+      edge.save
+    else
+      nil
+    end
+  end
 end
