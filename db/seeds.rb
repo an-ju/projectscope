@@ -15,6 +15,7 @@ Project.delete_all
 MetricSample.delete_all
 Task.delete_all
 Taskedge.delete_all
+Iteration.delete_all
 
 # dummy1_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/WebsiteOne'
 # dummy2_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/project_metric_slack'
@@ -128,16 +129,18 @@ end
   Task.create(title: "no.#{num} task")
 end
 
-0.upto(14).each do |num|
+firstask_id = Task.all[0].id
+
+firstask_id.upto(firstask_id + 14).each do |num|
   Taskedge.create(childtask_id: num, parenttask_id: num + 1)
 end
-4.upto(10).each do |num|
+(firstask_id + 4).upto(firstask_id + 10).each do |num|
   Taskedge.create(childtask_id: num + 3, parenttask_id: num)
 end
-2.upto(8).each do |num|
+(firstask_id + 2).upto(firstask_id + 8).each do |num|
   Taskedge.create(childtask_id: num + 4, parenttask_id: num)
 end
-5.upto(11).each do |num|
+(firstask_id + 5).upto(firstask_id+ 11).each do |num|
   Taskedge.create(childtask_id: num - 2, parenttask_id: num)
 end
 
