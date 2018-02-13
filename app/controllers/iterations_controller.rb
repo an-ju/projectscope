@@ -10,6 +10,7 @@ class IterationsController < ApplicationController
   # GET /iterations/1
   # GET /iterations/1.json
   def show
+    @graph = Iteration.abstract_graph @iteration
   end
 
   # GET /iterations/new

@@ -1,0 +1,28 @@
+
+%h1
+  = @iteration.name
+
+%div.col-md-6
+  %h2
+    Tasks
+  %table.table.table-striped
+    %thead
+      %tr
+        %th
+          Parent
+        %th
+          Children
+        %th
+          Status
+    %tbody
+      - @graph.each do |parent, children|
+        %tr{id: "task_#{@iteration}"}
+          %td
+            = Task.find(parent).title
+          %td
+            = children.map{|c| Task.find(c).title}
+          %td.btn-default.btn.btn-sm
+            Mark as done
+
+:javascript
+  keep_log=false;

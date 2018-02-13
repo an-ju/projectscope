@@ -124,9 +124,11 @@ projects_list = []
   projects_list << Project.create!(name: "Project #{num}")
 end
 
+# create iteration
+iteration = Iteration.create(name: "Iteration 0")
 # create the seed for task graph
 0.upto(15).each do |num|
-  Task.create(title: "no.#{num} task")
+  Task.create(title: "no.#{num} task", iteration: iteration)
 end
 
 firstask_id = Task.all[0].id

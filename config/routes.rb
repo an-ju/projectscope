@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :tasks
+  # resources :tasks
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :skip => [:password]
   resources :comments
   resources :users, :only => [:show, :update] do
@@ -10,9 +10,9 @@ Rails.application.routes.draw do
   end
   resources :projects do
     member do
-      post "/add_owner", :to => "projects#add_owner"
-      get '/metrics/:metric', :to => 'projects#get_metric_data'
-      get '/metrics/:metric/series', :to => 'projects#get_metric_series'
+      post "/add_owner", to: "projects#add_owner"
+      get '/metrics/:metric', to: 'projects#get_metric_data'
+      get '/metrics/:metric/series', to: 'projects#get_metric_series'
       get '/metrics/:metric/detail', to: 'projects#show_metric'
       get '/metrics/:metric/report', to: 'projects#show_report'
     end
@@ -36,8 +36,8 @@ Rails.application.routes.draw do
       :to => 'comments#comments_for_metric_sample',
       :as => 'metric_sample_comments'
 
-  get '/login/:id', :to => 'application#passthru', :as => 'passthru'
+  get '/login/:id', to: 'application#passthru', as: 'passthru'
   post '/log', to: 'projects#write_log'
-
+  get 'iteration/:id', to: 'iterations#show'
   root 'projects#index'
 end
