@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-  belongs_to :projects
+  belongs_to :iteration
 
   # many to many self join to realise the task graph join table
   has_many :childrentask, through: :childedge, source: :childtask
