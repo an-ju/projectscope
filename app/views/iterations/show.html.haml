@@ -8,21 +8,15 @@
   %table.table.table-striped
     %thead
       %tr
-        %th
-          Parent
-        %th
-          Children
-        %th
-          Status
+        -1.upto(@maxelem).each do |level|
+          %th
+            level #{level}
     %tbody
-      - @graph.each do |parent, children|
+      - @level.each do |nodes|
         %tr{id: "task_#{@iteration}"}
-          %td
-            = Task.find(parent).title
-          %td
-            = children.map{|c| Task.find(c).title}
-          %td.btn-default.btn.btn-sm
-            Mark as done
+          - nodes.each do |node|
+            %td
+              = Task.find(node).title
 
 :javascript
   keep_log=false;

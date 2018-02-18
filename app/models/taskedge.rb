@@ -17,15 +17,15 @@ class Taskedge < ActiveRecord::Base
   def self.find_children parent_id
     edges = Taskedge.where(parenttask_id: parent_id)
     if edges
-      edges.map{|edge| edge.childtask_id}
+      edges.map{ |edge| edge.childtask_id }
     else
       return nil
     end
   end
 
-  # find the start node of a graph
+  # find the start node of a graph under the assumption that there is only one starter node
   def self.find_root nodes
-    nodes.each{|node|
+    nodes.each { |node|
       if (Taskedge.find_parents node).empty?
         return node
       end

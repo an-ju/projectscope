@@ -11,6 +11,8 @@ class IterationsController < ApplicationController
   # GET /iterations/1.json
   def show
     @graph = Iteration.abstract_graph @iteration
+    @level = Iteration.graph_rank @graph
+    @maxelem = Iteration.max_level_elem @level
   end
 
   # GET /iterations/new

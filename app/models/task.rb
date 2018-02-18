@@ -25,27 +25,6 @@ class Task < ActiveRecord::Base
     JSON.generate(graph)
   end
 
-  # return the graph rank
-  def self.graph_rank graph
-    level = 0
-    graphlevel = Hash.new
-    root = Taskedge.find_root graph.keys
-    graphlevel[root] = level
-    children = graph[root]
-    visited = Array.new(children)
-    visited.append(root)
-    children.each{ |child| graphlevel[child] = level + 1}
-    until children.empty?
-      newnode = children.shift
-      newchildren = graph[newnode]
-      newchildren.each{ |child| graphlevel[child] = graphlevel[newnode] + 1 }
-      newchildren.delete_if{|child| visited.include? child}
-      visited.concat(newchildren)
-      children.concat(newchildren)
-    end
-    graphlevel
-  end
-
   def self.add_taskedge parent_id, child_id
     if ( Task.exists?(parent_id) and Task.exists?(child_id) )
       edge = Taskedge.new
