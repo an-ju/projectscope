@@ -11,7 +11,8 @@ class Task < ActiveRecord::Base
   def self.abstract_graph start_task
     children = Taskedge.find_children(start_task)
     graph = Hash.new
-    visited = children
+    visited = Array.new(children)
+    visited.append(start_task)
     graph[start_task] = Array.new(children)
     until children.empty?
       newnode = children.shift
@@ -22,6 +23,27 @@ class Task < ActiveRecord::Base
       children.concat(newchildren)
     end
     JSON.generate(graph)
+  end
+
+  # return the graph rank
+  def self.graph_rank graph
+    level = 0
+    graphlevel = Hash.new
+    root = Taskedge.find_root graph.keys
+    graphlevel[level] = root
+    children = graph[root]
+    visited = Array.new(children)
+    visited.append(root)
+    children.each{ |child| graphlevel[child] = 1}
+    until children.empty?
+      newnode = children.shift
+      newchildren = graph[newnode]
+      newchildren.each{ |child| graphlevel[child] = graphlevel[newnode] + 1 }
+      newchildren.delete_if{|child| visited.include? child}
+      visited.concat(newchildren)
+      children.concat(newchildren)
+    end
+    graphlevel
   end
 
   def self.add_taskedge parent_id, child_id
