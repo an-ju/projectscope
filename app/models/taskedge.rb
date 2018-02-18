@@ -22,4 +22,13 @@ class Taskedge < ActiveRecord::Base
       return nil
     end
   end
+
+  # find the start node of a graph
+  def self.find_root nodes
+    nodes.each{|node|
+      if (Taskedge.find_parents node).empty?
+        return node
+      end
+    }
+  end
 end

@@ -133,17 +133,14 @@ end
 
 firstask_id = Task.all[0].id
 
-firstask_id.upto(firstask_id + 14).each do |num|
+firstask_id.upto(firstask_id + 5).each do |num|
+  Taskedge.create(childtask_id: num, parenttask_id: num + 6)
+end
+(firstask_id + 5).upto(firstask_id + 14).each do |num|
   Taskedge.create(childtask_id: num, parenttask_id: num + 1)
 end
 (firstask_id + 4).upto(firstask_id + 10).each do |num|
-  Taskedge.create(childtask_id: num + 3, parenttask_id: num)
-end
-(firstask_id + 2).upto(firstask_id + 8).each do |num|
-  Taskedge.create(childtask_id: num + 4, parenttask_id: num)
-end
-(firstask_id + 5).upto(firstask_id+ 11).each do |num|
-  Taskedge.create(childtask_id: num - 2, parenttask_id: num)
+  Taskedge.create(childtask_id: num - 1, parenttask_id: num + 1)
 end
 
 end_date = Date.today

@@ -30,11 +30,11 @@ class Task < ActiveRecord::Base
     level = 0
     graphlevel = Hash.new
     root = Taskedge.find_root graph.keys
-    graphlevel[level] = root
+    graphlevel[root] = level
     children = graph[root]
     visited = Array.new(children)
     visited.append(root)
-    children.each{ |child| graphlevel[child] = 1}
+    children.each{ |child| graphlevel[child] = level + 1}
     until children.empty?
       newnode = children.shift
       newchildren = graph[newnode]
