@@ -36,8 +36,11 @@ Rails.application.routes.draw do
       :to => 'comments#comments_for_metric_sample',
       :as => 'metric_sample_comments'
 
+  resources :tasks
+  resources :iterations
+
   get '/login/:id', to: 'application#passthru', as: 'passthru'
   post '/log', to: 'projects#write_log'
-  get 'iteration/:id', to: 'iterations#show'
+
   root 'projects#index'
 end

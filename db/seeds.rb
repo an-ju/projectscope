@@ -128,7 +128,10 @@ end
 iteration = Iteration.create(name: "Iteration 0")
 # create the seed for task graph
 0.upto(15).each do |num|
-  Task.create(title: "no.#{num} task", iteration: iteration)
+  Task.create(title: "no.#{num} task",
+              iteration: iteration,
+              task_status: 'unstarted',
+              task_callbacks: 'hello_world')
 end
 
 firstask_id = Task.all[0].id

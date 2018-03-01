@@ -1,0 +1,13 @@
+<%- task = Task.find(node) %>
+<td>
+  <div class="card">
+    <div class="card-header <%="task-#{task.task_status}"%>" >
+        <%= task.title%>
+    </div>
+    </div>
+    <div class="card-block">
+      <a href="#" class="card-link">See More</a>
+      <a href="#" class="card-link">Update</a>
+    </div>
+  </div>
+</td>
