@@ -127,24 +127,46 @@ end
 # create iteration
 iteration = Iteration.create(name: "Iteration 0")
 # create the seed for task graph
-0.upto(15).each do |num|
-  Task.create(title: "no.#{num} task",
-              iteration: iteration,
-              task_status: 'unstarted',
-              task_callbacks: 'hello_world')
-end
+t1 = Task.create(title: 'Task 1',
+                 iteration: iteration,
+                 task_status: 'finished',
+                 task_callbacks: 'hello_world')
+t2 = Task.create(title: 'Task 2',
+                 iteration: iteration,
+                 task_status: 'finished',
+                 task_callbacks: 'hello_world')
+t3 = Task.create(title: 'Task 3',
+                 iteration: iteration,
+                 task_status: 'started',
+                 task_callbacks: 'hello_world')
+t4 = Task.create(title: 'Task 4',
+                 iteration: iteration,
+                 task_status: 'danger',
+                 task_callbacks: 'hello_world')
+t5 = Task.create(title: 'Task 5',
+            iteration: iteration,
+            task_status: 'finished',
+            task_callbacks: 'hello_world')
+t6 = Task.create(title: 'Task 6',
+                 iteration: iteration,
+                 task_status: 'unstarted',
+                 task_callbacks: 'hello_world')
+t7 = Task.create(title: 'Task 7',
+                 iteration: iteration,
+                 task_status: 'unstarted',
+                 task_callbacks: 'hello_world')
+t8 = Task.create(title: 'Task 8',
+                 iteration: iteration,
+                 task_status: 'started',
+                 task_callbacks: 'hello_world')
 
-firstask_id = Task.all[0].id
-
-firstask_id.upto(firstask_id + 5).each do |num|
-  Taskedge.create(childtask_id: num, parenttask_id: num + 6)
-end
-(firstask_id + 5).upto(firstask_id + 14).each do |num|
-  Taskedge.create(childtask_id: num, parenttask_id: num + 1)
-end
-(firstask_id + 4).upto(firstask_id + 10).each do |num|
-  Taskedge.create(childtask_id: num - 1, parenttask_id: num + 1)
-end
+Taskedge.create(childtask_id: t2.id, parenttask_id: t1.id)
+Taskedge.create(childtask_id: t3.id, parenttask_id: t1.id)
+Taskedge.create(childtask_id: t4.id, parenttask_id: t2.id)
+Taskedge.create(childtask_id: t5.id, parenttask_id: t2.id)
+Taskedge.create(childtask_id: t6.id, parenttask_id: t3.id)
+Taskedge.create(childtask_id: t7.id, parenttask_id: t4.id)
+Taskedge.create(childtask_id: t8.id, parenttask_id: t5.id)
 
 end_date = Date.today
 start_date = end_date - 7.days
