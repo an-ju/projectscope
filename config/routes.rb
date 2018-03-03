@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   resources :tasks
   resources :iterations
 
+  get '/iteration_task/:iteration_id/task/:task_id', to: 'iterations#iteration_task'
   get '/login/:id', to: 'application#passthru', as: 'passthru'
   post '/log', to: 'projects#write_log'
 

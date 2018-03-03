@@ -1,4 +1,3 @@
-
 %h1
   = @iteration.name
 
@@ -10,9 +9,9 @@
       %tr
         %th
         -1.upto(@maxelem).each do |level|
-          %th
+          %th{style: 'text-align: center'}
             #{level}
-    %tbody
+    %tbody{style: 'text-align: center'}
       - @level.each do |nodes|
         %tr{id: "task_#{@iteration}"}
           %td
@@ -20,9 +19,8 @@
           - nodes.each do |node|
             -if node.nil?
               %td
-
             -else
-              = render partial: 'task', locals: {node: node}
+              = render partial: 'task', locals: {node: node, iteration: @iteration}
 
 :javascript
   keep_log=false;

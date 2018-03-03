@@ -6,8 +6,8 @@
     </div>
     </div>
     <div class="card-block">
-      <a href="#" class="card-link">See More</a>
-      <a href="#" class="card-link">Update</a>
+      <a href="/tasks/<%= task.id %>" class="card-link" >See More</a>
+      <a href = "/iteration_task/<%= @iteration.id %>/task/<%= task.id %>" action = 'put' class="card-link" >Update</a>
     </div>
   </div>
 </td>

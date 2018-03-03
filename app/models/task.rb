@@ -8,6 +8,10 @@ class Task < ActiveRecord::Base
   has_many :parentstask, through: :parentedge, source: :parenttask
   has_many :parentedge, foreign_key: :parentedge_id, class_name: "Taskedge"
 
+  Status = ['unstarted', 'started', 'finished','danger']
+  NormalStatus = ['unstarted', 'started', 'finished']
+  validates :task_status, presence: true, inclusion: { in: Status }
+
   def self.abstract_graph start_task
     children = Taskedge.find_children(start_task)
     graph = Hash.new
@@ -34,5 +38,10 @@ class Task < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def self.update_status task
+    next_status = NormalStatus[NormalStatus.index(task.task_status) + 1]
+    task.update_attributes(task_status: next_status)
   end
 end

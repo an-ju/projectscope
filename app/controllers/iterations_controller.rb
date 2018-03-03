@@ -64,6 +64,16 @@ class IterationsController < ApplicationController
     end
   end
 
+  def iteration_task
+    task = Task.find(params[:task_id])
+    @iteration = Iteration.find(params[:iteration_id])
+    Task.update_status task
+    @graph = Iteration.abstract_graph @iteration
+    @level = Iteration.graph_rank @graph
+    @maxelem = Iteration.max_level_elem @level
+    render :show
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_iteration
