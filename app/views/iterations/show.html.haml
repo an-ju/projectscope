@@ -8,14 +8,21 @@
   %table.table
     %thead
       %tr
+        %th
         -1.upto(@maxelem).each do |level|
           %th
-            level #{level}
+            #{level}
     %tbody
       - @level.each do |nodes|
         %tr{id: "task_#{@iteration}"}
+          %td
+            Level #{@level.index nodes}
           - nodes.each do |node|
-            = render partial: 'task', locals: {node: node}
+            -if node.nil?
+              %td
+
+            -else
+              = render partial: 'task', locals: {node: node}
 
 :javascript
   keep_log=false;
