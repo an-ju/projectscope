@@ -9,7 +9,11 @@ class Task < ActiveRecord::Base
   has_many :parentedge, foreign_key: :parentedge_id, class_name: "Taskedge"
 
   Status = ['unstarted', 'started', 'finished','danger']
-  NormalStatus = ['unstarted', 'started', 'finished']
+  StatusLink = {
+      'unstarted' => 'started',
+      'started' => 'finished',
+      'danger' => 'finished'
+  }
   validates :task_status, presence: true, inclusion: { in: Status }
 
   def self.abstract_graph start_task
@@ -41,7 +45,7 @@ class Task < ActiveRecord::Base
   end
 
   def self.update_status task
-    next_status = NormalStatus[NormalStatus.index(task.task_status) + 1]
+    next_status = StatusLink[task.task_status]
     task.update_attributes(task_status: next_status)
   end
 end
