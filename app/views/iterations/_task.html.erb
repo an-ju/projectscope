@@ -4,9 +4,14 @@
     <div class="card-header <%="task-#{task.task_status}"%>" >
         <%= task.title%>
     </div>
+    <div id="description-<%= task.id %>" class="collapse">
+      <div class="card-block">
+        <%= task.description %>
+      </div>
+    </div>
     </div>
     <div class="card-block">
-      <a href="/tasks/<%= task.id %>" class="card-link" >See More</a>
+      <button type="button" class="card-link" data-toggle="collapse" data-target="#description-<%= task.id %>">See More</button>
       <a href = "/iteration_task/<%= @iteration.id %>/task/<%= task.id %>" action = 'put' class="card-link" >Update</a>
     </div>
   </div>

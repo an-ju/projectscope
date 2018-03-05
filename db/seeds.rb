@@ -129,34 +129,42 @@ iteration = Iteration.create(name: "Iteration 0")
 # create the seed for task graph
 t1 = Task.create(title: 'Task 1',
                  iteration: iteration,
+                 description: 'Some contents about Task 1',
                  task_status: 'finished',
                  task_callbacks: 'hello_world')
 t2 = Task.create(title: 'Task 2',
                  iteration: iteration,
+                 description: 'Some contents about Task 2',
                  task_status: 'finished',
                  task_callbacks: 'hello_world')
 t3 = Task.create(title: 'Task 3',
                  iteration: iteration,
+                 description: 'Some contents about Task 3',
                  task_status: 'started',
                  task_callbacks: 'hello_world')
 t4 = Task.create(title: 'Task 4',
                  iteration: iteration,
+                 description: 'Some contents about Task 4',
                  task_status: 'danger',
                  task_callbacks: 'hello_world')
 t5 = Task.create(title: 'Task 5',
-            iteration: iteration,
-            task_status: 'finished',
-            task_callbacks: 'hello_world')
+                 iteration: iteration,
+                 description: 'Some contents about Task 5',
+                 task_status: 'finished',
+                 task_callbacks: 'hello_world')
 t6 = Task.create(title: 'Task 6',
                  iteration: iteration,
+                 description: 'Some contents about Task 6',
                  task_status: 'unstarted',
                  task_callbacks: 'hello_world')
 t7 = Task.create(title: 'Task 7',
                  iteration: iteration,
+                 description: 'Some contents about Task 7',
                  task_status: 'unstarted',
                  task_callbacks: 'hello_world')
 t8 = Task.create(title: 'Task 8',
                  iteration: iteration,
+                 description: 'Some contents about Task 8',
                  task_status: 'started',
                  task_callbacks: 'hello_world')
 
