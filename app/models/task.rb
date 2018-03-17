@@ -38,6 +38,9 @@ class Task < ActiveRecord::Base
     JSON.generate(graph)
   end
 
+  def updater
+    @updater = Updater::Updater.new
+  end
   def self.no_update? task
     parents = Taskedge.find_parents task
     parents.each do |parent|
