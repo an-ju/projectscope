@@ -67,7 +67,21 @@ class IterationsController < ApplicationController
   def iteration_task
     task = Task.find(params[:task_id])
     @iteration = Iteration.find(params[:iteration_id])
-    Task.update_status task
+    if Task.no_update? task
+      redirect_to @iteration, notice: 'Uable to update as parent not fiinished.'
+    else
+      Task.update_status task
+      @graph = Iteration.abstract_graph @iteration
+      @level = Iteration.graph_rank @graph
+      @maxelem = Iteration.max_level_elem @level
+      render :show
+    end
+  end
+
+  def iteration_task_reset
+    task = Task.find(params[:task_id])
+    @iteration = Iteration.find(params[:iteration_id])
+    Task.reset_status task
     @graph = Iteration.abstract_graph @iteration
     @level = Iteration.graph_rank @graph
     @maxelem = Iteration.max_level_elem @level

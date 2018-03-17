@@ -8,11 +8,16 @@ class Task < ActiveRecord::Base
   has_many :parentstask, through: :parentedge, source: :parenttask
   has_many :parentedge, foreign_key: :parentedge_id, class_name: "Taskedge"
 
+  has_many :updaters
+
+  # scope :require_updating, -> { where("status = 'STARTED'") }
+  include Updater
+
   Status = ['unstarted', 'started', 'finished','danger']
   StatusLink = {
-      'unstarted' => 'started',
-      'started' => 'finished',
-      'danger' => 'finished'
+    'unstarted' => 'started',
+    'started' => 'finished',
+    'danger' => 'finished'
   }
   validates :task_status, presence: true, inclusion: { in: Status }
 
@@ -33,6 +38,16 @@ class Task < ActiveRecord::Base
     JSON.generate(graph)
   end
 
+  def self.no_update? task
+    parents = Taskedge.find_parents task
+    parents.each do |parent|
+      if Task.find(parent).task_status != 'finished'
+        return true
+      end
+    end
+    false
+  end
+
   def self.add_taskedge parent_id, child_id
     if ( Task.exists?(parent_id) and Task.exists?(child_id) )
       edge = Taskedge.new
@@ -47,5 +62,9 @@ class Task < ActiveRecord::Base
   def self.update_status task
     next_status = StatusLink[task.task_status]
     task.update_attributes(task_status: next_status)
+  end
+
+  def self.reset_status task
+    task.update_attributes(task_status: 'unstarted')
   end
 end

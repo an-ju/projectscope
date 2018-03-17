@@ -57,7 +57,6 @@ class Iteration < ActiveRecord::Base
     rank
   end
 
-
   # Find out the height and length of the graph
   def self.max_level_elem ranklist
     ranklist.map{ |list| list.length }.max
