@@ -10,7 +10,7 @@ class Task < ActiveRecord::Base
 
   has_many :updaters
 
-  # scope :require_updating, -> { where("status = 'STARTED'") }
+  scope :require_updating, -> { where("status = 'started'") }
   include Updater
 
   Status = ['unstarted', 'started', 'finished','danger']
@@ -38,9 +38,10 @@ class Task < ActiveRecord::Base
     JSON.generate(graph)
   end
 
-  def updater
-    @updater = Updater::Updater.new
+  def updatable?
+    self.task_status == "started"
   end
+
   def self.no_update? task
     parents = Taskedge.find_parents task
     parents.each do |parent|
@@ -62,9 +63,13 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def self.update_status task
-    next_status = StatusLink[task.task_status]
-    task.update_attributes(task_status: next_status)
+  def update_status update_info
+    if (update_info[:update].equal?1) and self.updatable?
+      next_status = StatusLink[self.task_status]
+      self.update_attributes(task_status: next_status)
+    else
+      false
+    end
   end
 
   def self.reset_status task
