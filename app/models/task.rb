@@ -39,7 +39,11 @@ class Task < ActiveRecord::Base
   end
 
   def updatable?
-    self.task_status == "started"
+    (self.task_status == "started") or (self.task_status == "danger")
+  end
+
+  def startable?
+    self.task_status == "unstarted"
   end
 
   def self.no_update? task
@@ -64,11 +68,18 @@ class Task < ActiveRecord::Base
   end
 
   def update_status update_info
+    false
     if (update_info[:update].equal?1) and self.updatable?
       next_status = StatusLink[self.task_status]
       self.update_attributes(task_status: next_status)
-    else
-      false
+    end
+  end
+
+  def start_task
+    false
+    if self.startable?
+      next_status = StatusLink[self.task_status]
+      self.update_attributes(task_status: next_status)
     end
   end
 
