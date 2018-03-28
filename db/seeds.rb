@@ -127,54 +127,71 @@ end
 # create iteration
 iteration = Iteration.create(name: "Iteration 0")
 # create the seed for task graph
-t1 = Task.create(title: 'Task 1',
+t1 = Task.create(title: 'Customer Meeting',
                  iteration: iteration,
                  description: 'Some contents about Task 1',
                  task_status: 'finished',
                  task_callbacks: 'hello_world')
-t2 = Task.create(title: 'Task 2',
+t2 = Task.create(title: 'Iteration Planning',
                  iteration: iteration,
                  description: 'Some contents about Task 2',
                  task_status: 'finished',
                  task_callbacks: 'hello_world')
-t3 = Task.create(title: 'Task 3',
-                 iteration: iteration,
-                 description: 'Some contents about Task 3',
-                 task_status: 'started',
-                 task_callbacks: 'hello_world')
-t4 = Task.create(title: 'Task 4',
+t4 = Task.create(title: 'Story 1 Scenarios',
                  iteration: iteration,
                  description: 'Some contents about Task 4',
                  task_status: 'danger',
                  task_callbacks: 'hello_world')
-t5 = Task.create(title: 'Task 5',
+t5 = Task.create(title: 'Story 2 scenarios',
                  iteration: iteration,
                  description: 'Some contents about Task 5',
                  task_status: 'finished',
                  task_callbacks: 'hello_world')
-t6 = Task.create(title: 'Task 6',
+t6 = Task.create(title: 'Update Stories',
                  iteration: iteration,
                  description: 'Some contents about Task 6',
                  task_status: 'unstarted',
                  task_callbacks: 'hello_world')
-t7 = Task.create(title: 'Task 7',
+t7 = Task.create(title: 'Scenarios and Tests',
                  iteration: iteration,
                  description: 'Some contents about Task 7',
                  task_status: 'unstarted',
                  task_callbacks: 'hello_world')
-t8 = Task.create(title: 'Task 8',
+t8 = Task.create(title: 'Scenarios and Tests',
                  iteration: iteration,
                  description: 'Some contents about Task 8',
                  task_status: 'started',
                  task_callbacks: 'hello_world')
+t10 = Task.create(title: 'Lo-Fi UI mockup',
+                 iteration: iteration,
+                 description: 'Some contents about Task 8',
+                 task_status: 'started',
+                 task_callbacks: 'hello_world')
+t9 = Task.create(title: 'Lo-Fi UI mockup',
+                 iteration: iteration,
+                 description: 'Pass only get accepted by customers',
+                 task_status: 'unstarted',
+                 task_callbacks: 'hello_world')
+t11 = Task.create(title: 'Customer Accepted',
+                 iteration: iteration,
+                 description: 'Pass only get accepted by customers',
+                 task_status: 'unstarted',
+                 task_callbacks: 'hello_world')
+t12 = Task.create(title: 'Deployed',
+                 iteration: iteration,
+                 description: 'Pass only get accepted by customers',
+                 task_status: 'unstarted',
+                 task_callbacks: 'hello_world')
 
 Taskedge.create(childtask_id: t2.id, parenttask_id: t1.id)
-Taskedge.create(childtask_id: t3.id, parenttask_id: t1.id)
 Taskedge.create(childtask_id: t4.id, parenttask_id: t2.id)
 Taskedge.create(childtask_id: t5.id, parenttask_id: t2.id)
-Taskedge.create(childtask_id: t6.id, parenttask_id: t3.id)
 Taskedge.create(childtask_id: t7.id, parenttask_id: t4.id)
 Taskedge.create(childtask_id: t8.id, parenttask_id: t5.id)
+Taskedge.create(childtask_id: t9.id, parenttask_id: t4.id)
+Taskedge.create(childtask_id: t10.id, parenttask_id: t5.id)
+Taskedge.create(childtask_id: t11.id, parenttask_id: t7.id)
+Taskedge.create(childtask_id: t12.id, parenttask_id: t11.id)
 
 end_date = Date.today
 start_date = end_date - 7.days
