@@ -1,36 +1,38 @@
 module Updater
 
   class Updater
-
   end
 
+  # github updater to update the github task
   class GithubUpdater < Updater
-    def update
-
+    def self.update?
+      true
     end
 
-    def check_event event
-
+    def self.check_event event
+      nil
     end
   end
 
+  # pivotal updater to update the github task
   class PivotalUpdater < Updater
-    def update
-
+    def self.update?
+      true
     end
 
-    def check_event event
-
+    def self.check_event event
+      nil
     end
   end
 
+  # local updater to update the github task
   class LocalUpdater < Updater
-    def update
-
+    def self.update?
+      true
     end
 
-    def check_event event
-
+    def self.check_event event
+      nil
     end
   end
 

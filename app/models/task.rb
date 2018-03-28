@@ -8,8 +8,6 @@ class Task < ActiveRecord::Base
   has_many :parentstask, through: :parentedge, source: :parenttask
   has_many :parentedge, foreign_key: :parentedge_id, class_name: "Taskedge"
 
-  has_many :updaters
-
   scope :require_updating, -> { where("status = 'started'") }
   include Updater
 
@@ -19,7 +17,13 @@ class Task < ActiveRecord::Base
     'started' => 'finished',
     'danger' => 'finished'
   }
+  Updaters = ['github', 'started', 'finished', 'danger']
+  UPDATER = {
+      'github' => GithubUpdater ,
+      'pivotal' => PivotalUpdater ,
+      'local' => LocalUpdater }
   validates :task_status, presence: true, inclusion: { in: Status }
+  validates :updater_type, presence: true, inclusion: { in: Updaters}
 
   def self.abstract_graph start_task
     children = Taskedge.find_children(start_task)
@@ -68,8 +72,7 @@ class Task < ActiveRecord::Base
   end
 
   def update_status update_info
-    false
-    if (update_info[:update].equal?1) and self.updatable?
+    if UPDATER[self.updater_type].update? and self.updatable?
       next_status = StatusLink[self.task_status]
       self.update_attributes(task_status: next_status)
     end
