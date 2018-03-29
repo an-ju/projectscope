@@ -18,7 +18,7 @@ class Task < ActiveRecord::Base
     'started' => 'finished',
     'danger' => 'finished'
   }
-  Updaters = ['github', 'started', 'finished', 'danger']
+  Updaters = ['github', 'pivotal', 'local']
   UPDATER = {
       'github' => GithubUpdater ,
       'pivotal' => PivotalUpdater ,

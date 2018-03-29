@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180319182806) do
+ActiveRecord::Schema.define(version: 20180329164702) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "metric_sample_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20180319182806) do
     t.string   "updater_type"
     t.string   "string"
     t.datetime "update_time"
+    t.string   "updater_info"
   end
 
   add_index "tasks", ["iteration_id"], name: "index_tasks_on_iteration_id"
