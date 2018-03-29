@@ -22,9 +22,9 @@ Background: The default task is generated
     Then I will be able to see it's status become finished when I press fresh
     And I will be able to start the next task
 
-  Scenario: Student will have danger status when a task have probability of unable to be finished.
-    Given that I have a task that is danger
-    Then I won't be able to start its child task
-    # todo
+  Scenario: Student will have danger status when a task is in danger to be finished
+    Given that I have a default danger task that has one more day before it's due
+    Then The status of the task should be danger
+    And I won't be able to start its child task
 
 

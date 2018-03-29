@@ -1,3 +1,4 @@
+require 'json'
 class Task < ActiveRecord::Base
   belongs_to :iteration
 
@@ -71,7 +72,7 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def update_status update_info
+  def update_status
     if UPDATER[self.updater_type].update? and self.updatable?
       next_status = StatusLink[self.task_status]
       self.update_attributes(task_status: next_status)

@@ -17,7 +17,7 @@ Feature: update Task information through Updater from Event
   # examples of Event are listened by different updater
   Scenario: The github task is able to be updated after listening to Event
     Given "Github" default "unfinished" task is mapped to default branch
-    When Then "Github" updater receives information of a certain branch is merge back from Event
+    When "Github" updater receives information of the default branch is merge back from Event
     Then I will be able to see the the status of the "Github" default "unfinished" task become finished
 
   Scenario: The pivotal task is being updated after listening to Event
