@@ -43,7 +43,8 @@ class TasksController < ApplicationController
   end
 
   def call_back_handler
-
+    Task.callback_updater(params[:call_back_token])
+    redirect_to 'iteration#show'
   end
 
   # DELETE /tasks/1
