@@ -38,9 +38,13 @@ Rails.application.routes.draw do
   resources :tasks
   resources :iterations
 
-  get '/iteration_task/:iteration_id/task/:task_id', to: 'iterations#iteration_task'
+  get '/iteration_task/:iteration_id/task/:task_id',
+      to: 'iterations#iteration_task'
+  get '/iteration_task_reset/:iteration_id/task/:task_id',
+      to: 'iterations#iteration_task_reset'
   get '/login/:id', to: 'application#passthru', as: 'passthru'
   post '/log', to: 'projects#write_log'
 
+  match 'event/:callback_token/callback', to: "tasks#call_back_handler"
   root 'projects#index'
 end

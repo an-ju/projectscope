@@ -73,8 +73,15 @@ class Task < ActiveRecord::Base
   end
 
   def update_status
-    if UPDATER[self.updater_type].update? and self.updatable?
-      next_status = StatusLink[self.task_status]
+    if  self.updatable?
+      UPDATER[self.updater_type].update
+      #next_status = StatusLink[self.task_status]
+      #self.update_attributes(task_status: next_status)
+    end
+  end
+
+  def self.callback_updater update_info
+    if UPDATER[self.updater_type].analysis_call_back update_info
       self.update_attributes(task_status: next_status)
     end
   end
