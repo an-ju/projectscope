@@ -131,56 +131,67 @@ t1 = Task.create(title: 'Customer Meeting',
                  iteration: iteration,
                  description: 'Some contents about Task 1',
                  task_status: 'finished',
+                 updater_type: 'github',
                  task_callbacks: 'hello_world')
 t2 = Task.create(title: 'Iteration Planning',
                  iteration: iteration,
                  description: 'Some contents about Task 2',
                  task_status: 'finished',
+                 updater_type: 'github',
                  task_callbacks: 'hello_world')
 t4 = Task.create(title: 'Story 1 Scenarios',
                  iteration: iteration,
                  description: 'Some contents about Task 4',
                  task_status: 'danger',
+                 updater_type: 'github',
                  task_callbacks: 'hello_world')
 t5 = Task.create(title: 'Story 2 scenarios',
                  iteration: iteration,
                  description: 'Some contents about Task 5',
                  task_status: 'finished',
+                 updater_type: 'local',
                  task_callbacks: 'hello_world')
 t6 = Task.create(title: 'Update Stories',
                  iteration: iteration,
                  description: 'Some contents about Task 6',
                  task_status: 'unstarted',
+                 updater_type: 'local',
                  task_callbacks: 'hello_world')
 t7 = Task.create(title: 'Scenarios and Tests',
                  iteration: iteration,
                  description: 'Some contents about Task 7',
                  task_status: 'unstarted',
+                 updater_type: 'local',
                  task_callbacks: 'hello_world')
 t8 = Task.create(title: 'Scenarios and Tests',
                  iteration: iteration,
                  description: 'Some contents about Task 8',
                  task_status: 'started',
+                 updater_type: 'local',
                  task_callbacks: 'hello_world')
 t10 = Task.create(title: 'Lo-Fi UI mockup',
                  iteration: iteration,
                  description: 'Some contents about Task 8',
                  task_status: 'started',
+                 updater_type: 'local',
                  task_callbacks: 'hello_world')
 t9 = Task.create(title: 'Lo-Fi UI mockup',
                  iteration: iteration,
                  description: 'Pass only get accepted by customers',
                  task_status: 'unstarted',
+                 updater_type: 'local',
                  task_callbacks: 'hello_world')
 t11 = Task.create(title: 'Customer Accepted',
                  iteration: iteration,
                  description: 'Pass only get accepted by customers',
                  task_status: 'unstarted',
+                  updater_type: 'local',
                  task_callbacks: 'hello_world')
 t12 = Task.create(title: 'Deployed',
                  iteration: iteration,
                  description: 'Pass only get accepted by customers',
                  task_status: 'unstarted',
+                 updater_type: 'pivotal',
                  task_callbacks: 'hello_world')
 
 Taskedge.create(childtask_id: t2.id, parenttask_id: t1.id)

@@ -11,14 +11,6 @@ class Iteration < ActiveRecord::Base
     graph
   end
 
-  def self.abstract_graph_parent iteration_id
-    tasks = Task.where(iteration: iteration_id)
-    graph = Hash.new
-    tasks.each { |task| graph[task.id] = Taskedge.find_parents task }
-    # JSON.generate(graph)
-    graph
-  end
-
   # return the graph rank
   def self.graph_rank graph
     level = 0
