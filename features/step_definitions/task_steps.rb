@@ -8,6 +8,23 @@ Given(/^the following task graph configs:$/) do |table|
   end
 end
 
+Given /the following Iteration exist:$/ do |table|
+  table.hashes.each do |hash|
+    Iteration.create hash
+  end
+  @iteration = Iteration.all
+end
+
+Given /the "([^\"]*)" iteration is map with the following tasks:$/ do |iter_name, table|
+  @iteration = Iteration.find_by(name: iter_name)
+  table.hashes.each do |hash|
+    task = Task.new(hash)
+    task.iteration_id = @iteration.id
+    task.task_status = 'started'
+    task.save.should be_truthy
+  end
+end
+
 Given /^"Github" default "started" task is mapped to "default branch"/ do
   @task = Task.new(title: "github branch task", task_status: "started", updater_type: "github",
               description: "this task is for testing the github call back")

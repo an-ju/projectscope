@@ -27,4 +27,3 @@ Background: The default task is generated
     Then The status of the task should be danger
     And I won't be able to start its child task
 
-
