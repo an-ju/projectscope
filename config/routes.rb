@@ -44,7 +44,8 @@ Rails.application.routes.draw do
       to: 'iterations#iteration_task_reset'
   get '/login/:id', to: 'application#passthru', as: 'passthru'
   post '/log', to: 'projects#write_log'
-
-  match 'event/:callback_token/callback', to: "tasks#call_back_handler"
+  post 'iterations/update_all',
+       to: 'iterations#update_all', as: 'update_all_task'
+  post 'event/:callback_token/callback', to: "tasks#call_back_handler"
   root 'projects#index'
 end

@@ -10,7 +10,7 @@ class IterationsController < ApplicationController
   # GET /iterations/1
   # GET /iterations/1.json
   def show
-    @graph = Iteration.abstract_graph @iteration
+    @graph = @iteration.abstract_graph
     @level = Iteration.graph_rank @graph
     @maxelem = Iteration.max_level_elem @level
   end
@@ -62,6 +62,10 @@ class IterationsController < ApplicationController
       format.html { redirect_to iterations_url, notice: 'Iteration was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def update_all
+    render :show
   end
 
   def iteration_task

@@ -1,26 +1,17 @@
-%h1
-  = @iteration.name
-
-%div.col-md-6
+%div.col-md-10
   %h2
-    Tasks
+    Iteration
+  %div
+    = button_to 'update all', update_all_task_path
   %table.table
-    %thead
-      %tr
-        %th
-        -1.upto(@maxelem).each do |level|
-          %th{style: 'text-align: center'}
-            #{level}
     %tbody{style: 'text-align: center'}
       - @level.each do |nodes|
         %tr{id: "task_#{@iteration}"}
           %td
-            Level #{@level.index nodes}
           - nodes.each do |node|
             -if node.nil?
               %td
             -else
               = render partial: 'task', locals: {node: node, iteration: @iteration}
-
 :javascript
   keep_log=false;
