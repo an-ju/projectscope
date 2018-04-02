@@ -1,17 +1,16 @@
 FactoryGirl.define do
   factory :task do
-    factory :githubtask do
-      title 'githubtask'
+    task_status 'started'
+
+    trait :github do
       updater_type 'github'
     end
 
-    factory :pivotaltask do
-      title 'pivotaltask'
+    trait :pivotal do
       updater_type 'pivotal'
     end
 
-    factory :localtask do
-      titile 'localtask'
+    trait :local do
       updater_type 'local'
     end
   end
