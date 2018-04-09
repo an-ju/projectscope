@@ -72,12 +72,20 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def update_status
+  def update_status event_name, event_function
     if  self.updatable?
       UPDATER[self.updater_type].update
       #next_status = StatusLink[self.task_status]
       #self.update_attributes(task_status: next_status)
     end
+  end
+
+  # iterate through
+  def self.tasks_update_all tasks, event_name, event_function
+    tasks.each do |task|
+      task.update_status event_name, event_function
+    end
+    true
   end
 
   def self.callback_updater update_info

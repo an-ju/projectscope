@@ -1,16 +1,16 @@
 require 'rails_helper'
 require 'faraday'
+require 'webmock/rspec'
+require 'json'
 
 RSpec.describe IterationsController, type: :controller do
-
+  before(:each) do
+    @iteration = create(:iteration)
+    @github_task = create(:task, :github, iteration_id: @iteration.id)
+    @local_task = create(:task, :local, iteration_id: @iteration.id)
+    @pivotal_task = create(:task, :pivotal, iteration_id: @iteration.id)
+  end
   describe 'show task graph' do
-    before(:each) do
-      @iteration = create(:iteration)
-      @github_task = create(:task, :github, iteration_id: @iteration.id)
-      @local_task = create(:task, :local, iteration_id: @iteration.id)
-      @pivotal_task = create(:task, :pivotal, iteration_id: @iteration.id)
-    end
-
     it "should get the all tasks iteration have" do
       expect(Task.where(iteration_id: @iteration.id)).to include @github_task
       expect(Task.where(iteration_id: @iteration.id)).to include @local_task
@@ -19,33 +19,20 @@ RSpec.describe IterationsController, type: :controller do
   end
 
   describe 'update all send request'do
-    before(:each) do
-      @iteration = create(:iteration)
-      @github_task = create(:task, :github, iteration_id: @iteration.id)
-      @local_task = create(:task, :local, iteration_id: @iteration.id)
-      @pivotal_task = create(:task, :pivotal, iteration_id: @iteration.id)
-    end
-
     it "identify all task that are not finished" do
       skip
     end
 
-    let(:update_task_request) {
-      Faraday.new do |builder|
-        builder.adapter :test, http_stubs
-      end
-    }
-
 
 
     it "send iteration id and time_stamp to event" do
-      skip
       # work when the request is able to be sent
       # todo
       # request = Faraday.new(url: '/events') do
       #  request.request :url_encoded
       # end
-      uri = URI('https://api.github.com/repos/thoughtbot/factory_girl/contributors')
+      skip
+      uri = URI('https://api.api_specify_by_events_in_the_future')
 
       response = Net::HTTP.get(uri)
 
@@ -53,20 +40,45 @@ RSpec.describe IterationsController, type: :controller do
     end
   end
 
+  let(:event_request) { Faraday::Adapter::Test::Stubs.new() }
+
   describe 'event call back update task graph' do
+    # stub the name of the http response from event
     before(:each) do
-      event_request = Faraday::Adapter::Test::Stubs.new
-      event_request(:get, '/events/update_all').
-          with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
-          to_return(status: 200, body: "stubbed response", headers: {})
+      response_hash = {:event_update => "Stub working", :time_stamp => "12324"}
+      stub_request(:get, /api.projects_scope_events.com/).
+          with(headers: {'Accept'=>'*/*',
+                         'Host'=>'api.projects_scope_events.com',
+                         'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                         'User-Agent'=>'Faraday v0.12.2',
+                         'User-Agent'=>'Ruby'}).
+          to_return(status: 200, body: JSON[response_hash], headers: {:content_type => 'json'})
+      @url = 'https://api.projects_scope_events.com'
     end
 
-    it "gets the right thing" do
-      uri = URI('/events/update_all')
-
+    it "get response from the stub events api" do
+      uri = URI('https://api.projects_scope_events.com/update_event')
       response = Net::HTTP.get(uri)
+      response_hash = JSON.parse(response)
+      expect(response_hash["event_update"]).to eq("Stub working")
+    end
 
-      expect(response).to be_an_instance_of(String)
+    it "get response through farady gem" do
+      skip
+      allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(
+          double("response", status: 200, body: "some data")
+      )
+      graph_update_request = Faraday.new(url:'https://api.projects_scope_events.com')
+      response = graph_update_request.get '/update_event'
+      response_hash = JSON.parse(response.body)
+      expect(response_hash["event_update"]).to eq("Stub working")
+    end
+
+    it "handle error events api authorization" do
+      uri = URI('https://api.projects_scope_events.com/update_event')
+      response = Net::HTTP.get(uri)
+      response_hash = JSON.parse(response)
+      expect(Iteration.update_task_graph response_hash).not_to be_nil
     end
 
     it "iterate through all the unfinished task and parse them with return new events" do

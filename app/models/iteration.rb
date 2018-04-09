@@ -53,4 +53,12 @@ class Iteration < ActiveRecord::Base
   def self.max_level_elem ranklist
     ranklist.map{ |list| list.length }.max
   end
+
+  # Update all task
+  def self.update_task_graph event_update_hash
+    event_update_hash.each do |key, value|
+      puts key
+    end
+    true
+  end
 end

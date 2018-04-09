@@ -69,6 +69,10 @@ class IterationsController < ApplicationController
   def update_all
     @iteration = Iteration.find(params[:iteration_id])
     redirect_to @iteration
+    # the following are temporarily commented as events is not deployed
+    # response = Events::update_all
+    # response_hash = JSON.parse(response)
+    # Iteration.task_graph_update response_hash
   end
 
   def iteration_task
