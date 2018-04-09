@@ -1,3 +1,5 @@
+require 'faraday'
+
 class IterationsController < ApplicationController
   before_action :set_iteration, only: [:show, :edit, :update, :destroy]
 
@@ -65,7 +67,8 @@ class IterationsController < ApplicationController
   end
 
   def update_all
-    render :show
+    @iteration = Iteration.find(params[:iteration_id])
+    redirect_to @iteration
   end
 
   def iteration_task
@@ -75,21 +78,15 @@ class IterationsController < ApplicationController
       redirect_to @iteration, notice: 'Uable to update as parent not fiinished.'
     else
       Task.update_status task
-      @graph = Iteration.abstract_graph @iteration
-      @level = Iteration.graph_rank @graph
-      @maxelem = Iteration.max_level_elem @level
-      render :show
+      redirect_to @iteration
     end
   end
 
   def iteration_task_reset
     task = Task.find(params[:task_id])
     @iteration = Iteration.find(params[:iteration_id])
-    Task.reset_status task
-    @graph = Iteration.abstract_graph @iteration
-    @level = Iteration.graph_rank @graph
-    @maxelem = Iteration.max_level_elem @level
-    render :show
+    task.reset_status
+    redirect_to @iteration
   end
 
   private

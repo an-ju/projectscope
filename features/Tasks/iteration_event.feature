@@ -18,4 +18,4 @@ Feature: Started tasks will be send and receive update info in iteration package
   Scenario: Iteration send request and receive callback from event of all new events
     Given I am on the iteration page for "IterationEvent"
     And I press "update all"
-    Then Task will be updated if they reach the requirement to update
+    Then Tasks will be updated if they reach the requirement to update

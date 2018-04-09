@@ -2,7 +2,9 @@
   %h2
     Iteration
   %div
-    = button_to 'update all', update_all_task_path
+    = button_to 'update all', update_all_task_path(:iteration_id => @iteration.id)
+    = button_to 'create task', update_all_task_path(:iteration_id => @iteration.id)
+    = render partial: 'create_task',locals: {iteration:@iteration}
   %table.table
     %tbody{style: 'text-align: center'}
       - @level.each do |nodes|

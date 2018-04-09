@@ -94,7 +94,7 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def self.reset_status task
-    task.update_attributes(task_status: 'unstarted')
+  def reset_status
+    self.update_attributes(task_status: 'unstarted')
   end
 end

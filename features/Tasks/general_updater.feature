@@ -14,7 +14,6 @@ Feature: update Task information through Updater from Event
       | name             | project      | TaskGraph        | Github        | Pivotal        | Local        |
       | DefaultTaskGraph | LocalSupport | DefaultTaskGraph | DefaultGithub | DefaultPivotal | DefaultLocal |
 
-  # examples of Event are listened by different updater
   Scenario: The github task is able to be updated after listening to Event
     Given "Github" default "started" task is mapped to "default branch"
     When "Github" updater receives information of the "default branch" is merge back from Event

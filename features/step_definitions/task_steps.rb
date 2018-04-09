@@ -25,6 +25,18 @@ Given /the "([^\"]*)" iteration is map with the following tasks:$/ do |iter_name
   end
 end
 
+Then /^I send update request to events and receive "([^\"]*)"/ do |event_call_back|
+
+end
+
+Given /^that we receive a "([^\"]*)" in event call back "([^\"]*)"/ do |event, call_back|
+
+end
+
+Given /^I will see drop down in "([^\"]*)"/ do |tasks|
+  new_tasks = tasks.split(" and ")
+end
+
 Given /^"Github" default "started" task is mapped to "default branch"/ do
   @task = Task.new(title: "github branch task", task_status: "started", updater_type: "github",
               description: "this task is for testing the github call back")

@@ -5,8 +5,11 @@ Feature: Student select map event after iteration pull from events in a drop dow
 
   Background: I have a task graph and new event just came in
     Given I am logged in as student
-    And I am under "map task iteration" with the following tasks:
-      | title       | updater_type | update_status |
+    And the following Iteration exist:
+      | name             |
+      | IterationStudent |
+    And the "IterationStudent" iteration is map with the following tasks:
+      | title       | updater_type | task_status   |
       | githubTask  | github       | started       |
       | pivotalTask | pivotal      | started       |
       | localTask   | local        | started       |
@@ -17,9 +20,13 @@ Feature: Student select map event after iteration pull from events in a drop dow
       | pivotalTask2| pivotal      | danger        |
       | localTask2  | local        | danger        |
 
-    Then I send update request to events and receive "event_call_back"
+    Then I send update request to events and receive "Iteration_event_call_back"
 
-  Scenario: I will iterate though the tasks and events and map them
-    
+  Scenario: I will iterate though the tasks and events and update the drop down in task to mep them to event
+    Given that we receive a "github event" in event call back "Iteration_event_call_back"
+    Then I will see drop down in "githubTask and githubTask1"
+    And I will be able to select "right branch" for "githubTask"
 
-  Scenario: I will update the tasks if they reach the requirement
+  Scenario: I will update the tasks if they reach the requirement of update
+    Given that "github event" is "right branch" merge to master branch
+    Then the "githubTask" will be updated
