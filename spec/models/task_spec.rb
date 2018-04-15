@@ -1,15 +1,12 @@
 require 'rails_helper'
 
 describe Task do
-  describe 'danger when possibly unable to finish task' do
-    skip
-  end
-
   before(:each) do
     @iteration = create(:iteration)
     @github_task = create(:task, :github, iteration_id: @iteration.id)
     @local_task = create(:task, :local, iteration_id: @iteration.id)
     @pivotal_task = create(:task, :pivotal, iteration_id: @iteration.id)
+    @danger_task = create(:task, :pivotal, iteration_id: @iteration.id, task_status:'danger')
   end
 
   describe 'create three types of tasks' do
@@ -30,14 +27,50 @@ describe Task do
     before(:each) do
       @tasks = Task.where(iteration: @iteration.id)
     end
+    it 'task with status started should be updatable' do
+      expect(@local_task.updatable?).to be(true)
+    end
+
+    it 'task with status danger should be able to udpate' do
+      expect(@danger_task.task_status).to eq('danger')
+      expect(@danger_task.updatable?).to be (true)
+    end
+
     it 'receive event hash and iterate itself' do
       expect(Task.tasks_update_all(@tasks, "customer meeting", "true")).not_to be_nil
     end
+
+    it 'the iterate function is going to update the key and value of certain task' do
+      Task.tasks_update_all(@tasks, "customer meeting", "true")
+      @local_task = Task.find_by_updater_type('local')
+      expect(@local_task.task_status).to eq('finished')
+    end
+
+    it 'update each task' do
+      expect(@local_task.update_status("custoemer meeting","true")).not_to be_nil
+    end
+
+    it 'successfully update the task' do
+      @local_task.update_status("custoemer meeting","true")
+      expect(@local_task.task_status).to eq("finished")
+    end
+
+
+
+  end
+
+  describe 'update the task when reach requirement' do
+    skip
   end
 
   describe 'update only started' do
     skip
   end
+
+  describe 'danger when possibly unable to finish task' do
+    skip
+  end
+
 
   describe 'start task when only if parent task finished' do
     skip

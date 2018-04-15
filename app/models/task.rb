@@ -51,7 +51,7 @@ class Task < ActiveRecord::Base
     self.task_status == "unstarted"
   end
 
-  def self.no_update? task
+  def self.no_started? task
     parents = Taskedge.find_parents task
     parents.each do |parent|
       if Task.find(parent).task_status != 'finished'
@@ -73,23 +73,24 @@ class Task < ActiveRecord::Base
   end
 
   def update_status event_name, event_function
-    if  self.updatable?
-      UPDATER[self.updater_type].update
+    # we will use the event name to find out the updater in upcoming week
+    if self.updatable?
+      UPDATER[self.updater_type].update self,event_function
       #next_status = StatusLink[self.task_status]
       #self.update_attributes(task_status: next_status)
-    end
-  end
-
-  # iterate through
-  def self.tasks_update_all tasks, event_name, event_function
-    tasks.each do |task|
-      task.update_status event_name, event_function
     end
     true
   end
 
-  def self.callback_updater update_info
-    if UPDATER[self.updater_type].analysis_call_back update_info
+  # iterate through
+  def self.tasks_update_all tasks, event_name, event_value
+    tasks.each do |task|
+      task.update_status event_name, event_value
+    end
+  end
+
+  def callback_updater key, value
+    if UPDATER[self.updater_type].analysis_call_back ({key => value})
       self.update_attributes(task_status: next_status)
     end
   end

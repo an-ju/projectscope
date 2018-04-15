@@ -55,9 +55,10 @@ class Iteration < ActiveRecord::Base
   end
 
   # Update all task
-  def self.update_task_graph event_update_hash
+  def update_task_graph event_update_hash
+    tasks = Task.where(iteration_id: self.id)
     event_update_hash.each do |key, value|
-      puts key
+      Task.tasks_update_all tasks, key,value
     end
     true
   end
