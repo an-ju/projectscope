@@ -53,4 +53,15 @@ module Updater
     end
   end
 
+  class DevelopmentUpdater < Updater
+    def self.update task, key, value
+      if (value == 'true' and task.title == key)
+        task.update_attributes(task_status: 'finished')
+      end
+    end
+
+    def self.analysis_call_back localdata
+      nil
+    end
+  end
 end

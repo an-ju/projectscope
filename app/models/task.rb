@@ -18,17 +18,19 @@ class Task < ActiveRecord::Base
     'started' => 'finished',
     'danger' => 'finished'
   }
-  Updaters = ['github', 'pivotal', 'local', 'preliminary']
+  Updaters = ['github', 'pivotal', 'local', 'preliminary', 'development']
   UPDATER = {
       'github' => GithubUpdater ,
       'pivotal' => PivotalUpdater ,
       'local' => LocalUpdater,
-      'preliminary' => PreliminaryUpdater
+      'preliminary' => PreliminaryUpdater,
+      'development' => DevelopmentUpdater
   }
-  TaskTitles = ['Customer Meeting','Iteration Planning', 'GSI Meeting', 'Scrum meeting', 'Configuration Setup', 'Test Title']
+  DevTaskTitles = ['Lo-fi Mockup','Pair programming','Code Review','Finish Story','TDD and BDD','Points Estimation','Pull Request']
+  PreTaskTitles = ['Customer Meeting','Iteration Planning', 'GSI Meeting', 'Scrum meeting', 'Configuration Setup', 'Test Title']
   validates :task_status, presence: true, inclusion: { in: Status }
   validates :updater_type, presence: true, inclusion: { in: Updaters }
-  validates :title, inclusion: { in: TaskTitles }
+  validates :title, inclusion: { in: PreTaskTitles | DevTaskTitles }
 
   def self.abstract_graph start_task
     children = Taskedge.find_children(start_task)

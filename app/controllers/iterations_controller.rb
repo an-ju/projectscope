@@ -12,11 +12,12 @@ class IterationsController < ApplicationController
   # GET /iterations/1
   # GET /iterations/1.json
   def show
-    @graph = @iteration.abstract_graph
+    # @graph = @iteration.abstract_graph
     @tasks = Task.where(iteration: @iteration.id)
     @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
-    @level = Iteration.graph_rank @graph
-    @maxelem = Iteration.max_level_elem @level
+    @devTasks = @tasks.select{|task| task.updater_type == 'development'}
+    # @level = Iteration.graph_rank @graph
+    # @maxelem = Iteration.max_level_elem @level
   end
 
   # GET /iterations/new

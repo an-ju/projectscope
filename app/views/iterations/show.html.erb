@@ -5,4 +5,10 @@
         <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
     <% end %>
   </div>
+  <a class="btn btn-primary" href="#" role="button">Development Task</a>
+  <div class = "card-group">
+    <% @devTasks.each do |task| %>
+        <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
+    <% end %>
+  </div>
 </div>
