@@ -1,10 +1,9 @@
 %div.col-md-10
   %h2
     Iteration
-  %div
-    = button_to 'update all', update_all_tasks_path(:iteration_id => @iteration.id)
-    = button_to 'create task', update_all_tasks_path(:iteration_id => @iteration.id)
-    = render partial: 'create_task',locals: {iteration:@iteration}
+  %div.btn-group.btn-group-lg
+    = button_to 'update all', update_all_tasks_path(:iteration_id => @iteration.id),{class:"btn btn-primary"}
+    = button_to 'create task', update_all_tasks_path(:iteration_id => @iteration.id),{class:"btn btn-primary"}
   %table.table
     %tbody{style: 'text-align: center'}
       - @level.each do |nodes|

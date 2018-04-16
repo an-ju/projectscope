@@ -25,8 +25,7 @@ class Task < ActiveRecord::Base
       'local' => LocalUpdater,
       'preliminary' => PreliminaryUpdater
   }
-  TaskTitles = ['Customer Meeting','Iteration Planning', 'GSI Meeting', 'Scrum meeting'
-  , 'Configuration Setup', 'Test Title']
+  TaskTitles = ['Customer Meeting','Iteration Planning', 'GSI Meeting', 'Scrum meeting', 'Configuration Setup', 'Test Title']
   validates :task_status, presence: true, inclusion: { in: Status }
   validates :updater_type, presence: true, inclusion: { in: Updaters }
   validates :title, inclusion: { in: TaskTitles }
@@ -80,11 +79,11 @@ class Task < ActiveRecord::Base
   def update_status event_name, event_function
     # we will use the event name to find out the updater in upcoming week
     if self.updatable?
-      UPDATER[self.updater_type].update self,event_function
+      UPDATER[self.updater_type].update self,event_name, event_function
+      self
       #next_status = StatusLink[self.task_status]
       #self.update_attributes(task_status: next_status)
     end
-    true
   end
 
   # iterate through

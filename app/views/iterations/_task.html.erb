@@ -1,18 +1,16 @@
 <%- task = Task.find(node) %>
 <td>
-  <div class="card">
+  <div class="card-block" style="width: 18rem;">
     <div class="card-header <%="task-#{task.task_status}"%>" >
-        <%= task.title%>
+      <h5 class="card-title"><%= task.title%></h5>
+      <p class="card-text"><%= task.description %></p>
+      <a href="#" class="card-link"> Delete </a>
+      <a href="#" class="card-link"> Update </a>
     </div>
     <div id="description-<%= task.id %>" class="collapse">
       <div class="card-block">
         <%= task.description %>
       </div>
-    </div>
-    </div>
-    <div class="card-block">
-      <button type="button" class="card-link" data-toggle="collapse" data-target="#description-<%= task.id %>">See More</button>
-      <a href =  "/iteration_task_reset/<%= @iteration.id %>/task/<%= task.id %>" action = 'put' class="card-link" >Reset</abutton>
     </div>
   </div>
 </td>

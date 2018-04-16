@@ -9,6 +9,8 @@ RSpec.describe IterationsController, type: :controller do
     @github_task = create(:task, :github, iteration_id: @iteration.id)
     @local_task = create(:task, :local, iteration_id: @iteration.id)
     @pivotal_task = create(:task, :pivotal, iteration_id: @iteration.id)
+    @CM_task = create(:task, :preliminary, iteration_id: @iteration.id, title: 'Customer Meeting')
+
   end
   describe 'show task graph' do
     it "should get the all tasks iteration have" do
@@ -45,13 +47,14 @@ RSpec.describe IterationsController, type: :controller do
   describe 'event call back update task graph' do
     # stub the name of the http response from event
     before(:each) do
-      response_hash = {:event_update => "Stub working", :time_stamp => "12324", "customer meeting"=>"true"}
+      response_hash = {:event_update => "Stub working", :time_stamp => "12324", "Customer Meeting"=>"true"}
       stub_request(:get, /api.projects_scope_events.com/).
           with(headers: {'Accept'=>'*/*',
                          'Host'=>'api.projects_scope_events.com',
                          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                          'User-Agent'=>'Faraday v0.12.2',
-                         'User-Agent'=>'Ruby'}).
+                         'User-Agent'=>'Ruby',
+          }).
           to_return(status: 200, body: JSON[response_hash], headers: {:content_type => 'json'})
       @url = 'https://api.projects_scope_events.com'
     end
@@ -86,8 +89,8 @@ RSpec.describe IterationsController, type: :controller do
       response = Net::HTTP.get(uri)
       response_hash = JSON.parse(response)
       @iteration.update_task_graph response_hash
-      @local_task = Task.find_by_updater_type('local')
-      expect(@local_task.task_status).to eq('finished')
+      task = Task.find_by_title('Customer Meeting')
+      expect(task.task_status).to eq('finished')
     end
 
     it "send task to update if they are parsed in" do

@@ -5,6 +5,7 @@ describe Task do
     @iteration = create(:iteration)
     @github_task = create(:task, :github, iteration_id: @iteration.id)
     @local_task = create(:task, :local, iteration_id: @iteration.id)
+    @cm_task = create(:task, :preliminary, iteration_id: @iteration.id, title: 'Customer Meeting')
     @pivotal_task = create(:task, :pivotal, iteration_id: @iteration.id)
     @danger_task = create(:task, :pivotal, iteration_id: @iteration.id, task_status:'danger')
   end
@@ -41,18 +42,19 @@ describe Task do
     end
 
     it 'the iterate function is going to update the key and value of certain task' do
-      Task.tasks_update_all(@tasks, "customer meeting", "true")
-      @local_task = Task.find_by_updater_type('local')
-      expect(@local_task.task_status).to eq('finished')
+      Task.tasks_update_all(@tasks, "Customer Meeting", "true")
+      task = Task.find_by_title("Customer Meeting")
+      expect(task.task_status).to eq('finished')
     end
 
     it 'update each task' do
-      expect(@local_task.update_status("custoemer meeting","true")).not_to be_nil
+      expect(@cm_task.update_status("Customer Meeting","true")).not_to be_nil
     end
 
     it 'successfully update the task' do
-      @local_task.update_status("custoemer meeting","true")
-      expect(@local_task.task_status).to eq("finished")
+      @cm_task.update_status("Customer Meeting","true")
+      task = Task.find_by_title('Customer Meeting')
+      expect(task.task_status).to eq('finished')
     end
 
 

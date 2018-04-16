@@ -29,6 +29,9 @@ Then /^I send update request to events and receive "([^\"]*)"/ do |event_call_ba
 
 end
 
+Then /^I should see a "([^\"]*)" section/ do |section_name|
+  
+end
 Given /^that we receive a "([^\"]*)" in event call back "([^\"]*)"/ do |event, call_back|
 
 end

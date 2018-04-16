@@ -16,6 +16,11 @@ Background: I'm having some existing preliminary graph task
     | GSI Meeting         | preliminary       | unstarted   |
     | Configuration Setup | preliminary       | unstarted   |
 
+  Scenario: I should see all the preliminary tasks in my task graph page
+    Given I am on the iteration page for "IterationPreliminary"
+    Then I should see a "preliminary" section
+    And all the preliminary tasks are in the preliminary section
+
   Scenario: the task will be update when the title name is matched and result is true
     Given I receive a "Customer Meeting" with value "true" from event
     Then the "Customer Meeting" task will be able to update

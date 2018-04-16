@@ -6,13 +6,9 @@ module Updater
 
   # github updater to update the github task
   class GithubUpdater < Updater
-    def self.update task,value
+    def self.update task,key,value
       # Here we are going to call event api in the future and receive call back
-      check_event
-    end
-
-    def self.check_event
-      true
+      task.update_attributes(task_status: 'finished')
     end
 
     def self.analysis_call_back githubdata
@@ -22,12 +18,8 @@ module Updater
 
   # pivotal updater to update the github task
   class PivotalUpdater < Updater
-    def self.update task,value
-      check_event
-    end
-
-    def self.check_event
-      true
+    def self.update task,key,value
+      task.update_attributes(task_status: 'finished')
     end
 
     def self.analysis_call_back pivotaldata
@@ -43,10 +35,6 @@ module Updater
       end
     end
 
-    def self.check_event
-      true
-    end
-
     def self.analysis_call_back localdata
       nil
     end
@@ -58,10 +46,6 @@ module Updater
       if (value == 'true' and task.title == key)
         task.update_attributes(task_status: 'finished')
       end
-    end
-
-    def self.check_event
-      true
     end
 
     def self.analysis_call_back localdata
