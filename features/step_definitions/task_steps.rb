@@ -25,19 +25,21 @@ Given /the "([^\"]*)" iteration is map with the following tasks:$/ do |iter_name
   end
 end
 
-Then /^I send update request to events and receive "([^\"]*)"/ do |event_call_back|
-
+Given /^I receive a "([^\"]*)" with value "([^\"]*)" from event/ do |key, value|
+  @tasks = Task.where(iteration_id: @iteration.id)
+  Task.tasks_update_all @tasks, key, value
 end
 
-Given /^that we receive a "([^\"]*)" in event call back "([^\"]*)"/ do |event, call_back|
-
-end
 Then /^all the preliminary tasks for "([^\"]*)" are in the preliminary section/ do |iteration|
   @iteration = Iteration.find_by(name: iteration)
   @tasks = Task.where(iteration_id: @iteration.id)
   @tasks.each do |task|
     %{I should see #{task.title}}
   end
+end
+Then /the "([^\"]*)" task have a finished status/ do |task_title|
+  task = Task.find_by_title(task_title)
+  task.task_status.should equal?('finished')
 end
 
 Given /^I will see drop down in "([^\"]*)"/ do |tasks|

@@ -10,11 +10,11 @@ Background: I'm having some existing preliminary graph task
     | IterationPreliminary |
   And the "IterationPreliminary" iteration is map with the following tasks:
     | title               | updater_type      | task_status |
-    | Scrum meeting       | preliminary       | unstarted   |
-    | Customer Meeting    | preliminary       | unstarted   |
-    | Iteration Planning  | preliminary       | unstarted   |
-    | GSI Meeting         | preliminary       | unstarted   |
-    | Configuration Setup | preliminary       | unstarted   |
+    | Scrum meeting       | preliminary       | started     |
+    | Customer Meeting    | preliminary       | started     |
+    | Iteration Planning  | preliminary       | started     |
+    | GSI Meeting         | preliminary       | started     |
+    | Configuration Setup | preliminary       | started     |
 
   Scenario: I should see all the preliminary tasks in my task graph page
     Given I am on the iteration page for "IterationPreliminary"
@@ -23,16 +23,16 @@ Background: I'm having some existing preliminary graph task
 
   Scenario: the task will be update when the title name is matched and result is true
     Given I receive a "Customer Meeting" with value "true" from event
-    Then the "Customer Meeting" task will be able to update
+    Then the "Customer Meeting" task have a finished status
 
     Given I receive a "Scrum meeting" with value "true" from event
-    Then the "Customer Meeting" task will be able to update
+    Then the "Scrum meeting" task have a finished status
 
     Given I receive a "Iteration Planning" with value "true" from event
-    Then the "Customer Meeting" task will be able to update
+    Then the "Iteration Planning" task have a finished status
 
-    Given I receive a "GSI meeting" with value "true" from event
-    Then the "Customer Meeting" task will be able to update
+    Given I receive a "GSI Meeting" with value "true" from event
+    Then the "GSI Meeting" task have a finished status
 
-    Given I receive a "Configuration setup" with value "true" from event
-    Then the "Customer Meeting" task will be able to update
+    Given I receive a "Configuration Setup" with value "true" from event
+    Then the "Configuration Setup" task have a finished status

@@ -1,0 +1,8 @@
+<div class="col-md-10">
+  <a class="btn btn-primary" href="#" role="button">Preliminary Task</a>
+  <div class = "card-group">
+    <% @preliminaryTasks.each do |task| %>
+        <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
+    <% end %>
+  </div>
+</div>
