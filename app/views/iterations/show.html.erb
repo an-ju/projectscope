@@ -11,4 +11,10 @@
         <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
     <% end %>
   </div>
+  <a class="btn btn-primary" href="#" role="button">Post Task</a>
+  <div class = "card-group">
+    <% @postTasks.each do |task| %>
+        <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
+    <% end %>
+  </div>
 </div>

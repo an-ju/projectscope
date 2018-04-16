@@ -211,6 +211,24 @@ t15 = Task.create(title: 'Pull Request',
                   task_status: 'unstarted',
                   updater_type: 'development',
                   task_callbacks: 'hello_world')
+t16 = Task.create(title: 'Deploy',
+                  iteration: iteration,
+                  description: 'Pass only get accepted by customers',
+                  task_status: 'unstarted',
+                  updater_type: 'post',
+                  task_callbacks: 'hello_world')
+t17 = Task.create(title: 'Cross Group Review',
+                  iteration: iteration,
+                  description: 'Pass only get accepted by customers',
+                  task_status: 'unstarted',
+                  updater_type: 'post',
+                  task_callbacks: 'hello_world')
+t18 = Task.create(title: 'Customer Feedback',
+                  iteration: iteration,
+                  description: 'Pass only get accepted by customers',
+                  task_status: 'unstarted',
+                  updater_type: 'post',
+                  task_callbacks: 'hello_world')
 
 Taskedge.create(childtask_id: t2.id, parenttask_id: t1.id)
 Taskedge.create(childtask_id: t4.id, parenttask_id: t2.id)

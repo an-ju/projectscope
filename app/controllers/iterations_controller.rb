@@ -16,6 +16,7 @@ class IterationsController < ApplicationController
     @tasks = Task.where(iteration: @iteration.id)
     @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
     @devTasks = @tasks.select{|task| task.updater_type == 'development'}
+    @postTasks = @tasks.select{|task| task.updater_type == 'post'}
     # @level = Iteration.graph_rank @graph
     # @maxelem = Iteration.max_level_elem @level
   end
