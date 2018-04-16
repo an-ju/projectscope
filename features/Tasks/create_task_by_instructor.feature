@@ -13,10 +13,6 @@ Feature: Staff will be able to create the task graph
     Given I am on the iteration page for "IterationGroup"
     And I press "create task"
     Then I will see a drop down of task type and update type
-    And I will select "local submit task" from "update type"
-    And I will select a "customer meeting" from the "task type"
-    And I can create a task after press "create task" button
-
 
   Scenario: I will be able to update task
     Given I am on the iteration page for "IterationGroup"

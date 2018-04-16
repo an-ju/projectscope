@@ -37,8 +37,25 @@ module Updater
 
   # local updater to update the github task
   class LocalUpdater < Updater
-    def self.update task, value
-      if (value == 'true')
+    def self.update task, key, value
+      if (value == 'true' and task.title == key)
+        task.update_attributes(task_status: 'finished')
+      end
+    end
+
+    def self.check_event
+      true
+    end
+
+    def self.analysis_call_back localdata
+      nil
+    end
+  end
+
+  # task that handle over the preliminary task
+  class PreliminaryUpdater < Updater
+    def self.update task, key, value
+      if (value == 'true' and task.title == key)
         task.update_attributes(task_status: 'finished')
       end
     end
