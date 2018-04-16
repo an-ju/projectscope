@@ -11,9 +11,9 @@ Feature: Started tasks will be send and receive update info in iteration package
       | IterationEvent |
     And the "IterationEvent" iteration is map with the following tasks:
       | title       | updater_type |
-      | githubTask  | github       |
-      | pivotalTask | pivotal      |
-      | localTask   | local        |
+      | Test Title  | github       |
+      | Test Title  | pivotal      |
+      | Test Title  | local        |
 
   Scenario: Iteration send request and receive callback from event of all new events
     Given I am on the iteration page for "IterationEvent"

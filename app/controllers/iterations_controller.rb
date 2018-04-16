@@ -13,6 +13,8 @@ class IterationsController < ApplicationController
   # GET /iterations/1.json
   def show
     @graph = @iteration.abstract_graph
+    @tasks = Task.where(iteration: @iteration.id)
+    @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
     @level = Iteration.graph_rank @graph
     @maxelem = Iteration.max_level_elem @level
   end

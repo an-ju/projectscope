@@ -29,11 +29,15 @@ Then /^I send update request to events and receive "([^\"]*)"/ do |event_call_ba
 
 end
 
-Then /^I should see a "([^\"]*)" section/ do |section_name|
-  
-end
 Given /^that we receive a "([^\"]*)" in event call back "([^\"]*)"/ do |event, call_back|
 
+end
+Then /^all the preliminary tasks for "([^\"]*)" are in the preliminary section/ do |iteration|
+  @iteration = Iteration.find_by(name: iteration)
+  @tasks = Task.where(iteration_id: @iteration.id)
+  @tasks.each do |task|
+    %{I should see #{task.title}}
+  end
 end
 
 Given /^I will see drop down in "([^\"]*)"/ do |tasks|

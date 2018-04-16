@@ -1,18 +1,12 @@
 %div.col-md-10
   %h2
     Iteration
-  %div.btn-group.btn-group-lg
-    = button_to 'update all', update_all_tasks_path(:iteration_id => @iteration.id),{class:"btn btn-primary"}
-    = button_to 'create task', update_all_tasks_path(:iteration_id => @iteration.id),{class:"btn btn-primary"}
-  %table.table
-    %tbody{style: 'text-align: center'}
-      - @level.each do |nodes|
-        %tr{id: "task_#{@iteration}"}
-          %td
-          - nodes.each do |node|
-            -if node.nil?
-              %td
-            -else
-              = render partial: 'task', locals: {node: node, iteration: @iteration}
+  %div.col-md-15
+    %div
+      %button.btn-primary
+        Preliminary Task
+    %div.card-columns{style: 'text-align: center'}
+      - @preliminaryTasks.each do |task|
+        = render partial: 'task', locals: {node: task, iteration: @iteration}
 :javascript
   keep_log=false;

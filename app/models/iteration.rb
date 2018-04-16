@@ -4,9 +4,9 @@ class Iteration < ActiveRecord::Base
 
   # abstract the graph with the same iteration id
   def abstract_graph
-    tasks = Task.where(iteration: self.id)
+    @tasks = Task.where(iteration: self.id)
     graph = Hash.new
-    tasks.each { |task| graph[task.id] = Taskedge.find_children task }
+    @tasks.each { |task| graph[task.id] = Taskedge.find_children task }
     # JSON.generate(graph)
     graph
   end

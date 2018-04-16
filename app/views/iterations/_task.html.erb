@@ -1,16 +1,11 @@
 <%- task = Task.find(node) %>
 <td>
-  <div class="card-block" style="width: 18rem;">
-    <div class="card-header <%="task-#{task.task_status}"%>" >
-      <h5 class="card-title"><%= task.title%></h5>
+  <div class="card border-primary mb-3" style="width: 18rem;">
+    <div class="card-body <%="task-#{task.task_status}"%>" >
+      <h5><%= task.title%></h5>
       <p class="card-text"><%= task.description %></p>
       <a href="#" class="card-link"> Delete </a>
       <a href="#" class="card-link"> Update </a>
-    </div>
-    <div id="description-<%= task.id %>" class="collapse">
-      <div class="card-block">
-        <%= task.description %>
-      </div>
     </div>
   </div>
 </td>
