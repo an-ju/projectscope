@@ -1,19 +1,24 @@
-<%= form_for :task do |f| %>
-    <table>
-      <tbody>
-        <tr>
-          <%= f.label :name%>
-          <%= f.text_field :name %>
-        </tr>
-        <tr>
-          <%= f.label :updater_type%>
-          <%= f.text_field :updater_type %>
-        </tr>
-        <tr>
-          <%= f.label :description%>
-          <%= f.text_field :description %>
-        </tr>
-      </tbody>
-    </table>
-    <%= f.submit %>
-<% end %>
+<div class="card border-primary mb-3 border-success"  align = "center">
+  <div class="card-body <%="task-unstarted"%>">
+    <h5 class="card-title">Create Task</h5>
+  </div>
+  <%= form_for :task do |f| %>
+      <table>
+        <tbody>
+          <tr>
+            <td><%= f.label :name%></td>
+            <td><%= f.text_field :name %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :updater_type%></td>
+            <td><%= f.text_field :updater_type %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :description%></td>
+            <td><%= f.text_field :description %></td>
+          </tr>
+        </tbody>
+      </table>
+      <%= f.submit %>
+  <% end %>
+</div>

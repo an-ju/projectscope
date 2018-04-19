@@ -6,16 +6,37 @@ Feature: Staff will be able to create the task graph
   Background: A class has several group and the staff is login
     Given I am logged in
     And the following Iteration exist:
-      | name           |
-      | IterationGroup |
+      | name         |
+      | TaskCreation |
+    And the "TaskCreation" iteration is map with the following tasks:
+      | title               | updater_type     | task_status |
+      | Scrum meeting       | preliminary      | started     |
+      | Customer Meeting    | preliminary      | started     |
+      | TDD and BDD         | development      | started     |
+      | Points Estimation   | development      | started     |
+      | Pull Request        | development      | started     |
+      | Deploy              | post             | started     |
+    And I am on the iteration page for "TaskCreation"
+    And I will see the three parts of the tasks thread
+
+  Scenario: I will be able to delete task
+    Given I should see "Scrum meeting"
+    And I should see "delete" within "task-Scrum meeting"
+    When I press the "delete" within "Scrum meeting"
+    Then  I should not see "Scrum meeting"
 
   Scenario: I will be able to create task
-    Given I am on the iteration page for "IterationGroup"
-    And I press "create task"
-    Then I will see a drop down of task type and update type
+    Given I should not see "GSI Meeting"
+    When I fill in "create task title" with "GSI Meeting"
+    And I fill in "create task description" with "tasks"
+    And I press the "delete" within "Scrum meeting"
+    Then I should see "GSI Meeting"
 
-  Scenario: I will be able to update task
-    Given I am on the iteration page for "IterationGroup"
-    And I press "edit task"
-    Then I will be able to edit a task select "update type" and "task type"
+  Scenario: I will be able to edit task
+    Given I press "edit task" within "Customer Meeting"
+    When I fill in "Customer Meeting title" with "GSI Meeting"
+    And I fill in "Customer Meeting description" with "<param>"
+    And I press the "update" within "Scrum meeting"
+    Then I should see "GSI Meeting"
+    But I should not see "Customer Meeting"
 

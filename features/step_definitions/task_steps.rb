@@ -30,6 +30,12 @@ Given /^I receive a "([^\"]*)" with value "([^\"]*)" from event/ do |key, value|
   Task.tasks_update_all @tasks, key, value
 end
 
+Then /^I will see the three parts of the tasks thread/ do
+  %{Then I should see "Development Task"}
+  %{Then I should see "Preliminary Task"}
+  %{Then I should see "Post Task"}
+end
+
 Then /^all the preliminary tasks for "([^\"]*)" are in the preliminary section/ do |iteration|
   @iteration = Iteration.find_by(name: iteration)
   @tasks = Task.where(iteration_id: @iteration.id)

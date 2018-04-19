@@ -4,17 +4,21 @@
     <% @preliminaryTasks.each do |task| %>
         <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
     <% end %>
+    <%= render partial: 'create_task'%>
   </div>
   <a class="btn btn-primary" href="#" role="button">Development Task</a>
   <div class = "card-group">
     <% @devTasks.each do |task| %>
         <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
     <% end %>
+    <%= render partial: 'create_task'%>
   </div>
   <a class="btn btn-primary" href="#" role="button">Post Task</a>
   <div class = "card-group">
     <% @postTasks.each do |task| %>
         <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
     <% end %>
+    <%= render partial: 'create_task'%>
   </div>
+  <%= link_to "Update All", update_all_tasks_path( {iteration_id:@iteration.id}), {:class=>"btn btn-secondary btn-sm"} %>
 </div>

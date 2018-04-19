@@ -1,15 +1,13 @@
 <%- task = Task.find(node) %>
-<td>
-  <div class="card border-primary mb-3 border-success"  align = "center">
-    <div class="card-body <%="task-#{task.task_status}"%>" >
-      <h5 class="card-title"><%= task.title%></h5>
-    </div>
-    <div class="card-body" >
-      <p class="card-text"><%= task.description %></p>
-    </div>
-    <div class="card-footer">
-      <a href="#" class="card-link"> Delete </a>
-      <a href="#" class="card-link"> Update </a>
-    </div>
+<div class="card border-primary mb-3 border-success"  align = "center" >
+  <div class="card-body <%="task-#{task.task_status}"%>" >
+    <h5 class="card-title"><%= task.title%></h5>
   </div>
-</td>
+  <div class="card-body" >
+    <p class="card-text"><%= task.description %></p>
+  </div>
+  <div class="card-footer">
+    <%= link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id}), {:class=>"btn btn-secondary btn-sm"} %>
+    <%= link_to "Edit", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id}), {:class=>"btn btn-secondary btn-sm"} %>
+  </div>
+</div>

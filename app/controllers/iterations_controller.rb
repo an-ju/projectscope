@@ -97,6 +97,13 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
+  def delete_task
+    task = Task.find(params[:task_id])
+    @iteration = Iteration.find(params[:iteration_id])
+    task.destroy
+    redirect_to @iteration
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_iteration
