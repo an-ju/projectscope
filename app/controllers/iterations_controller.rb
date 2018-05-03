@@ -104,6 +104,18 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
+  def create_task
+    @iteration = Iteration.find params[:iteration_id]
+    newtask = Task.new
+    newtask.updater_type = params[:updater_type]
+    newtask.title = params[:title]
+    newtask.task_status = "unstarted"
+    newtask.iteration_id = params[:iteration_id]
+    newtask.description = params[:description]
+    newtask.save
+    redirect_to @iteration
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_iteration

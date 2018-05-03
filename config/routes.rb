@@ -48,6 +48,8 @@ Rails.application.routes.draw do
   post '/log', to: 'projects#write_log'
   post 'iterations/update_all',
        to: 'iterations#update_all', as: 'update_all_tasks'
+  post 'iterations/create_task',
+       to: 'iterations#create_task', as: 'create_task'
   post 'event/:callback_token/callback', to: "tasks#call_back_handler"
   root 'projects#index'
 end

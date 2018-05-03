@@ -1,0 +1,14 @@
+
+  <div class="col-sm-4 col-md-4 ">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3 class = " <%="task-#{node.task_status}"%>"><%= node.title%></h3>
+        <p><%= node.description %></p>
+        <p>
+          <a> <%= link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id} ), class:"btn btn-default", role:"button"%> </a>
+          <a> </a>
+          <a ><%= link_to "Edit", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id}), class:"btn btn-default", role:"button"%> </a>
+        </p>
+      </div>
+    </div>
+  </div>

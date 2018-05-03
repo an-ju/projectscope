@@ -1,24 +1,55 @@
-<div class="col-md-10">
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li><a href="#">Projectss</a></li>
+  <li class="active">Iteration 1</li>
+</ol>
+<div class="page-header">
+  <h1> Tasks Center <small>TDD Checker</small></h1>
+</div>
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">Tasks Graph</a></li>
+  <li role="presentation"><a href="#">Metrics</a></li>
+</ul>
+
+<div>
   <a class="btn btn-primary" href="#" role="button">Preliminary Task</a>
-  <div class = "card-group">
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+      <span class="sr-only">60% Complete</span>
+    </div>
+  </div>
+  <div class="row">
     <% @preliminaryTasks.each do |task| %>
-        <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
-    <%= render partial: 'create_task'%>
+    <%= render partial: 'create_task_card',locals: {updater_type: "preliminary"}%>
   </div>
+</div>
+<div>
   <a class="btn btn-primary" href="#" role="button">Development Task</a>
-  <div class = "card-group">
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+      <span class="sr-only">60% Complete</span>
+    </div>
+  </div>
+  <div class="row">
     <% @devTasks.each do |task| %>
-        <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
-    <%= render partial: 'create_task'%>
+    <%= render partial: 'create_task_card',locals: {updater_type: "development"}%>
   </div>
+</div>
+<div>
   <a class="btn btn-primary" href="#" role="button">Post Task</a>
-  <div class = "card-group">
-    <% @postTasks.each do |task| %>
-        <%= render partial: 'task', locals: {node: task, iteration: @iteration}%>
-    <% end %>
-    <%= render partial: 'create_task'%>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+      <span class="sr-only">60% Complete</span>
+    </div>
   </div>
-  <%= link_to "Update All", update_all_tasks_path( {iteration_id:@iteration.id}), {:class=>"btn btn-secondary btn-sm"} %>
+  <div class="row">
+    <% @postTasks.each do |task| %>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
+    <% end %>
+    <%= render partial: 'create_task_card',locals: {updater_type: "post"}%>
+  </div>
 </div>
