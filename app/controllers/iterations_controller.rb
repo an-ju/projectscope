@@ -17,6 +17,7 @@ class IterationsController < ApplicationController
     @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
     @devTasks = @tasks.select{|task| task.updater_type == 'development'}
     @postTasks = @tasks.select{|task| task.updater_type == 'post'}
+    @editable = !(current_user.is_student?)
     # @level = Iteration.graph_rank @graph
     # @maxelem = Iteration.max_level_elem @level
   end

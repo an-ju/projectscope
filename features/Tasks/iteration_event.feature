@@ -9,6 +9,7 @@ Feature: Started tasks will be send and receive update info in iteration package
     And the following Iteration exist:
       | name           |
       | IterationEvent |
+
     And the "IterationEvent" iteration is map with the following tasks:
       | title       | updater_type |
       | Test Title  | github       |
@@ -19,3 +20,9 @@ Feature: Started tasks will be send and receive update info in iteration package
     Given I am on the iteration page for "IterationEvent"
     And I press "update all"
     Then Tasks will be updated if they reach the requirement to update
+
+  Scenario: I cannot delete or create task
+    Given I am on the iteration page for "IterationEvent"
+    Then I cannot create task
+    And I cannot edit task
+    And I cannot delete task

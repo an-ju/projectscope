@@ -14,42 +14,66 @@
 <div>
   <a class="btn btn-primary" href="#" role="button">Preliminary Task</a>
   <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-      <span class="sr-only">60% Complete</span>
+    <div class="progress-bar progress-bar-success" style="width: 35%">
+      <span class="sr-only">35% Complete (success)</span>
+    </div>
+    <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
+      <span class="sr-only">20% Complete (warning)</span>
+    </div>
+    <div class="progress-bar progress-bar-danger" style="width: 10%">
+      <span class="sr-only">10% Complete (danger)</span>
     </div>
   </div>
   <div class="row">
     <% @preliminaryTasks.each do |task| %>
         <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
-    <%= render partial: 'create_task_card',locals: {updater_type: "preliminary"}%>
+    <% if @editable %>
+        <%= render partial: 'create_task_card',locals: {updater_type: "post"}%>
+    <% end %>
   </div>
 </div>
 <div>
   <a class="btn btn-primary" href="#" role="button">Development Task</a>
   <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-      <span class="sr-only">60% Complete</span>
+    <div class="progress-bar progress-bar-success" style="width: 35%">
+      <span class="sr-only">35% Complete (success)</span>
+    </div>
+    <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
+      <span class="sr-only">20% Complete (warning)</span>
+    </div>
+    <div class="progress-bar progress-bar-danger" style="width: 10%">
+      <span class="sr-only">10% Complete (danger)</span>
     </div>
   </div>
   <div class="row">
     <% @devTasks.each do |task| %>
         <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
-    <%= render partial: 'create_task_card',locals: {updater_type: "development"}%>
+    <% if @editable %>
+      <%= render partial: 'create_task_card',locals: {updater_type: "development"}%>
+    <% end %>
   </div>
 </div>
 <div>
   <a class="btn btn-primary" href="#" role="button">Post Task</a>
   <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-      <span class="sr-only">60% Complete</span>
+    <div class="progress-bar progress-bar-success" style="width: 35%">
+      <span class="sr-only">35% Complete (success)</span>
+    </div>
+    <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
+      <span class="sr-only">20% Complete (warning)</span>
+    </div>
+    <div class="progress-bar progress-bar-danger" style="width: 10%">
+      <span class="sr-only">10% Complete (danger)</span>
     </div>
   </div>
   <div class="row">
     <% @postTasks.each do |task| %>
         <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
-    <%= render partial: 'create_task_card',locals: {updater_type: "post"}%>
+    <% if @editable %>
+      <%= render partial: 'create_task_card',locals: {updater_type: "post"}%>
+    <% end %>
   </div>
 </div>
