@@ -35,26 +35,35 @@ class Iteration < ActiveRecord::Base
   # calculate the percentage of accomplish of each task graph
   def self.percentage_progress preTasks, devTasks, postTasks
     precount = preTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    devcount = devTasks.select{ |task| task.task_status == 'finished'}.count*100
-    postcount = postTasks.select{ |task| task.task_status == 'finished'}.count*100
+    devcount = devTasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    postcount = postTasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    precountdanger = preTasks.select{ |task| task.task_status == 'danger'}.count*100.0
+    devcountdanger = devTasks.select{ |task| task.task_status == 'danger'}.count*100.0
+    postcountdanger = postTasks.select{ |task| task.task_status == 'danger'}.count*100.0
     if preTasks.count > 0
       prepercent = precount / preTasks.count
+      predan = precountdanger / preTasks.count
     else
       prepercent = 0
+      perdan = 0
     end
 
     if devTasks.count > 0
       devpercent = devcount / devTasks.count
+      devdan = devcountdanger / devTasks.count
     else
       devpercent = 0
+      devdan = 0
     end
 
     if postTasks.count > 0
       postpercent = postcount / postTasks.count
+      postdan = postcountdanger / postTasks.count
     else
       postpercent = 0
+      postdan = 0
     end
-    return prepercent, devpercent, postpercent
+    return prepercent, devpercent, postpercent, predan, devdan, postdan
   end
 
   # return the 2-d lists where the key is stored inside the level slot

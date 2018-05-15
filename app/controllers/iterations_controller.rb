@@ -18,8 +18,8 @@ class IterationsController < ApplicationController
     @devTasks = @tasks.select{|task| task.updater_type == 'development'}
     @postTasks = @tasks.select{|task| task.updater_type == 'post'}
     @editable = !(current_user.is_student?)
-    @prepercent, @devpercent, @postpercent = Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
-    @test = 20.0
+    @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
+        Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
     # @level = Iteration.graph_rank @graph
     # @maxelem = Iteration.max_level_elem @level
   end
