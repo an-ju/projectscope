@@ -4,9 +4,10 @@ Feature:  Task graph will help user to finish the task step by step
   So that I can go through the routes of task graph
   I will be able to finish evert task finally
 
-Background: The default task is generated
-  Given I am logged in
-  And that I am on the iteration page for DefaultTaskGraph
+
+  Background: The default task is generated
+    Given I am logged in
+    And that I am on the iteration page for DefaultTaskGraph
 
   Scenario: Task graph is correctly present
     When I press the start button of a unstarted task
@@ -26,4 +27,3 @@ Background: The default task is generated
     Given that I have a default danger task that has one more day before it's due
     Then The status of the task should be danger
     And I won't be able to start its child task
-

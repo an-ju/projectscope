@@ -32,6 +32,31 @@ class Iteration < ActiveRecord::Base
     Iteration.level_up graphlevel,graph
   end
 
+  # calculate the percentage of accomplish of each task graph
+  def self.percentage_progress preTasks, devTasks, postTasks
+    precount = preTasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    devcount = devTasks.select{ |task| task.task_status == 'finished'}.count*100
+    postcount = postTasks.select{ |task| task.task_status == 'finished'}.count*100
+    if preTasks.count > 0
+      prepercent = precount / preTasks.count
+    else
+      prepercent = 0
+    end
+
+    if devTasks.count > 0
+      devpercent = devcount / devTasks.count
+    else
+      devpercent = 0
+    end
+
+    if postTasks.count > 0
+      postpercent = postcount / postTasks.count
+    else
+      postpercent = 0
+    end
+    return prepercent, devpercent, postpercent
+  end
+
   # return the 2-d lists where the key is stored inside the level slot
   def self.level_up graphlevel, graph
     rank = Array.new
