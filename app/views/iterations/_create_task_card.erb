@@ -2,14 +2,16 @@
   <div class="thumbnail">
     <div class="caption">
       <h3>Create New Task</h3>
-
       <%= form_tag("/iterations/create_task", method: "post") do %>
 
           <table>
             <tbody>
               <tr>
                 <td><%= label_tag(:title, "Name:") %></td>
-                <td><%= text_field_tag(:title) %></td>
+                <td>
+                  <%=select_tag :title, options_for_select(task_titles.collect{ |u| [u, u] })%>
+                </td>
+              </tr>
               <tr>
                 <td><%= label_tag(:description, "Description:") %></td>
                 <td><%= text_field_tag(:description) %></td>

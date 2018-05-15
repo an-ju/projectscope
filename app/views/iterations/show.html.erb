@@ -26,7 +26,7 @@
         <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
     <% if @editable %>
-        <%= render partial: 'create_task_card',locals: {updater_type: "post"}%>
+        <%= render partial: 'create_task_card',locals: {updater_type: "preliminary", task_titles: @pretaskTitles}%>
     <% end %>
   </div>
 </div>
@@ -45,7 +45,7 @@
         <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
     <% if @editable %>
-      <%= render partial: 'create_task_card',locals: {updater_type: "development"}%>
+      <%= render partial: 'create_task_card',locals: {updater_type: "development", task_titles: @devtaskTitles}%>
     <% end %>
   </div>
 </div>
@@ -64,7 +64,7 @@
         <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
     <% end %>
     <% if @editable %>
-      <%= render partial: 'create_task_card',locals: {updater_type: "post"}%>
+      <%= render partial: 'create_task_card',locals: {updater_type: "post", task_titles: @postaskTitles}%>
     <% end %>
   </div>
 </div>

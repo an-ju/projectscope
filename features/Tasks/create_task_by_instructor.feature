@@ -27,7 +27,7 @@ Feature: Staff will be able to create the task graph
 
   Scenario: I will be able to create task
     Given I should not see "GSI Meeting"
-    When I fill in "create task title" with "GSI Meeting"
+    When I select "GSI Meeting" within "title"
     And I fill in "create task description" with "tasks"
     And I press the "delete" within "Scrum meeting"
     Then I should see "GSI Meeting"
