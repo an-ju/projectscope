@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">
+              Dashboard <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Iteration Generating
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Current Iteration Progress
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Metrics
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Customer Information
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Performance</span>
+          <a class="d-flex align-items-center text-muted" href="#">
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Overall Team Performance
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Member Performance Breakdown
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Iteration Generating</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <%=select_tag :title, options_for_select(@projects.collect{ |u| [u, u] })%>
+          </div>
+          <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            Apply to All
+          </button>
+        </div>
+      </div>
+      <h2>Projects</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+          <tr>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Template</th>
+            <th>Apply</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @projects.each do |project| %>
+              <tr>
+                <td><%=project.name%></td>
+                <td>unassigned</td>
+                <td><%=select_tag :title, options_for_select(@projects.collect{ |u| [u, u] })%></td>
+                <td><button class="btn btn-sm btn-outline-secondary">Apply</button></td>
+              </tr>
+          <% end %>
+
+
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+</body>
+</html>

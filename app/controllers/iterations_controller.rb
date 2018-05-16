@@ -7,6 +7,20 @@ class IterationsController < ApplicationController
   # GET /iterations.json
   def index
     @iterations = Iteration.all
+    if current_user.is_student?
+      if current_user.project.nil?
+        redirect_to init_user_path current_user
+      else
+        redirect_to project_path current_user.project
+      end
+    end
+    @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
+    @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
+    # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
+    @projects = Project.all
+    @existing_iteration = ["template 1", "template 2", "template 3"]
+    # metric_min_date = MetricSample.min_date || Date.today
+    # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
 
   # GET /iterations/1
@@ -32,7 +46,14 @@ class IterationsController < ApplicationController
 
   # GET /iterations/new
   def new
-    @iteration = Iteration.new
+    if current_user.is_student?
+      if current_user.project.nil?
+        redirect_to init_user_path current_user
+      else
+        redirect_to project_path current_user.project
+      end
+    end
+    @projects = Project.all
   end
 
   # GET /iterations/1/edit
