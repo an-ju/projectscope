@@ -1,0 +1,27 @@
+.task-unstarted {
+  background-color: #9E9E9E;
+}
+
+.task-started {
+  background-color: #4CAF50;
+}
+
+.task-finished {
+  background-color: #009688;
+}
+
+.task-danger {
+  background-color: #F44336;
+}
+
+.card-columns {
+  column-count: 6;
+}
+
+.card{
+  width: 350px;
+  border: 1px solid gray;
+  min-height: 100px;
+  padding-: 10px;
+  margin: 10px;
+}
