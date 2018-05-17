@@ -42,5 +42,5 @@ Feature:  Task graph will help user to finish the task step by step
 
   Scenario: Student will be able to see the color of the tasks are as required
     Then I should see the color of preliminary progress bar should be green
-    And I should see the percentage for development progress bar should be yellow
-    And I should see the percentage for post progress bar should be red
+    And I should see the color of preliminary progress bar should be yellow
+    And I should see the color of preliminary progress bar should be red
