@@ -163,6 +163,14 @@ class IterationsController < ApplicationController
     Iteration.all_copy_assignment params[:apply_all]
     redirect_to '/iterations'
   end
+
+  def apply_to
+    project = Project.find params[:project_id]
+    iteration = Iteration.find(params[:apply_iter])
+    Iteration.copy_assignment iteration, project.id
+    redirect_to '/iterations'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_iteration

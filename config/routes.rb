@@ -53,5 +53,6 @@ Rails.application.routes.draw do
   get '/aggregate_tasks_graph', to: 'iterations#aggregate_tasks_graph'
   post '/iterations/apply_to_all', to: 'iterations#apply_to_all'
   post 'event/:callback_token/callback', to: "tasks#call_back_handler"
+  post 'iterations/apply_to', to: "iterations#apply_to"
   root 'projects#index'
 end
