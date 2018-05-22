@@ -15,18 +15,18 @@
           <thead>
           <tr>
             <th>Project</th>
-            <th>Preliminary Tasks</th>
-            <th>Development Tasks</th>
-            <th>Post Tasks</th>
+            <th>Progress</th>
           </tr>
           </thead>
           <tbody>
           <% @projects.each do |project| %>
               <tr>
                 <td><%=project.name%></td>
-                <td>********</td>
-                <td>********</td>
-                <td>********</td>
+                <td>
+                  <% if @progress[project.id] %>
+                    <%='*'*@progress[project.id][0] + '-'*@progress[project.id][1] + '+'*@progress[project.id][3]+ '/'*@progress[project.id][3]%>
+                  <% end %>
+                </td>
               </tr>
           <% end %>
           </tbody>

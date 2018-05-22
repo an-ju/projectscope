@@ -137,6 +137,7 @@ class IterationsController < ApplicationController
     end
     @tasks = Task.where(iteration: 2)
     @projects = Project.all
+    @progress = Iteration.task_progress
   end
 
   def apply_to_all

@@ -18,3 +18,4 @@ Feature: The progress of current iteration will be represented
 
   Scenario: Select all from the the tasks graph
     Given I am on the aggregation progress page
+    And I should see the progress of "TestProject1"

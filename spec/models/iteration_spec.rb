@@ -128,6 +128,25 @@ describe Iteration do
         expect(iter).not_to be_nil
       end
     end
+
+    it 'after assigning the new iteration to a tasks,they should all be active' do
+      projs = Project.all
+      Iteration.all_copy_assignment @iteration
+      projs.each do |proj|
+        iter = Iteration.where(project_id: proj.id)
+        expect(iter[0].active).to eq true
+      end
+    end
+
+    it 'should only have at most one active iteration' do
+      projs = Project.all
+      Iteration.all_copy_assignment @iteration
+      projs.each do |proj|
+        iter = Iteration.where(project_id: proj.id).where(active: true)
+        expect(iter.length <= 1).to eq true
+      end
+    end
+
     it 'run over a copy assignment all the existing projects with creating new iteration' do
       projs = Project.all
       Iteration.all_copy_assignment @iteration
@@ -139,17 +158,58 @@ describe Iteration do
         expect(iter).not_to be_nil
       end
     end
-
-
   end
 
-  describe 'iteration copying' do
+  describe 'present the progress of the assignment' do
     before(:each) do
-
+      @testproj3 = create(:project)
+      @iteration = create(:iteration, active: true, project_id: @testproj3.id)
+      @pretask1 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'finished')
+      @pretask2 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'started')
+      @devtask1 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
+      @devtask2 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
+      @posttask1 = create(:task, :post, iteration_id: @iteration.id, task_status:'danger')
+      @posttask2 = create(:task, :post, iteration_id: @iteration.id, task_status:'started')
+      @testproj1 =  create(:project)
+      @testproj2 =  create(:project)
+      @tasks = Task.where(iteration: @iteration.id)
     end
+
+    it 'find out the correct iteration belong to the iteration' do
+      iter = Iteration.where(project_id: @testproj3.id).where(active: true).limit(1)
+      expect(iter[0]).to eq @iteration
+    end
+
+    it 'count the number of tasks of each status  ' do
+      tasks = Task.where(iteration_id: @iteration.id)
+      expect(tasks.select{|t| t.task_status == "finished"}.count).to eq 3
+      expect(tasks.select{|t| t.task_status == "danger"}.count).to eq 1
+      expect(tasks.select{|t| t.task_status == "started"}.count).to eq 2
+      expect(tasks.select{|t| t.task_status == "unstarted"}.count).to eq 0
+    end
+
+    it 'perform the function and return a list of each status' do
+      expect(Iteration.count_graph_status @testproj3.id).to eq [3,1,2,0]
+    end
+
+    it 'perform the function and return false when there is no such project to be found' do
+      expect(Iteration.count_graph_status @testproj1.id).to eq nil
+    end
+
+    it 'count the status of all the projects and return the hash' do
+      expect(Iteration.task_progress).not_to be_nil
+    end
+
+    it 'count the status of all the projects and return the hash' do
+      progress_hash = Iteration.task_progress
+      expect(Project.all).to include(@testproj3)
+      expect(Project.all).to include(@testproj1)
+      expect(Project.all).to include(@testproj2)
+      expect(progress_hash[@testproj3.id]).to eq [3,1,2,0]
+      expect(progress_hash[@testproj1.id]).to eq nil
+      expect(progress_hash[@testproj2.id]).to eq nil
+    end
+
   end
 
-  describe '' do
-
-  end
 end
