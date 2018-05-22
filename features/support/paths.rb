@@ -33,6 +33,8 @@ module NavigationHelpers
         "/iterations/#{Iteration.find_by(name: $1).id}"
       when /^the iterations page/ then
         "/iterations"
+      when /^the aggregation progress page/ then
+        "/aggregate_tasks_graph"
       # Add more mappings here.
       # Here is an example that pulls values out of the Regexp:
       #

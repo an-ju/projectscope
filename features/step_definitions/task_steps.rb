@@ -36,6 +36,12 @@ Then /^I will see the three parts of the tasks thread/ do
   %{Then I should see "Post Task"}
 end
 
+Then /^I assign the "TempIteration" to every iteration/ do
+  %{Given I am on the iterations page}
+  %{Given I select "TempIteration" from "apply_all"}
+  %{Then I press "Apply to all"}
+end
+
 Then /^all the preliminary tasks for "([^\"]*)" are in the preliminary section/ do |iteration|
   @iteration = Iteration.find_by(name: iteration)
   @tasks = Task.where(iteration_id: @iteration.id)

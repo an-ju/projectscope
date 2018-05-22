@@ -50,7 +50,7 @@ Rails.application.routes.draw do
        to: 'iterations#update_all', as: 'update_all_tasks'
   post 'iterations/create_task',
        to: 'iterations#create_task', as: 'create_task'
-  get '/aggregate_tasks_graph', to: 'iterations#aggregate_tasks_graph'
+  get 'aggregate_tasks_graph', to: 'iterations#aggregate_tasks_graph'
   post '/iterations/apply_to_all', to: 'iterations#apply_to_all'
   post 'event/:callback_token/callback', to: "tasks#call_back_handler"
   post 'iterations/apply_to', to: "iterations#apply_to"

@@ -21,8 +21,8 @@ Feature: Instructor will be able to assign iteration by assigning iteration grap
     #And All projects will have current iteration same as "TempIteration"
 
   Scenario: I can assign project with existing tasks graph template
-    Given I select "TempIteration" from "apply_iter_TestProject1"
-    Then I press "apply to TestProject1"
+    #Given I select "TempIteration" from "apply_iter"
+    #Then I press "apply to TestProject1"
     #Then "TestProject1" will have a current task graph same as "test task graph"
 
   Scenario: I can assign template to projects that have unassigned status
