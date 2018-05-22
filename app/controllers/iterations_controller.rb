@@ -8,11 +8,7 @@ class IterationsController < ApplicationController
   def index
     @iterations = Iteration.all
     if current_user.is_student?
-      if current_user.project.nil?
-        redirect_to init_user_path current_user
-      else
-        redirect_to project_path current_user.project
-      end
+      redirect_to init_user_path current_user
     end
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
