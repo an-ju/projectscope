@@ -15,7 +15,7 @@ Feature:  Task graph will help user to finish the task step by step
     And the following Iteration exist:
       | name                |
       | IterationInstructor |
-    And the "IterationPreliminary" iteration is map with the following tasks:
+    And the "IterationInstructor" iteration is map with the following tasks:
       | title               | updater_type      | task_status |
       | Scrum meeting       | preliminary       | finished    |
       | Customer Meeting    | preliminary       | started     |
@@ -31,9 +31,9 @@ Feature:  Task graph will help user to finish the task step by step
     And I am on the iteration page for "IterationInstructor"
 
   Scenario: Task progress bar should show the correct percentage for every category
-    Then I should see the progress bar within preliminary tasks
-    And I should see the progress bar within development tasks
-    And I should see the progress bar within post tasks
+    #Then I should see the progress bar within preliminary tasks
+    #And I should see the progress bar within development tasks
+    #And I should see the progress bar within post tasks
 
   Scenario: The percentage should show how many task are finished
     Then I should see the percentage for preliminary task should be 50
@@ -42,5 +42,5 @@ Feature:  Task graph will help user to finish the task step by step
 
   Scenario: Student will be able to see the color of the tasks are as required
     Then I should see the color of preliminary progress bar should be green
-    And I should see the percentage for development progress bar should be yellow
-    And I should see the percentage for post progress bar should be red
+    And I should see the color of preliminary progress bar should be yellow
+    And I should see the color of preliminary progress bar should be red
