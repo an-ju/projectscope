@@ -108,4 +108,12 @@ When /"Local" updater receives information of a file is being submited/ do
   @task.update_status
 end
 
+Then /All the projects should have status "assigned"/ do
+  @projects = Project.all
+  @projects.each do |proj|
+    iter = Iteration.find_by{project_id:proj.id}
+    iter.wont_be_nil
+  end
+end
+
 

@@ -83,6 +83,34 @@ class Iteration < ActiveRecord::Base
     rank
   end
 
+  # assign the iteration template to each project
+  def self.all_copy_assignment iteration_id
+    projects = Project.all
+    iter = Iteration.find(iteration_id)
+    projects.each do |proj|
+      Iteration.copy_assignment iter,proj.id
+    end
+  end
+
+  #copy iteration assignment to the new project
+  def self.copy_assignment iteration, projid
+    newiter = Iteration.new()
+    newiter.project_id = projid
+    newiter.name = iteration.name
+    newiter.save
+    tasks = Task.where(iteration_id: iteration.id)
+    tasks.each do |task|
+      newt = Task.new
+      newt.title = task.title
+      newt.updater_type = task.updater_type
+      newt.description = task.description
+      newt.task_status = 'unstarted'
+      newt.iteration_id = newiter.id
+      newt.save
+    end
+    newiter
+  end
+
   # Find out the height and length of the graph
   def self.max_level_elem ranklist
     ranklist.map{ |list| list.length }.max

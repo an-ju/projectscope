@@ -48,8 +48,105 @@ describe Iteration do
 
   end
 
-  describe 'user must be not nil' do
+  describe 'copy over the iteration' do
+    before(:each) do
+      @iteration = create(:iteration)
+      @pretask1 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'finished')
+      @pretask2 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'started')
+      @devtask1 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
+      @devtask2 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
+      @posttask1 = create(:task, :post, iteration_id: @iteration.id, task_status:'danger')
+      @posttask2 = create(:task, :post, iteration_id: @iteration.id, task_status:'started')
+      testproj1 =  create(:project)
+      testproj2 =  create(:project)
+      @tasks = Task.where(iteration: @iteration.id)
+    end
 
+    it 'should copy the iteration' do
+      newiter = Iteration.new()
+      newiter.save
+      expect(newiter).not_to eq nil
+    end
+
+    it 'can call the tasks' do
+      tasks = Task.where(Iteration_id = @iteration.id)
+      expect(tasks).to include @pretask1
+    end
+
+    it 'copy one task' do
+      newt = Task.new
+      newt.title = @pretask1.title
+      newt.updater_type = @pretask1.updater_type
+      newt.description = @pretask1.description
+      newt.task_status = 'unstarted'
+      newt.iteration_id = 2
+      expect(newt.save).to be true
+    end
+
+    it 'should copy over the tasks' do
+      newiter = Iteration.new()
+      newiter.project_id = 1
+      newiter.save
+      expect(newiter.save).not_to be_nil
+      tasks = Task.where(Iteration_id = @iteration.id)
+      tasks.each do |task|
+        newt = Task.new
+        newt.title = task.title
+        newt.updater_type = task.updater_type
+        newt.description = task.description
+        newt.task_status = 'unstarted'
+        newt.iteration_id = newiter
+        newt.save
+        expect(newt.save).to be true
+      end
+      tasks.each do |task|
+        expect(Task.where(iteration_id: newiter.id).where(title: task.title)).not_to be_nil
+      end
+    end
+
+    it 'run the copy assignment function' do
+      expect(Iteration.copy_assignment(@iteration,2)).not_to be_nil
+    end
+
+    it 'run the copy assignment function successfully' do
+      newiter = Iteration.copy_assignment(@iteration,2)
+      tasks = Task.where(Iteration_id = @iteration.id)
+      tasks.each do |task|
+        expect(Task.where(iteration_id: newiter.id).where(title: task.title)).not_to be_nil
+      end
+    end
+
+    it 'run over a copy assignment all the existing projects' do
+      expect(Iteration.all_copy_assignment @iteration).not_to be_nil
+    end
+
+    it 'run over a copy assignment all the existing projects with creating new iteration' do
+      projs = Project.all
+      Iteration.all_copy_assignment @iteration
+      projs.each do |proj|
+        iter = Iteration.where(project_id: proj.id)
+        expect(iter).not_to be_nil
+      end
+    end
+    it 'run over a copy assignment all the existing projects with creating new iteration' do
+      projs = Project.all
+      Iteration.all_copy_assignment @iteration
+      projs.each do |proj|
+        iter = Iteration.where(project_id: proj.id)
+        @tasks.each do |task|
+          expect(Task.where(iteration_id: iter[0].id).where(title: task.title)).not_to be_nil
+        end
+        expect(iter).not_to be_nil
+      end
+    end
+
+
+  end
+
+  describe 'iteration copying' do
+    before(:each) do
+
+    end
   end
 
   describe '' do

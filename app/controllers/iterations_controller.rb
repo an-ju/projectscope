@@ -18,7 +18,7 @@ class IterationsController < ApplicationController
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
     @projects = Project.all
-    @existing_iteration = ["template 1", "template 2", "template 3"]
+    @tasks = Task.where(iteration: 2)
     # metric_min_date = MetricSample.min_date || Date.today
     # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
@@ -53,6 +53,7 @@ class IterationsController < ApplicationController
         redirect_to project_path current_user.project
       end
     end
+    @iteration = Iteration.new
     @projects = Project.all
   end
 
@@ -146,6 +147,22 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
+  def aggregate_tasks_graph
+    if current_user.is_student?
+      if current_user.project.nil?
+        redirect_to init_user_path current_user
+      else
+        redirect_to project_path current_user.project
+      end
+    end
+    @tasks = Task.where(iteration: 2)
+    @projects = Project.all
+  end
+
+  def apply_to_all
+    Iteration.all_copy_assignment params[:apply_all]
+    redirect_to '/iterations'
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_iteration
