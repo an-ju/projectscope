@@ -1,15 +1,20 @@
-
-  <div class="col-sm-4 col-md-4 ">
-    <div class="thumbnail">
-      <div class="caption">
-        <h3 class = " <%="task-#{node.task_status}"%>"><%= node.title%></h3>
-        <p><%= node.description %></p>
-        <p>
-          <% if @editable %>
-            <a><%= link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id} ), class:"btn btn-default", role:"button"%> </a>
-            <a><%= link_to "Edit", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id}), class:"btn btn-default", role:"button"%> </a>
-          <% end %>
-        </p>
+<div class="col-sm-2 col-md-2">
+  <div class="thumbnail">
+    <div class="caption">
+      <div><span class="label <%="task-#{node.task_status}"%>"><%="#{node.task_status}"%></span></div>
+      <h3><%= node.title%></h3>
+      <div id="description-<%= node.id %>" class="collapse">
+             <div class="card-block">
+                <%= node.description %>
+             </div>
       </div>
+      <button type="button" class="card-link btn btn-sm" data-toggle="collapse" data-target="#description-<%= node.id %>">details</button>
+      <p>
+        <% if @editable %>
+          <a><%= link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id} ), class:"btn btn-default", role:"button"%> </a>
+          <a><%= link_to "Edit", iteration_delete_task_path( {task_id: node.id, iteration_id:iteration.id}), class:"btn btn-default", role:"button"%> </a>
+        <% end %>
+      </p>
     </div>
   </div>
+</div>
