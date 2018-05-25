@@ -23,7 +23,7 @@
   </div>
   <div class="row">
     <% @preliminaryTasks.each do |task| %>
-        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: "preliminary",task_titles: @pretaskTitles}%>
     <% end %>
     <% if @editable %>
         <%= render partial: 'create_task_card',locals: {updater_type: "preliminary", task_titles: @pretaskTitles}%>
@@ -42,7 +42,7 @@
   </div>
   <div class="row">
     <% @devTasks.each do |task| %>
-        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: "development", task_titles: @devtaskTitles}%>
     <% end %>
     <% if @editable %>
       <%= render partial: 'create_task_card',locals: {updater_type: "development", task_titles: @devtaskTitles}%>
@@ -61,7 +61,7 @@
   </div>
   <div class="row">
     <% @postTasks.each do |task| %>
-        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration}%>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: "post", task_titles: @postaskTitles}%>
     <% end %>
     <% if @editable %>
       <%= render partial: 'create_task_card',locals: {updater_type: "post", task_titles: @postaskTitles}%>
