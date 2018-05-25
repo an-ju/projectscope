@@ -14,7 +14,7 @@ class IterationsController < ApplicationController
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
     @projects = Project.all
-    @tasks = Task.where(iteration: 2)
+    @tasks = Task.where(iteration: 31)
     # metric_min_date = MetricSample.min_date || Date.today
     # @num_days_from_today = (Date.today - metric_min_date).to_i
   end

@@ -16,16 +16,35 @@
           <tr>
             <th>Project</th>
             <th>Progress</th>
+            <th>Current Task</th>
+            <th>Last Updated</th>
           </tr>
           </thead>
           <tbody>
           <% @projects.each do |project| %>
               <tr>
-                <td><%=project.name%></td>
+                <td><%= link_to project.name, iteration_path(id: Iteration.where(project_id: project.id)[0])%></td>
                 <td>
                   <% if @progress[project.id] %>
-                    <%='*'*@progress[project.id][0] + '-'*@progress[project.id][1] + '+'*@progress[project.id][3]+ '/'*@progress[project.id][3]%>
+                      <% (0..@progress[project.id][0]).each do |p|%>
+                        <span class="label label-success"> </span>
+                      <%end%>
+                      <% (0..@progress[project.id][1]).each do |p|%>
+                          <span class="label label-danger"> </span>
+                      <%end%>
+                      <% (0..@progress[project.id][2]).each do |p|%>
+                          <span class="label label-primary"> </span>
+                      <%end%>
+                      <% (0..@progress[project.id][3]).each do |p|%>
+                          <span class="label label-info"> </span>
+                      <%end%>
                   <% end %>
+                </td>
+                <td>
+                  Scrum meeting
+                </td>
+                <td>
+                  one day ago
                 </td>
               </tr>
           <% end %>
