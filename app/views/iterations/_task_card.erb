@@ -4,7 +4,7 @@
       <div><span class="label <%="task-#{node.task_status}"%>"><%="#{node.task_status}"%></span></div>
       <h3><%= node.title%></h3>
       <!-- Modal -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal fade" id="myModal<%="#{node.id}"%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -22,7 +22,7 @@
       </div>
       <p>
         <!-- Button trigger modal -->
-        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>">
           details
         </button>
         <% if @editable %>
