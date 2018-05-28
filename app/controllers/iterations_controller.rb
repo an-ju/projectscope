@@ -131,7 +131,6 @@ class IterationsController < ApplicationController
         redirect_to project_path current_user.project
       end
     end
-    @tasks = Task.where(iteration: 2)
     @projects = Project.all
     @progress = Iteration.task_progress
   end
@@ -147,6 +146,13 @@ class IterationsController < ApplicationController
     newiter = Iteration.copy_assignment iteration, project.id
     newiter.set_timestamp params[:start_time], params[:end_time]
     redirect_to '/iterations'
+  end
+
+  def dashboard
+    @projects = Project.all
+    @progress = Iteration.task_progress
+    # temp value that will be class attribute when there are more than one class
+    @iteration_num = 4
   end
 
   private
