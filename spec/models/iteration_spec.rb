@@ -210,6 +210,34 @@ describe Iteration do
       expect(progress_hash[@testproj2.id]).to eq nil
     end
 
+    it 'translate input string to datetime' do
+      expect('2022/03/01'.split('/')).to eq ['2022','03','01']
+      expect('31'.to_i).to eq 31
+      expect(['2022','03','01'].map{|s| s.to_i}).to eq [2022,3,1]
+      expect(('2022/03/01'.split('/')).map{|s| s.to_i}).to eq [2022,3,1]
+    end
+
+    it 'deal with the time stamp input and output' do
+      itera = Iteration.new()
+      starttime = DateTime.new([2022,03,01][0],[2022,03,01][1],[2022,03,01][2])
+      endtime = DateTime.new(2001,4,3)
+      itera.start_time = starttime
+      expect(itera.save).to be true
+      expect(itera.update_attribute(:end_time,endtime)).to be true
+      expect(itera.end_time).to eq DateTime.new(2001,4,3)
+    end
+
+    it 'the function is corret' do
+      iter = Iteration.new()
+      iter.save
+      start_time = '2022/03/01'
+      end_time = '2023/03/01'
+      iter = Iteration.find(iter.id)
+      expect(iter.set_timestamp start_time, end_time).not_to be_nil
+      expect(iter.start_time).to eq DateTime.new(2022,3,1)
+      expect(iter.end_time).to eq DateTime.new(2023,3,1)
+    end
+
   end
 
 end

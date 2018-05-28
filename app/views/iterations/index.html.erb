@@ -46,6 +46,8 @@
             <tr>
               <th>Project</th>
               <th>Template</th>
+              <th>Start Time</th>
+              <th>End Time</th>
               <th>Apply</th>
             </tr>
           </thead>
@@ -55,6 +57,8 @@
                 <tr>
                   <td><%=project.name%></td>
                   <td><%=select_tag "apply_iter", options_for_select(@iterations.collect{ |iter| [iter.name, iter.id] })%></td>
+                  <td><%= text_field_tag(:start_time, hint = "yyyy/mm/dd") %></td>
+                  <td><%= text_field_tag(:end_time, hint = "yyyy/mm/dd") %></td>
                   <%= hidden_field_tag :project_id, project.id %>
                   <td><%= submit_tag "apply to #{project.name}" , class: "btn btn-sm btn-outline-secondary dropdown-toggle", role: "button"%></td>
                 </tr>

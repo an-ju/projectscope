@@ -144,7 +144,8 @@ class IterationsController < ApplicationController
   def apply_to
     project = Project.find params[:project_id]
     iteration = Iteration.find(params[:apply_iter])
-    Iteration.copy_assignment iteration, project.id
+    newiter = Iteration.copy_assignment iteration, project.id
+    newiter.set_timestamp params[:start_time], params[:end_time]
     redirect_to '/iterations'
   end
 

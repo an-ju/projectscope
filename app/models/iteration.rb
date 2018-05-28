@@ -118,6 +118,15 @@ class Iteration < ActiveRecord::Base
     end
   end
 
+  # Set the start time and end time
+  def set_timestamp start_time, end_time
+    start = (start_time.split('/')).map{|s| s.to_i}
+    startime = DateTime.new(start[0],start[1],start[2])
+    endtime = (end_time.split('/')).map{|s| s.to_i}
+    ending = DateTime.new(endtime[0],endtime[1],endtime[2])
+    self.update_attribute(:end_time,ending)
+    self.update_attribute(:start_time,startime)
+  end
   # count the status of all the projects and return the hash
   def self.task_progress
     projects = Project.all

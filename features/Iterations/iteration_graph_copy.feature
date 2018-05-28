@@ -30,3 +30,5 @@ Feature: Instructor will be able to assign iteration by assigning iteration grap
     #Then I can assign new template
     #Then the status will become assgined
     #And I cannot assign template
+
+  Scenario: I can assign the start and end time for the iteration
