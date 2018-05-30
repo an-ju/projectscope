@@ -1,24 +1,27 @@
-<div class="text-secondary">
-  <h4>Preliminary Tasks</h4>
-  <div class="row">
-    <% tasks.select{|task| task.updater_type == 'preliminary'}.each do |task| %>
-        <%= render partial: 'plain_task_card', locals: {node: task}%>
-    <% end %>
+<% Iteration.where(template:  true).each do |iter| %>
+  <%tasks = Task.where(iteration: iter.id)%>
+  <div class="text-secondary">
+    <h4>Preliminary Tasks</h4>
+    <div class="row">
+      <% tasks.select{|task| task.updater_type == 'preliminary'}.each do |task| %>
+          <%= render partial: 'plain_task_card', locals: {node: task}%>
+      <% end %>
+    </div>
   </div>
-</div>
-<div class="text-secondary">
-  <h4>Development Tasks</h4>
-  <div class="row">
-    <% tasks.select{|task| task.updater_type == 'development'}.each do |task| %>
-        <%= render partial: 'plain_task_card', locals: {node: task}%>
-    <% end %>
+  <div class="text-secondary">
+    <h4>Development Tasks</h4>
+    <div class="row">
+      <% tasks.select{|task| task.updater_type == 'development'}.each do |task| %>
+          <%= render partial: 'plain_task_card', locals: {node: task}%>
+      <% end %>
+    </div>
   </div>
-</div>
-<div class="text-secondary">
-  <h4>Post Task</h4>
-  <div class="row">
-    <% tasks.select{|task| task.updater_type == 'post'}.each do |task| %>
-        <%= render partial: 'plain_task_card', locals: {node: task}%>
-    <% end %>
+  <div class="text-secondary">
+    <h4>Post Task</h4>
+    <div class="row">
+      <% tasks.select{|task| task.updater_type == 'post'}.each do |task| %>
+          <%= render partial: 'plain_task_card', locals: {node: task}%>
+      <% end %>
+    </div>
   </div>
-</div>
+<%end%>

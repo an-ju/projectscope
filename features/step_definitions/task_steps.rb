@@ -15,6 +15,14 @@ Given /the following Iteration exist:$/ do |table|
   @iteration = Iteration.all
 end
 
+Given /the following Iteration template exist:$/ do |table|
+  table.hashes.each do |hash|
+    Iteration.create hash
+  end
+  Iteration.all.update_all(template: true)
+  @iteration = Iteration.all
+end
+
 Given /the "([^\"]*)" iteration is map with the following tasks:$/ do |iter_name, table|
   @iteration = Iteration.find_by(name: iter_name)
   table.hashes.each do |hash|

@@ -9,7 +9,7 @@
             <tr>
               <td><%= label_tag(:title, "Name:") %></td>
               <td>
-                <%=select_tag :title, options_for_select(["test task names"].collect{ |u| [u, u] })%>
+                <%=select_tag :title, options_for_select(task_titles.collect{ |u| [u, u] })%>
               </td>
             </tr>
             <tr>
@@ -20,7 +20,7 @@
           </table>
           <%= hidden_field_tag :iteration_id, @iteration.id %>
           <%= hidden_field_tag :updater_type, updater_type %>
-          <%= submit_tag "Create" , class: "btn btn-default", role: "button"%>
+          <%= submit_tag "Create Task" , class: "btn btn-default", role: "button"%>
       <% end %>
     </div>
   </div>

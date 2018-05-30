@@ -35,6 +35,8 @@ module NavigationHelpers
         "/iterations"
       when /^the aggregation progress page/ then
         "/aggregate_tasks_graph"
+      when /^the iteration template page/ then
+        "iterations/new"
       # Add more mappings here.
       # Here is an example that pulls values out of the Regexp:
       #

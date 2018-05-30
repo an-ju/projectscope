@@ -14,7 +14,7 @@ class IterationsController < ApplicationController
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
     @projects = Project.all
-    @tasks = Task.where(iteration: 31)
+    @template_iterations = Iteration.where(template:true)
     # metric_min_date = MetricSample.min_date || Date.today
     # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
@@ -22,7 +22,6 @@ class IterationsController < ApplicationController
   # GET /iterations/1
   # GET /iterations/1.json
   def show
-    # @graph = @iteration.abstract_graph
     @tasks = Task.where(iteration: @iteration.id)
     @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
     @devTasks = @tasks.select{|task| task.updater_type == 'development'}
@@ -36,8 +35,6 @@ class IterationsController < ApplicationController
     @pretaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
                      'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
     @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
-    # @level = Iteration.graph_rank @graph
-    # @maxelem = Iteration.max_level_elem @level
   end
 
   # GET /iterations/new
@@ -49,6 +46,12 @@ class IterationsController < ApplicationController
         redirect_to project_path current_user.project
       end
     end
+    @devtaskTitles = ['Lo-fi Mockup', 'Pair programming', 'Code Review',
+                      'Finish Story', 'TDD and BDD', 'Points Estimation',
+                      'Pull Request'].freeze
+    @pretaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
+                      'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
+    @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
     @iteration = Iteration.new
     @projects = Project.all
   end
@@ -60,6 +63,11 @@ class IterationsController < ApplicationController
   # POST /iterations
   # POST /iterations.json
   def create
+    @iteration = Iteration.new
+    @iteration.name = params[:template]
+    @iteration.template = true
+    @iteration.save
+    redirect_to '/iterations'
   end
 
   # PATCH/PUT /iterations/1
@@ -153,6 +161,23 @@ class IterationsController < ApplicationController
     @progress = Iteration.task_progress
     # temp value that will be class attribute when there are more than one class
     @iteration_num = 4
+  end
+
+  def show_template
+    @iteration = Iteration.find(params[:id])
+    @tasks = Task.where(iteration: @iteration.id)
+    @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
+    @devTasks = @tasks.select{|task| task.updater_type == 'development'}
+    @postTasks = @tasks.select{|task| task.updater_type == 'post'}
+    @editable = !(current_user.is_student?)
+    @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
+        Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
+    @devtaskTitles = ['Lo-fi Mockup', 'Pair programming', 'Code Review',
+                      'Finish Story', 'TDD and BDD', 'Points Estimation',
+                      'Pull Request'].freeze
+    @pretaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
+                      'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
+    @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
   end
 
   private
