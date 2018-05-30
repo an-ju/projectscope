@@ -1,8 +1,8 @@
 <h1 class="text-success">Iterations Templates</h1>
 <ul class="nav nav-tabs nav-justified">
-  <li role="presentation" class="active"><a href="#">STEP 1:Select or Create Template</a></li>
-  <li role="presentation"><a href="#">STEP 2:Select Projects</a></li>
-  <li role="presentation"><a href="#">STEP 3:Info Update</a></li>
+  <li role="presentation" class="active"><a href="/iterations">STEP 1:Select or Create Template</a></li>
+  <li role="presentation"><a href="/iterations">STEP 2:Select Projects</a></li>
+  <li role="presentation"><a href="/iterations">STEP 3:Info Update</a></li>
 </ul>
 <div class="table-responsive">
   <h3 class="text-info">Select Template</h3>
@@ -43,7 +43,7 @@
             </button></td>
           <td>1</td>
           <td><%= link_to iter.name, show_iter_temp_path(id: iter.id)%></td>
-          <td><a><%= link_to "Select and Go Next Step", iterations_path, class:"btn btn-default btn-sm", type:"button", style:"float: center;"%> </a></td>
+          <td><a><%= link_to "Select and Go Next Step", iter_select_projs_path(id:iter.id), class:"btn btn-default btn-sm", type:"button", style:"float: center;"%> </a></td>
         </tr>
     <%end%>
     </tbody>

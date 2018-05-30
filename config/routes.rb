@@ -55,6 +55,8 @@ Rails.application.routes.draw do
   post 'event/:callback_token/callback', to: "tasks#call_back_handler"
   post 'iterations/apply_to', to: "iterations#apply_to"
   get  'iterations/:id/show_template', to: "iterations#show_template", as: 'show_iter_temp'
+  get  'iterations/:id/select_projects', to: "iterations#select_projects", as: 'iter_select_projs'
+  get  'iterations/:id/confirm_assignment', to: "iterations#confirm_assignment", as: 'iter_confirm_info'
   get '/dashboard', to: "iterations#dashboard"
   root 'projects#index'
 end

@@ -180,6 +180,15 @@ class IterationsController < ApplicationController
     @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
   end
 
+  def select_projects
+    @iteration = Iteration.find(params[:id])
+    @projects = Project.all
+  end
+
+  def confirm_assignment
+    @iteration = Iteration.find(params[:id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_iteration
