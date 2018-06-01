@@ -150,7 +150,7 @@ class IterationsController < ApplicationController
 
   def apply_to
     project = Project.find params[:project_id]
-    iteration = Iteration.find(params[:apply_iter])
+    iteration = Iteration.find(params[:id])
     newiter = Iteration.copy_assignment iteration, project.id
     newiter.set_timestamp params[:start_time], params[:end_time]
     redirect_to '/iterations'
@@ -186,7 +186,9 @@ class IterationsController < ApplicationController
   end
 
   def confirm_assignment
+    project_ids = params[:project_ids].collect {|id| id.to_i} if params[:project_ids]
     @iteration = Iteration.find(params[:id])
+    @projects = project_ids.map{|proj| Project.find(proj)}
   end
 
   private

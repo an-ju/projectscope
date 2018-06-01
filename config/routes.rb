@@ -53,10 +53,10 @@ Rails.application.routes.draw do
   get 'aggregate_tasks_graph', to: 'iterations#aggregate_tasks_graph'
   post '/iterations/apply_to_all', to: 'iterations#apply_to_all'
   post 'event/:callback_token/callback', to: "tasks#call_back_handler"
-  post 'iterations/apply_to', to: "iterations#apply_to"
+  post 'iterations/:id/apply_to', to: "iterations#apply_to", as: 'iteration_apply'
   get  'iterations/:id/show_template', to: "iterations#show_template", as: 'show_iter_temp'
   get  'iterations/:id/select_projects', to: "iterations#select_projects", as: 'iter_select_projs'
-  get  'iterations/:id/confirm_assignment', to: "iterations#confirm_assignment", as: 'iter_confirm_info'
+  post 'iterations/:id/confirm_assignment', to: "iterations#confirm_assignment", as: 'iter_confirm_info'
   get '/dashboard', to: "iterations#dashboard"
   root 'projects#index'
 end
