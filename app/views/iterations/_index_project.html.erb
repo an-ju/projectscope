@@ -18,13 +18,13 @@
         </tr>
         </thead>
         <tbody>
-      <% @projects.each do |project| %>
-        <tr>
-          <td><%= check_box_tag('project_ids[]',project.id, true, class: "checkbox") %></td>
-          <td><%=project.name%></td>
-          <td>3</td>
-        </tr>
-      <% end %>
+          <% @projects.each do |project| %>
+            <tr>
+              <td><%= check_box_tag('project_ids[]',project.id, true, class: "checkbox") %></td>
+              <td><%=project.name%></td>
+              <td>3</td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
       <%= hidden_field_tag :iteration_id, @iteration.id %>

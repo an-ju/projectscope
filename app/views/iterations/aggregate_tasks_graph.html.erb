@@ -17,31 +17,43 @@
             <th>Project</th>
             <th>Progress</th>
             <th>Current Task</th>
+            <th>Start Time</th>
+            <th>End Time</th>
             <th>Last Updated</th>
           </tr>
           </thead>
           <tbody>
-          <% @projects.each do |project| %>
+          <% Project.all.each do |project| %>
               <tr>
                 <td><%= link_to project.name, iteration_path(id: Iteration.where(project_id: project.id)[0])%></td>
                 <td>
                   <% if @progress[project.id] %>
+                      <% @tasks_iter[project.id].each do |task| %>
+                          <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-success"> </span></a>
+                      <%end%>
                       <% (0..@progress[project.id][0]).each do |p|%>
-                        <span class="label label-success"> </span>
+                        <!-- HTML to write -->
+                        <a href="#" data-toggle="tooltip" title="Task name"><span class="label label-success"> </span></a>
                       <%end%>
                       <% (0..@progress[project.id][1]).each do |p|%>
-                          <span class="label label-danger"> </span>
+                        <a href="#" data-toggle="tooltip1" title="Some tooltip text!"><span class="label label-danger"> </span></a>
                       <%end%>
                       <% (0..@progress[project.id][2]).each do |p|%>
-                          <span class="label label-primary"> </span>
+                        <a href="#" data-toggle="tooltip1" title="Some tooltip text!"><span class="label label-primary"> </span></a>
                       <%end%>
                       <% (0..@progress[project.id][3]).each do |p|%>
-                          <span class="label label-info"> </span>
+                          <a href="#" data-toggle="tooltip" title="Some tooltip text!"><span class="label label-info"> </span></a>
                       <%end%>
                   <% end %>
                 </td>
                 <td>
                   Scrum meeting
+                </td>
+                <td>
+                  <%= Iteration.where(project_id: project.id)[0].start_time%>
+                </td>
+                <td>
+                  <%= Iteration.where(project_id: project.id)[0].end_time%>
                 </td>
                 <td>
                   one day ago

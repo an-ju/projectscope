@@ -70,21 +70,6 @@ class IterationsController < ApplicationController
     redirect_to '/iterations'
   end
 
-  # PATCH/PUT /iterations/1
-  # PATCH/PUT /iterations/1.json
-  def update
-  end
-
-  # DELETE /iterations/1
-  # DELETE /iterations/1.json
-  def destroy
-    @iteration.destroy
-    respond_to do |format|
-      format.html { redirect_to iterations_url, notice: 'Iteration was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
   def update_all
     @iteration = Iteration.find(params[:iteration_id])
     redirect_to @iteration
@@ -141,11 +126,14 @@ class IterationsController < ApplicationController
     end
     @projects = Project.all
     @progress = Iteration.task_progress
-  end
-
-  def apply_to_all
-    Iteration.all_copy_assignment params[:apply_all]
-    redirect_to '/iterations'
+    @tasks_iter = {}
+    @progress_hash = {}
+    @projects.each do |proj|
+      @progress_hash[proj.id] = Iteration.count_graph_status proj.id
+      iter = Iteration.where(project_id:proj.id)
+      tasks = Task.where(iteration_id: iter[0].id)
+      @tasks_iter[proj.id] = tasks
+    end
   end
 
   def apply_to
@@ -185,10 +173,28 @@ class IterationsController < ApplicationController
     @projects = Project.all
   end
 
+  def create_template_task
+    @iteration = Iteration.find params[:iteration_id]
+    newtask = Task.new
+    newtask.updater_type = params[:updater_type]
+    newtask.title = params[:title]
+    newtask.task_status = "unstarted"
+    newtask.iteration_id = params[:iteration_id]
+    newtask.description = params[:description]
+    newtask.save
+    redirect_to show_iter_temp_path(@iteration.id)
+  end
+
   def confirm_assignment
     project_ids = params[:project_ids].collect {|id| id.to_i} if params[:project_ids]
     @iteration = Iteration.find(params[:id])
     @projects = project_ids.map{|proj| Project.find(proj)}
+  end
+
+  def delete_iteration
+    @iteration = Iteration.find(params[:id])
+    @iteration.destroy
+    redirect_to iterations_path
   end
 
   private

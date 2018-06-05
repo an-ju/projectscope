@@ -88,6 +88,7 @@ class Iteration < ActiveRecord::Base
   def self.copy_assignment iteration, projid
     newiter = Iteration.new()
     newiter.project_id = projid
+    newiter.template = false
     newiter.name = iteration.name
     newiter.active = true
     newiter.save
