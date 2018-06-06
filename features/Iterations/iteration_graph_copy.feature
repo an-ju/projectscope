@@ -15,8 +15,6 @@ Feature: Instructor will be able to assign iteration by assigning iteration grap
     And I am on the iterations page
     
   Scenario: Select all from the the tasks graph
-    Given I select "TempIteration" from "apply_all"
-    Then I press "Apply to all"
     #Then All the projects should have status "assigned"
     #And All projects will have current iteration same as "TempIteration"
 

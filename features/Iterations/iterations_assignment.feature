@@ -15,13 +15,3 @@ Feature: Instructor will assign the iterations template in three step
       | name          |
       | TempIteration |
     And I am on the iterations page
-
-
-  Feature: I can select template
-    When I select the TempIteration from "select template"
-    Then I can press "next"
-
-  Feature: I can create new template
-    When I fill in new template with name "new template"
-    Then I press "next"
-    Then I will have "new template" iteration template

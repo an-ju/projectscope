@@ -12,9 +12,5 @@ Feature: Instructor create template
       | TestProject2 |
     And I am on the iteration template page
 
-  Feature: I will be able to create template
-    When I write "template 1" into
-    Then I press "create template"
-    Then I will have a new template "template 1"
 
 
