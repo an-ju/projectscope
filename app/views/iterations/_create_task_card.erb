@@ -1,9 +1,8 @@
-<div class="col-sm-4 col-md-4 ">
+<div class="col-sm-3 col-md-2 ">
   <div class="thumbnail">
     <div class="caption">
       <h3>Create New Task</h3>
       <%= form_tag("/iterations/create_task", method: "post") do %>
-
           <table>
             <tbody>
               <tr>
@@ -20,7 +19,7 @@
           </table>
           <%= hidden_field_tag :iteration_id, @iteration.id %>
           <%= hidden_field_tag :updater_type, updater_type %>
-          <%= submit_tag "Create" , class: "btn btn-default", role: "button"%>
+          <%= submit_tag "Create" , class: "card-link btn btn-sm", role: "button"%>
       <% end %>
     </div>
   </div>

@@ -125,7 +125,7 @@ projects_list = []
 end
 
 # create iteration
-iteration = Iteration.create(name: "Iteration 0")
+iteration = Iteration.create(name: "Iteration 0", template: true)
 # create the seed for task graph
 t1 = Task.create(title: 'Customer Meeting',
                  iteration: iteration,

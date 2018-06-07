@@ -31,6 +31,12 @@ module NavigationHelpers
         "/users/#{User.find_by(provider_username: $1).id}/init"
       when /^the iteration page for "(.*)"/ then
         "/iterations/#{Iteration.find_by(name: $1).id}"
+      when /^the iterations page/ then
+        "/iterations"
+      when /^the aggregation progress page/ then
+        "/aggregate_tasks_graph"
+      when /^the iteration template page/ then
+        "iterations/new"
       # Add more mappings here.
       # Here is an example that pulls values out of the Regexp:
       #

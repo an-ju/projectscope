@@ -9,7 +9,6 @@ Feature: Started tasks will be send and receive update info in iteration package
     And the following Iteration exist:
       | name           |
       | IterationEvent |
-
     And the "IterationEvent" iteration is map with the following tasks:
       | title       | updater_type |
       | Test Title  | github       |

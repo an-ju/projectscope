@@ -8,6 +8,7 @@ Feature: All iteration properly present the priliminary tasks
     And the following Iteration exist:
       | name          |
       | IterationPost |
+
     And the "IterationPost" iteration is map with the following tasks:
       | title               | updater_type      | task_status |
       | Deploy              | post              | started     |
