@@ -128,6 +128,7 @@ class Iteration < ActiveRecord::Base
     self.update_attribute(:end_time,ending)
     self.update_attribute(:start_time,startime)
   end
+
   # count the status of all the projects and return the hash
   def self.task_progress
     projects = Project.all
@@ -136,6 +137,24 @@ class Iteration < ActiveRecord::Base
       progress_hash[proj.id] = Iteration.count_graph_status proj.id
     end
     progress_hash
+  end
+
+  # return true if the time stamp is inside the time
+  def current_iter? time
+    self.start_time < time and self.end_time > time
+  end
+
+  def self.current_iter proj
+    iters = Iteration.where(project_id: proj.id)
+    current_time = Time.now
+    iters.each do |iter|
+      if iter.start_time != nil and iter.end_time != nil
+        if iter.start_time < current_time and iter.end_time > current_time
+          return iter
+        end
+      end
+    end
+    nil
   end
 
   # Find out the height and length of the graph

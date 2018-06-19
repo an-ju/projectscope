@@ -13,10 +13,6 @@ Feature: Instructor will be able to assign iteration by assigning iteration grap
       | name          |
       | TempIteration |
     And I am on the iterations page
-    
-  Scenario: Select all from the the tasks graph
-    #Then All the projects should have status "assigned"
-    #And All projects will have current iteration same as "TempIteration"
 
   Scenario: I can assign project with existing tasks graph template
     #Given I select "TempIteration" from "apply_iter"

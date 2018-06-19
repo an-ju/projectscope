@@ -127,12 +127,14 @@ class IterationsController < ApplicationController
     @projects = Project.all
     @progress = Iteration.task_progress
     @tasks_iter = {}
-    @progress_hash = {}
     @projects.each do |proj|
-      @progress_hash[proj.id] = Iteration.count_graph_status proj.id
-      iter = Iteration.where(project_id:proj.id)
-      tasks = Task.where(iteration_id: iter[0].id)
-      @tasks_iter[proj.id] = tasks
+      iter = Iteration.current_iter proj
+      if iter != nil
+        tasks = Task.where(iteration_id: iter.id)
+        @tasks_iter[proj.id] = tasks
+      else
+        @tasks_iter[proj.id] = []
+      end
     end
   end
 

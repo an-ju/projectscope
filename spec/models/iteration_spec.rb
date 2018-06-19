@@ -237,6 +237,60 @@ describe Iteration do
       expect(iter.start_time).to eq DateTime.new(2022,3,1)
       expect(iter.end_time).to eq DateTime.new(2023,3,1)
     end
+
+    it 'get the current time' do
+      b = Time.new(2012, 9, 29, 0, 0, 0.5)
+      expect(DateTime.now).not_to be_nil
+    end
+
+    it 'return the current running iteration' do
+      a = Time.new(2012, 8, 29, 0, 0, 0.5)
+      b = Time.new(2012, 9, 29, 0, 0, 0.5)
+      expect(b > a).to eq true
+    end
+
+    it 'return the current running iteration' do
+      iter = Iteration.new()
+      iter.save
+      start_time = '2022/03/01'
+      end_time = '2023/03/01'
+      iter = Iteration.find(iter.id)
+      iter.set_timestamp start_time, end_time
+      a = Time.new(2022, 8, 29, 0, 0, 0.5)
+      expect(iter.current_iter?(a)).to eq true
+    end
+
+    it 'return the actual current iteration' do
+      iter = Iteration.new()
+      iter.save
+      start_time = '2014/03/01'
+      end_time = '2023/03/01'
+      iter.project_id = @testproj3.id
+      iter.set_timestamp start_time, end_time
+      iter1 = Iteration.new()
+      iter1.project_id = @testproj3.id
+      iter1.save
+      start_time1 = '2022/03/01'
+      end_time1 = '2023/03/01'
+      iter1.set_timestamp start_time1, end_time1
+      a = Time.new(2022, 8, 29, 0, 0, 0.5)
+      expect(Iteration.current_iter @testproj3).to eq iter
+    end
+
+    it 'return the actual current iteration' do
+      iter = Iteration.new()
+      iter.save
+      start_time = '2014/03/01'
+      end_time = '2015/03/01'
+      iter.project_id = @testproj1.id
+      iter.set_timestamp start_time, end_time
+      expect(Iteration.current_iter @testproj3).to eq nil
+    end
+
+    it 'return the current time ' do
+      expect(Time.now).not_to be_nil
+    end
+
   end
 
   describe 'Create iteration template and modify the tasks graph' do
