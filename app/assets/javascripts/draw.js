@@ -69,10 +69,10 @@ function drawMetricCharts(containerID, metric_sample) {
             code_climate_badge(containerID, JSONStr);
         }
     } else if (JSONStr['chartType'] === 'test_coverage_v2') {
-        if (metric_sample.score > 0) {
-            index_score(containerID, metric_sample.score.toPrecision(3), 0.0, 100.0);
-        } else {
+        if (JSONStr['data']['test_badge'].length > 0) {
             test_coverage_badge(containerID, JSONStr);
+        } else {
+            index_score(containerID, metric_sample.score.toPrecision(3), 0.0, 100.0);
         }
     }
     else {
