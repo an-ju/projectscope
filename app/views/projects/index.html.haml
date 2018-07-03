@@ -11,11 +11,11 @@
       - metric_names.each_with_index do |m, index|
         - if index == @current_page
           %li.active
-            %a{href: projects_path(page: index+1, type: @display_type)}
+            %a{href: projects_path(page: index+1, type: @display_type), 'data-turbolinks': 'true'}
               = index + 1
         - else
           %li
-            %a{href: projects_path(page: index+1, type: @display_type)}
+            %a{href: projects_path(page: index+1, type: @display_type), 'data-turbolinks': 'true'}
               = index + 1
 - if @display_type.eql? 'metric'
   = render partial: 'time_slider'

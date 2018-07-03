@@ -16,6 +16,9 @@ class ProjectsController < ApplicationController
         redirect_to project_path current_user.project
       end
     end
+    days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
+    # @page_date = Date.today - days_from_now.days
+    @days_from_now = days_from_now
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
