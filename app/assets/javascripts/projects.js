@@ -109,7 +109,7 @@ var render_charts = function () {
                     // check_progress();
                 },
                 error: function(a, b, c) {
-                    check_progress();
+                    // check_progress();
                     if (a.status !== 404) {
                         console.log(a);
                         console.log(b);
@@ -123,7 +123,7 @@ var render_charts = function () {
             $.ajax({url: "/projects/" + project_id + "/metrics/" + metric + '?days_from_now=' + splited[4],
                 success: function(result) {
                     drawMetricCharts(id, result);
-                    check_progress();
+                    // check_progress();
                 },
                 error: function(a, b, c) {
                     check_progress();
@@ -143,8 +143,6 @@ var render_charts = function () {
             });
         }
     };
-    total_number = $(".chart_place").length;
-    current_progress = 0;
     $(".chart_place").each(function () {
         $.when(get_charts_json(this.id));
     });

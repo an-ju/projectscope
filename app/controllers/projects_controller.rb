@@ -17,7 +17,6 @@ class ProjectsController < ApplicationController
       end
     end
     days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
-    # @page_date = Date.today - days_from_now.days
     @days_from_now = days_from_now
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
@@ -32,6 +31,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1
   def show
+    days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
+    @days_from_now = days_from_now
     @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
     @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
     @other_projects = Project.select([:id, :name]).where.not(id: @project.id)
