@@ -78,7 +78,7 @@ gem 'jquery-turbolinks'
 gem 'sprockets-rails', '~> 3.1.1'
 
 gem 'newrelic_rpm'
-gem 'pg'
+gem 'pg', '~> 0.15'
 
 group :development, :test do
   gem 'sqlite3'

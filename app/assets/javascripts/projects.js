@@ -2,9 +2,9 @@
 // All this logic will automatically be available in application.js.
 
 // Global variables
-var days = 0;
-var current_progress = 0;
-var total_number = 0;
+// var days = 0;
+// var current_progress = 0;
+// var total_number = 0;
 // var parent_metric = null;
 var global_project_id = null;
 var keep_log = false;
@@ -13,14 +13,14 @@ var update_date_label = function (days_from_now) {
     var today = new Date();
     today.setDate(today.getDate()-days_from_now);
     $("#date-label").html(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate());
-    d3.select('#day-before').classed('disabled', false);
-    d3.select('#day-after').classed('disabled', false);
+    // d3.select('#day-before').classed('disabled', false);
+    // d3.select('#day-after').classed('disabled', false);
 };
 
 var outdate_all_metrics = function () {
     d3.selectAll('.chart_place').selectAll('*').remove();
-    d3.select('#day-before').classed('disabled', true);
-    d3.select('#day-after').classed('disabled', true);
+    // d3.select('#day-before').classed('disabled', true);
+    // d3.select('#day-after').classed('disabled', true);
 };
 
 var update_slider_indicator = function (is_successful) {
@@ -65,15 +65,15 @@ var ready = function () {
     outdate_all_metrics();
     render_charts();
 
-    $(".date-nav").unbind().click(function (event) {
-        outdate_all_metrics();
-        days += this.id === "day-before" ? 1 : -1;
-        if (days < 0) {
-            days = 0;
-            return;
-        }
-        request_for_metrics(days);
-    });
+    // $(".date-nav").unbind().click(function (event) {
+    //     outdate_all_metrics();
+    //     days += this.id === "day-before" ? 1 : -1;
+    //     if (days < 0) {
+    //         days = 0;
+    //         return;
+    //     }
+    //     request_for_metrics(days);
+    // });
     // update_date_label(days);
 };
 
@@ -84,56 +84,11 @@ var render_charts = function () {
         var chart_type = splited[2];
         var metric = splited[3];
         if (chart_type === 'metric') {
-            $.ajax({url: "/projects/" + project_id + "/metrics/" + metric + '?days_from_now=' + days,
-                success: function(result) {
-                    drawMetricCharts(id, result);
-                    check_progress();
-                },
-                error: function(a, b, c) {
-                    check_progress();
-                    if (a.status !== 404) {
-                        console.log(a);
-                        console.log(b);
-                        console.log(c);
-                    } else {
-                        drawDataNotFound(id);
-                    }
-                }
-            });
+            var m = JSON.parse($('#' + id).attr('d'));
+            drawMetricCharts(id, m);
         } else if (chart_type === 'series') {
-            $.ajax({url: "/projects/" + project_id + "/metrics/" + metric + '/series?days_from_now=' + days,
-                success: function(result) {
-                    drawSeriesCharts(id, result);
-                    check_progress();
-                },
-                error: function(a, b, c) {
-                    check_progress();
-                    if (a.status !== 404) {
-                        console.log(a);
-                        console.log(b);
-                        console.log(c);
-                    } else {
-                        drawDataNotFound(id);
-                    }
-                }
-            });
-        } else if (chart_type === 'ondate') {
-            $.ajax({url: "/projects/" + project_id + "/metrics/" + metric + '?days_from_now=' + splited[4],
-                success: function(result) {
-                    drawMetricCharts(id, result);
-                    check_progress();
-                },
-                error: function(a, b, c) {
-                    check_progress();
-                    if (a.status !== 404) {
-                        console.log(a);
-                        console.log(b);
-                        console.log(c);
-                    } else {
-                        drawDataNotFound(id);
-                    }
-                }
-            });
+            var s = JSON.parse($('#' + id).attr('s'));
+            drawSeriesCharts(id, s);
         }
         if (keep_log) {
             $('#' + id).on('mouseenter', function () {
@@ -141,8 +96,6 @@ var render_charts = function () {
             });
         }
     };
-    total_number = $(".chart_place").length;
-    current_progress = 0;
     $(".chart_place").each(function () {
         $.when(get_charts_json(this.id));
     });
@@ -182,13 +135,4 @@ function write_log(msg) {
     })
 }
 
-function check_progress() {
-    current_progress += 1;
-    if (current_progress === total_number) {
-        update_date_label(days);
-    }
-}
-
-// $(document).ready(ready);
-// $(window).on("load", ready);
 $(document).on('turbolinks:load', ready);

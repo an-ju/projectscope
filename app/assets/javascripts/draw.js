@@ -17,6 +17,9 @@ function parseChartParams(JSONStr) {
 }
 
 function drawMetricCharts(containerID, metric_sample) {
+    if (metric_sample == null) {
+        return;
+    }
     var JSONStr = JSON.parse(metric_sample.image);
     $('#'+containerID).attr('metric_sample', metric_sample.id);
     if(JSONStr['chartType'] === 'd3') {
@@ -81,7 +84,9 @@ function drawMetricCharts(containerID, metric_sample) {
 }
 
 function drawSeriesCharts(containerID, metric_samples) {
-    var JSONStr = JSON.parse(metric_samples[0].image);
+    var scores = metric_samples.map(function (x) {
+        return x.score;
+    });
     score_series(containerID, metric_samples);
 }
 
