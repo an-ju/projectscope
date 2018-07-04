@@ -86,41 +86,9 @@ var render_charts = function () {
         if (chart_type === 'metric') {
             var m = JSON.parse($('#' + id).attr('d'));
             drawMetricCharts(id, m);
-            // $.ajax({url: "/projects/" + project_id + "/metrics/" + metric + '?days_from_now=' + days,
-            //     success: function(result) {
-            //         drawMetricCharts(id, result);
-            //         check_progress();
-            //     },
-            //     error: function(a, b, c) {
-            //         check_progress();
-            //         if (a.status !== 404) {
-            //             console.log(a);
-            //             console.log(b);
-            //             console.log(c);
-            //         } else {
-            //             drawDataNotFound(id);
-            //         }
-            //     }
-            // });
         } else if (chart_type === 'series') {
             var s = JSON.parse($('#' + id).attr('s'));
             drawSeriesCharts(id, s);
-            // $.ajax({url: "/projects/" + project_id + "/metrics/" + metric + '/series?days_from_now=' + days,
-            //     success: function(result) {
-            //         drawSeriesCharts(id, result);
-            //         // check_progress();
-            //     },
-            //     error: function(a, b, c) {
-            //         // check_progress();
-            //         if (a.status !== 404) {
-            //             console.log(a);
-            //             console.log(b);
-            //             console.log(c);
-            //         } else {
-            //             drawDataNotFound(id);
-            //         }
-            //     }
-            // });
         } else if (chart_type === 'ondate') {
             $.ajax({url: "/projects/" + project_id + "/metrics/" + metric + '?days_from_now=' + splited[4],
                 success: function(result) {
@@ -184,13 +152,4 @@ function write_log(msg) {
     })
 }
 
-// function check_progress() {
-//     current_progress += 1;
-//     if (current_progress === total_number) {
-//         update_date_label(days);
-//     }
-// }
-
-// $(document).ready(ready);
-// $(window).on("load", ready);
 $(document).on('turbolinks:load', ready);
