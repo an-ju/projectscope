@@ -30,7 +30,6 @@ function commit_message(containerID, data) {
             .style('border-width', '1px')
             .style('border-color', 'black')
             .style('width', function (d) {
-                console.log(95 * parseInt(d.number) / sum + '%');
                 return 95 * parseInt(d.number) / sum + '%';
             })
             .style('float', 'left')
