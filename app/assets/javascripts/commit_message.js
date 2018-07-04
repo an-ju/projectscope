@@ -8,7 +8,6 @@ function commit_message(containerID, data) {
         plotdata.push({'type': t, 'number': types[t]});
         sum += parseInt(types[t]);
     });
-    console.log(sum);
 
     var color = function (d) {
         if (d.type === 'untyped') {

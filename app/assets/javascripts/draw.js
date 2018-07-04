@@ -17,6 +17,9 @@ function parseChartParams(JSONStr) {
 }
 
 function drawMetricCharts(containerID, metric_sample) {
+    if (metric_sample == null) {
+        return;
+    }
     var JSONStr = JSON.parse(metric_sample.image);
     $('#'+containerID).attr('metric_sample', metric_sample.id);
     if(JSONStr['chartType'] === 'd3') {
