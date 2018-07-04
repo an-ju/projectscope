@@ -339,7 +339,7 @@ GEM
       oauth2 (~> 1.1)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
-    pg (1.0.0)
+    pg (0.21.0)
     phantomjs (2.1.1.0)
     poltergeist (1.17.0)
       capybara (~> 2.1)
@@ -508,7 +508,7 @@ DEPENDENCIES
   launchy
   newrelic_rpm
   omniauth-github
-  pg
+  pg (~> 0.15)
   phantomjs
   poltergeist
   project_metric_code_climate!
