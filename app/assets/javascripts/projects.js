@@ -17,11 +17,11 @@ var update_date_label = function (days_from_now) {
     // d3.select('#day-after').classed('disabled', false);
 };
 
-var outdate_all_metrics = function () {
-    d3.selectAll('.chart_place').selectAll('*').remove();
-    // d3.select('#day-before').classed('disabled', true);
-    // d3.select('#day-after').classed('disabled', true);
-};
+// var outdate_all_metrics = function () {
+//     d3.selectAll('.chart_place').selectAll('*').remove();
+//     // d3.select('#day-before').classed('disabled', true);
+//     // d3.select('#day-after').classed('disabled', true);
+// };
 
 var update_slider_indicator = function (is_successful) {
     var indicator = $("#slider-progress-indicator");
@@ -54,7 +54,7 @@ var update_links = function () {
 var request_for_metrics = function (days_from_now) {
     days = days_from_now;
     //TODO: Add some transition state indicators.
-    outdate_all_metrics();
+    // outdate_all_metrics();
     update_links();
     render_charts();
     // update_date_label(days);
@@ -62,7 +62,7 @@ var request_for_metrics = function (days_from_now) {
 };
 
 var ready = function () {
-    outdate_all_metrics();
+    // outdate_all_metrics();
     render_charts();
 
     // $(".date-nav").unbind().click(function (event) {
