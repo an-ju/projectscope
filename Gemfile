@@ -75,9 +75,10 @@ gem 'font-awesome-rails'
 gem 'bootswatch-rails', '~>3.3.5'
 gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
-gem 'sprockets-rails', '~> 3.1.1'
+gem 'sprockets-rails', '~> 3.1.1', require: 'sprockets/railtie'
 
 gem 'newrelic_rpm'
+gem 'pg', '~> 0.15'
 
 group :development, :test do
   gem 'sqlite3'
@@ -113,5 +114,4 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'pg'
 end

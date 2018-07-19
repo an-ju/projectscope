@@ -5,7 +5,7 @@
   %div.btn-group{role: 'group'}
     = link_to 'Config', edit_project_path(@project), class: 'btn btn-default', role: 'button'
 
-= render partial: 'time_slider'
+= render partial: 'time_slider', locals: {page_path: project_path(@project)}
 
 %div.col-md-6
   %h2
@@ -20,15 +20,15 @@
         %th
           Operation
     %tbody
-      - @project.comments.select(&:unread?).each do |cmnt|
-        - sample = cmnt.metric_sample
-        %tr{id: "comment_#{cmnt.id}"}
-          %td
-            = cmnt.content
-          %td{style: 'text-align: center'}
-            %div.chart_place{:id => "project-#{@project.id}-ondate-#{sample.metric_name}-#{sample.days_ago}-#{cmnt.id}"}
-          %td.btn-default.btn.btn-sm{onclick: "read_comment(#{cmnt.id})"}
-            Mark as read
+      -#- @project.comments.select(&:unread?).each do |cmnt|
+      -#  - sample = cmnt.metric_sample
+      -#  %tr{id: "comment_#{cmnt.id}"}
+      -#    %td
+      -#      = cmnt.content
+      -#    %td{style: 'text-align: center'}
+      -#      -#%div.chart_place{:id => "project-#{@project.id}-ondate-#{sample.metric_name}-#{sample.days_ago}-#{cmnt.id}"}
+      -#    %td.btn-default.btn.btn-sm{onclick: "read_comment(#{cmnt.id})"}
+      -#      Mark as read
 - metric_names = ProjectMetrics.hierarchies :metric
 %div.col-md-6
   %h2
@@ -43,9 +43,10 @@
                 = METRIC_NAMES[metric_name.to_sym]
               %span.glyphicon.glyphicon-question-sign{type: 'button', 'data-toggle': 'modal', 'data-target': "##{metric_name}_explanation"}
             %td{style: 'text-align: center'}
-              %div.chart_place{:id => "project-#{@project.id}-metric-#{metric_name}"}
+              %div.chart_place{id: "project-#{@project.id}-metric-#{metric_name}",
+                               d: "#{@project.metric_on_date(metric_name, Date.today - @days_from_now.days).last.to_json}"}
             %td{style: 'text-align: center'}
-              %div.chart_place{id: "project-#{@project.id}-series-#{metric_name}"}
+              -#%div.chart_place{id: "project-#{@project.id}-series-#{metric_name}"}
 
 %div.col-md-12
   %div.col-md-6

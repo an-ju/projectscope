@@ -17,6 +17,9 @@ function parseChartParams(JSONStr) {
 }
 
 function drawMetricCharts(containerID, metric_sample) {
+    if (metric_sample == null) {
+        return;
+    }
     var JSONStr = JSON.parse(metric_sample.image);
     $('#'+containerID).attr('metric_sample', metric_sample.id);
     if(JSONStr['chartType'] === 'd3') {
@@ -69,10 +72,10 @@ function drawMetricCharts(containerID, metric_sample) {
             code_climate_badge(containerID, JSONStr);
         }
     } else if (JSONStr['chartType'] === 'test_coverage_v2') {
-        if (metric_sample.score > 0) {
-            index_score(containerID, metric_sample.score.toPrecision(3), 0.0, 100.0);
-        } else {
+        if (JSONStr['data']['test_badge'].length > 0) {
             test_coverage_badge(containerID, JSONStr);
+        } else {
+            index_score(containerID, metric_sample.score.toPrecision(3), 0.0, 100.0);
         }
     }
     else {
@@ -81,7 +84,9 @@ function drawMetricCharts(containerID, metric_sample) {
 }
 
 function drawSeriesCharts(containerID, metric_samples) {
-    var JSONStr = JSON.parse(metric_samples[0].image);
+    var scores = metric_samples.map(function (x) {
+        return x.score;
+    });
     score_series(containerID, metric_samples);
 }
 

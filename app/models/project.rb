@@ -62,6 +62,12 @@ class Project < ActiveRecord::Base
       .where(created_at: (date.beginning_of_day.utc..date.end_of_day.utc), metric_name: metric)
   end
 
+  def metric_series(metric, date)
+    metric_samples
+      .select(%I[id project_id metric_name score created_at])
+      .where(created_at: ((date - 5.days).beginning_of_day.utc..date.end_of_day.utc), metric_name: metric)
+  end
+
   def resample_all_metrics
     ProjectMetrics.metric_names.each { |metric_name| resample_metric metric_name }
   end
