@@ -6,59 +6,106 @@
 <div class="page-header">
   <h1> Tasks Graph <small>Audience 1st</small></h1>
 </div>
-<ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a href="#">Preliminary</a></li>
-  <li role="presentation"><a href="#">Development</a></li>
-  <li role="presentation"><a href="#">Post</a></li>
-</ul>
-<div class="body-timeline">
-  <div class="progress">
-    <div class="progress-bar progress-bar-success" style="width: <%= @prepercent %>%">
-      <span class="sr-only"><%=@prepercent%>% Complete (success)</span>
-    </div>
-    <div class="progress-bar progress-bar-danger" style="width: <%= @predan %>%">
-      <span class="sr-only"><%=@predan%>% Complete (danger)</span>
-    </div>
-  </div>
-  <section id="timeline" class="body-timeline">
+<div>
+  <section id="timeline">
+    <article>
+      <div class="inner">
+        <span class="date">
+        </span>
+        <h1 class = "card-section">
+          Current Phase:  Configuration
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" style="width: <%= @prepercent %>%">
+              <span class="sr-only"><%=@prepercent%>% Complete (success)</span>
+            </div>
+            <div class="progress-bar progress-bar-danger" style="width: <%= @predan %>%">
+              <span class="sr-only"><%=@predan%>% Complete (danger)</span>
+            </div>
+          </div>
+        </h1>
+      </div>
+    </article>
     <% @preliminaryTasks.each do |task| %>
         <article>
           <%= render partial: 'temp_task_card', locals: {node: task, updater_type: "preliminary",task_titles: @pretaskTitles}%>
         </article>
+        <article>
+          <div class="inner">
+            <span class="date"></span>
+              <h3 class = "card-deadline">
+                05 Jan, Tuesday
+              </h3>
+          </div>
+        </article>
     <% end %>
-  </section>
-</div>
-<div class="body-timeline">
-  <div class="progress">
-    <div class="progress-bar progress-bar-success" style="width: <%=@devpercent %>%">
-      <span class="sr-only"><%=@devpercent%>% Complete (success)</span>
-    </div>
-    <div class="progress-bar progress-bar-danger" style="width: <%= @devdan %>%">
-      <span class="sr-only"><%=@devdan%>% Complete (danger)</span>
-    </div>
-  </div>
-  <section id="timeline" class="body-timeline">
+    <article>
+      <%= render partial: 'temp_task_card_create', locals: {updater_type: "preliminary",task_titles: @pretaskTitles}%>
+    </article>
+    <article>
+      <div class="inner">
+        <span class="date">
+        </span>
+        <h1 class = "card-section">
+          Development
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" style="width: <%=@devpercent %>%">
+              <span class="sr-only"><%=@devpercent%>% Complete (success)</span>
+            </div>
+            <div class="progress-bar progress-bar-danger" style="width: <%= @devdan %>%">
+              <span class="sr-only"><%=@devdan%>% Complete (danger)</span>
+            </div>
+          </div>
+        </h1>
+      </div>
+    </article>
     <% @devTasks.each do |task| %>
         <article>
           <%= render partial: 'temp_task_card', locals: {node: task, updater_type: "development",task_titles: @devtaskTitles}%>
         </article>
+        <article>
+          <div class="inner">
+            <span class="date"></span>
+            <h3 class = "card-deadline">
+              05 Jan, Tuesday
+            </h3>
+          </div>
+        </article>
     <% end %>
-  </section>
-</div>
-<div class="body-timeline">
-  <div class="progress">
-    <div class="progress-bar progress-bar-success" style="width: <%= @postpercent %>%">
-      <span class="sr-only"><%=@postpercent%>% Complete (success)</span>
-    </div>
-    <div class="progress-bar progress-bar-danger" style="width: <%= @postdan %>%">
-      <span class="sr-only"><%=@postdan%>% Complete (danger)</span>
-    </div>
-  </div>
-  <section id="timeline" class="body-timeline">
+    <article>
+      <%= render partial: 'temp_task_card_create', locals: {updater_type: "preliminary",task_titles: @pretaskTitles}%>
+    </article>
+    <article>
+      <div class="inner">
+        <span class="date">
+        </span>
+        <h1 class = "card-section">
+          Post
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" style="width: <%= @postpercent %>%">
+              <span class="sr-only"><%=@postpercent%>% Complete (success)</span>
+            </div>
+            <div class="progress-bar progress-bar-danger" style="width: <%= @postdan %>%">
+              <span class="sr-only"><%=@postdan%>% Complete (danger)</span>
+            </div>
+          </div>
+        </h1>
+      </div>
+    </article>
     <% @postTasks.each do |task| %>
         <article>
           <%= render partial: 'temp_task_card', locals: {node: task, updater_type: "post",task_titles: @postaskTitles}%>
         </article>
+        <article>
+          <div class="inner">
+            <span class="date"></span>
+            <h3 class = "card-deadline">
+              05 Jan, Tuesday
+            </h3>
+          </div>
+        </article>
     <% end %>
+    <article>
+      <%= render partial: 'temp_task_card_create', locals: {updater_type: "preliminary",task_titles: @pretaskTitles}%>
+    </article>
   </section>
 </div>

@@ -1,12 +1,18 @@
 <div class="inner">
-            <span class="date">
-              <% if node.deadline %>
-                <span class="day">node.deadline.day<sup>th</sup></span>
-                <span class="month">node.deadline.year.month</span>
-                <span class="year">node.deadline.year</span>v
-              <% end %>
-            </span>
-  <h2 class = "<%="task-#{node.task_status}"%>"><%= node.title%></h2>
+  <h2 class = "<%="task-#{node.task_status}"%>">
+    <%= node.title%>
+      <!-- Button trigger modal -->
+    <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>">
+      details
+    </button>
+    <% if @editable %>
+        <a><%= link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:@iteration.id} ), class:"card-link btn btn-sm", type:"button"%> </a>
+        <!-- Button trigger modal -->
+        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal1">
+          edit
+        </button>
+    <% end %>
+  </h2>
   <!-- Detail Modal -->
   <div class="modal fade" id="myModal<%="#{node.id}"%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -61,17 +67,5 @@
       </div>
     </div>
   </div>
-  <p>
-    <!-- Button trigger modal -->
-    <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>">
-      details
-    </button>
-    <% if @editable %>
-        <a><%= link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:@iteration.id} ), class:"card-link btn btn-sm", type:"button"%> </a>
-        <!-- Button trigger modal -->
-        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal1">
-          edit
-        </button>
-    <% end %>
-  </p>
+
 </div>
