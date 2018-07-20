@@ -118,13 +118,8 @@ class IterationsController < ApplicationController
 
   def aggregate_tasks_graph
     if current_user.is_student?
-      if current_user.project.nil?
-        redirect_to init_user_path current_user
-      else
-        redirect_to project_path current_user.project
-      end
+      redirect_to init_user_path current_user
     end
-    @projects = Project.all
     @progress = Iteration.task_progress
     @tasks_iter = {}
     @projects.each do |proj|

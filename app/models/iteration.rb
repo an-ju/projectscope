@@ -144,14 +144,13 @@ class Iteration < ActiveRecord::Base
     self.start_time < time and self.end_time > time
   end
 
+  # return the current processing iteration for project
   def self.current_iter proj
-    iters = Iteration.where(project_id: proj.id)
+    iters = Iteration.where(project_id: proj.id).delete_if{|iter| iter.start_time == nil and iter.end_time == nil}
     current_time = Time.now
     iters.each do |iter|
-      if iter.start_time != nil and iter.end_time != nil
-        if iter.start_time < current_time and iter.end_time > current_time
-          return iter
-        end
+      if iter.start_time < current_time and iter.end_time > current_time
+        return iter
       end
     end
     nil

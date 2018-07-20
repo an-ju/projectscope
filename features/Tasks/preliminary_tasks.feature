@@ -18,7 +18,7 @@ Background: I'm having some existing preliminary graph task
 
   Scenario: I should see all the preliminary tasks in my task graph page
     Given I am on the iteration page for "IterationPreliminary"
-    Then I should see "Preliminary Task"
+    Then I should see "Preliminary"
     And all the preliminary tasks for "IterationPreliminary" are in the preliminary section
 
   Scenario: the task will be update when the title name is matched and result is true

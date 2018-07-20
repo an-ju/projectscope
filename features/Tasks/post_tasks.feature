@@ -17,7 +17,7 @@ Feature: All iteration properly present the priliminary tasks
 
   Scenario: I should see all the preliminary tasks in my task graph page
     Given I am on the iteration page for "IterationPost"
-    Then I should see "Post Task"
+    Then I should see "Post"
     And all the preliminary tasks for "IterationPost" are in the preliminary section
 
   Scenario: the task will be update when the title name is matched and result is true

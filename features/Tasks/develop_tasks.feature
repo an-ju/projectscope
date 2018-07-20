@@ -20,7 +20,7 @@ Feature: All iteration properly present the development tasks
 
   Scenario: I should see all the preliminary tasks in my task graph page
     Given I am on the iteration page for "IterationDevelopment"
-    Then I should see "Development Task"
+    Then I should see "Development"
     And all the preliminary tasks for "IterationDevelopment" are in the preliminary section
 
   Scenario: the task will be update when the title name is matched and result is true
