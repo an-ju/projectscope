@@ -2,36 +2,6 @@ class Iteration < ActiveRecord::Base
   belongs_to :project
   has_many :tasks
 
-  # abstract the graph with the same iteration id
-  def abstract_graph
-    @tasks = Task.where(iteration: self.id)
-    graph = Hash.new
-    @tasks.each { |task| graph[task.id] = Taskedge.find_children task }
-    # JSON.generate(graph)
-    graph
-  end
-
-  # return the graph rank
-  def self.graph_rank graph
-    level = 0
-    graphlevel = Hash.new
-    root = Taskedge.find_root graph.keys
-    graphlevel[root] = level
-    children = graph[root]
-    visited = Array.new(children)
-    visited.append(root)
-    children.each{ |child| graphlevel[child] = level + 1 }
-    until children.empty?
-      newnode = children.shift
-      newchildren = graph[newnode]
-      newchildren.each { |child| graphlevel[child] = graphlevel[newnode] + 1 }
-      newchildren.delete_if { |child| visited.include? child }
-      visited.concat(newchildren)
-      children.concat(newchildren)
-    end
-    Iteration.level_up graphlevel,graph
-  end
-
   # calculate the percentage of accomplish of each task graph
   def self.percentage_progress preTasks, devTasks, postTasks
     precount = preTasks.select{ |task| task.task_status == 'finished'}.count*100.0
