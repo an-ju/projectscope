@@ -11,7 +11,7 @@
     <%= render partial: 'section_card', locals: {section_title: "Preliminary", danger_percentage:@predan, success_percentage:@prepercent}%>
     <% @preliminaryTasks.each do |task| %>
         <article>
-          <%= render partial: 'temp_task_card', locals: {node: task, updater_type: "preliminary",task_titles: @pretaskTitles}%>
+          <%= render partial: 'show_task_card', locals: {node: task, updater_type: "preliminary", task_titles: @pretaskTitles}%>
         </article>
         <article>
           <div class="inner">
@@ -23,12 +23,12 @@
         </article>
     <% end %>
     <article>
-      <%= render partial: 'temp_task_card_create', locals: {updater_type: "preliminary",task_titles: @pretaskTitles}%>
+      <%= render partial: 'show_task_card_create', locals: {updater_type: "preliminary", task_titles: @pretaskTitles}%>
     </article>
     <%= render partial: 'section_card', locals: {section_title: "Development", danger_percentage:@devpercent, success_percentage:@devdan}%>
     <% @devTasks.each do |task| %>
         <article>
-          <%= render partial: 'temp_task_card', locals: {node: task, updater_type: "development",task_titles: @devtaskTitles}%>
+          <%= render partial: 'show_task_card', locals: {node: task, updater_type: "development", task_titles: @devtaskTitles}%>
         </article>
         <article>
           <div class="inner">
@@ -40,12 +40,12 @@
         </article>
     <% end %>
     <article>
-      <%= render partial: 'temp_task_card_create', locals: {updater_type: "devlopment",task_titles: @devtaskTitles}%>
+      <%= render partial: 'show_task_card_create', locals: {updater_type: "devlopment", task_titles: @devtaskTitles}%>
     </article>
     <%= render partial: 'section_card', locals: {section_title: "Post", danger_percentage:@postpercent, success_percentage: @postdan}%>
     <% @postTasks.each do |task| %>
         <article>
-          <%= render partial: 'temp_task_card', locals: {node: task, updater_type: "post",task_titles: @postaskTitles}%>
+          <%= render partial: 'show_task_card', locals: {node: task, updater_type: "post", task_titles: @postaskTitles}%>
         </article>
         <article>
           <div class="inner">
@@ -57,7 +57,7 @@
         </article>
     <% end %>
     <article>
-      <%= render partial: 'temp_task_card_create', locals: {updater_type: "post",task_titles: @postaskTitles}%>
+      <%= render partial: 'show_task_card_create', locals: {updater_type: "post", task_titles: @postaskTitles}%>
     </article>
   </section>
 </div>
