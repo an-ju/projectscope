@@ -7,7 +7,7 @@
     </button>
     <% if @editable %>
         <!-- Button trigger edit modal -->
-        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal1">
+        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>edit">
           edit
         </button>
         <%=button_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:@iteration.id} ), class:"card-link btn btn-sm", type:"button"%>
@@ -33,7 +33,7 @@
   </div>
 
   <!-- Edit Modal -->
-  <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="myModal<%="#{node.id}"%>edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

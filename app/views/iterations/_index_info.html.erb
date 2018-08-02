@@ -30,4 +30,14 @@
       <% end %>
   <%end%>
   </tbody>
+  <%= form_tag(iterations_apply_to_all_path, method: "post") do %>
+      <tr>
+        <td> </td>
+        <td><%= text_field_tag(:start_time, hint = "yyyy/mm/dd") %></td>
+        <td><%= text_field_tag(:end_time, hint = "yyyy/mm/dd") %></td>
+        <%= hidden_field_tag :iteration_id, @iteration.id %>
+        <%= hidden_field_tag :projects, @projects.collect{|proj| proj.id} %>
+        <td><%= submit_tag "apply to all" , class: "btn btn-sm btn-outline-secondary dropdown-toggle", role: "button"%></td>
+      </tr>
+  <% end %>
 </table>

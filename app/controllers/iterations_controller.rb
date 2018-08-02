@@ -131,7 +131,7 @@ class IterationsController < ApplicationController
     end
     @progress = Iteration.task_progress
     @tasks_iter = {}
-    @projects.each do |proj|
+    Project.all.each do |proj|
       iter = Iteration.current_iter proj
       if iter != nil
         tasks = Task.where(iteration_id: iter.id)
@@ -147,6 +147,16 @@ class IterationsController < ApplicationController
     iteration = Iteration.find(params[:id])
     newiter = Iteration.copy_assignment iteration, project.id
     newiter.set_timestamp params[:start_time], params[:end_time]
+    redirect_to '/iterations'
+  end
+
+  def apply_to_all
+    projects = params[:projects].split(' ')
+    projects.each do |project|
+      iteration = Iteration.find(params[:iteration_id])
+      newiter = Iteration.copy_assignment iteration, project
+      newiter.set_timestamp params[:start_time], params[:end_time]
+    end
     redirect_to '/iterations'
   end
 
