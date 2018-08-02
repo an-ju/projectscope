@@ -62,7 +62,14 @@ describe Task do
   end
 
   describe 'update the task when reach requirement' do
-    skip
+    it 'update the task' do
+      task = Task.find(@cm_task.id)
+      task.title = 'Iteration Planning'
+      task.description = 'testing'
+      task.save
+      expect(Task.find(@cm_task.id).title).to eq('Iteration Planning')
+      expect(Task.find(@cm_task.id).description).to eq('testing')
+    end
   end
 
   describe 'update only started' do

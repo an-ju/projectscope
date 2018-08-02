@@ -59,6 +59,8 @@ Rails.application.routes.draw do
   get  'iterations/:id/show_template', to: "iterations#show_template", as: 'show_iter_temp'
   get  'iterations/:id/select_projects', to: "iterations#select_projects", as: 'iter_select_projs'
   get 'iterations/:id/delete_iteration', to: "iterations#delete_iteration", as: 'delete_iteration'
+  post '/iterations/:iteration_id/edit_task/:task_id',
+       to: 'iterations#edit_task', as: 'iteration_edit_task'
   post 'iterations/:id/confirm_assignment', to: "iterations#confirm_assignment", as: 'iter_confirm_info'
   get '/dashboard', to: "iterations#dashboard"
   root 'projects#index'

@@ -41,7 +41,7 @@
           <h4 class="modal-title" id="myModalLabel"><%= node.title%></h4>
         </div>
         <div class="modal-body">
-          <%= form_tag("/iterations/create_task", method: "post") do %>
+          <%= form_tag(iteration_edit_task_path( {task_id: node.id, iteration_id:@iteration.id} ), method: "post") do %>
               <table>
                 <tbody>
                 <tr>
@@ -56,8 +56,6 @@
                 </tr>
                 </tbody>
               </table>
-              <%= hidden_field_tag :iteration_id, @iteration.id %>
-              <%= hidden_field_tag :updater_type, updater_type %>
               <%= submit_tag "Edit" , class: "card-link btn btn-sm", role: "button"%>
           <% end %>
         </div>

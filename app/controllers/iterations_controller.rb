@@ -104,6 +104,15 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
+  def edit_task
+    task = Task.find(params[:task_id])
+    @iteration = Iteration.find(params[:iteration_id])
+    task.description = params[:description]
+    task.title = params[:title]
+    task.save
+    redirect_to @iteration
+  end
+
   def create_task
     @iteration = Iteration.find params[:iteration_id]
     newtask = Task.new
