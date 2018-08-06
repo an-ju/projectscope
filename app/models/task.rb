@@ -72,6 +72,17 @@ class Task < ActiveRecord::Base
     false
   end
 
+  def self.create_task params
+    newtask = Task.new
+    newtask.updater_type = params[:updater_type]
+    newtask.title = params[:title]
+    newtask.task_status = "unstarted"
+    newtask.iteration_id = params[:iteration_id]
+    newtask.description = params[:description]
+    newtask.duration = params[:duration]
+    newtask.save
+  end
+
   def self.add_taskedge(parent_id, child_id)
     if Task.exists?(parent_id) and Task.exists?(child_id)
       edge = Taskedge.new

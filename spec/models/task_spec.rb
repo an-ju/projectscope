@@ -72,6 +72,31 @@ describe Task do
     end
   end
 
+  describe 'create the task' do
+    before(:each) do
+      @params = {}
+      @params[:updater_type] = "preliminary"
+      @params[:title] = 'Iteration Planning'
+      @params[:iteration_id] = 1
+      @params[:description] = "testing"
+      @params[:duration] = 1
+    end
+    it 'create the task with information passing in' do
+      newtask = Task.new
+      newtask.updater_type = @params[:updater_type]
+      newtask.title = @params[:title]
+      newtask.task_status = "unstarted"
+      newtask.iteration_id = @params[:iteration_id]
+      newtask.description = @params[:description]
+      newtask.duration = @params[:duration]
+      expect(newtask.save).to be true
+    end
+
+    it 'call task and do the job' do
+      expect(Task.create_task @params).not_to be_nil
+    end
+
+  end
   describe 'update only started' do
     skip
   end

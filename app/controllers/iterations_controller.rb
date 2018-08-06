@@ -72,6 +72,7 @@ class IterationsController < ApplicationController
 
   def update_all
     @iteration = Iteration.find(params[:iteration_id])
+
     redirect_to @iteration
     # the following are temporarily commented as events is not deployed
     # response = Events::update_all
@@ -113,18 +114,6 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
-  def create_task
-    @iteration = Iteration.find params[:iteration_id]
-    newtask = Task.new
-    newtask.updater_type = params[:updater_type]
-    newtask.title = params[:title]
-    newtask.task_status = "unstarted"
-    newtask.iteration_id = params[:iteration_id]
-    newtask.description = params[:description]
-    newtask.save
-    redirect_to @iteration
-  end
-
   def aggregate_tasks_graph
     if current_user.is_student?
       redirect_to init_user_path current_user
@@ -147,7 +136,9 @@ class IterationsController < ApplicationController
     iteration = Iteration.find(params[:id])
     newiter = Iteration.copy_assignment iteration, project.id
     newiter.set_timestamp params[:start_time], params[:end_time]
-    redirect_to '/iterations'
+    respond_to do |format|
+      format.html { redirect_to iterations_path, notice: 'Project was successfully assigned.' }
+    end
   end
 
   def apply_to_all
@@ -157,7 +148,9 @@ class IterationsController < ApplicationController
       newiter = Iteration.copy_assignment iteration, project
       newiter.set_timestamp params[:start_time], params[:end_time]
     end
-    redirect_to '/iterations'
+    respond_to do |format|
+      format.html { redirect_to iterations_path, notice: 'Projects was successfully assigned.' }
+    end
   end
 
   def dashboard
@@ -189,15 +182,15 @@ class IterationsController < ApplicationController
     @projects = Project.all
   end
 
+  def create_task
+    @iteration = Iteration.find params[:iteration_id]
+    Task.create_task params
+    redirect_to @iteration
+  end
+
   def create_template_task
     @iteration = Iteration.find params[:iteration_id]
-    newtask = Task.new
-    newtask.updater_type = params[:updater_type]
-    newtask.title = params[:title]
-    newtask.task_status = "unstarted"
-    newtask.iteration_id = params[:iteration_id]
-    newtask.description = params[:description]
-    newtask.save
+    Task.create_task params
     redirect_to show_iter_temp_path(@iteration.id)
   end
 

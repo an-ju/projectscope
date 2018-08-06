@@ -15,6 +15,10 @@
               <td><%= label_tag(:description, "Description:") %></td>
               <td><%= text_field_tag(:description) %></td>
             </tr>
+            <tr>
+              <td><%= label_tag(:description, "Duration:") %></td>
+              <td><%= text_field_tag(:duration) %></td>
+            </tr>
             </tbody>
           </table>
           <%= hidden_field_tag :iteration_id, @iteration.id %>
