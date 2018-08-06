@@ -37,23 +37,6 @@ class Task < ActiveRecord::Base
   validates :updater_type, presence: true, inclusion: { in: Updaters }
   validates :title, inclusion: { in: PreTaskTitles | DevTaskTitles | PostTaskTitles }
 
-  def self.abstract_graph(start_task)
-    children = Taskedge.find_children(start_task)
-    graph = Hash.new
-    visited = Array.new(children)
-    visited.append(start_task)
-    graph[start_task] = Array.new(children)
-    until children.empty?
-      newnode = children.shift
-      newchildren = Taskedge.find_children newnode
-      graph[newnode] = Array.new(newchildren)
-      newchildren.delete_if{|child| visited.include? child}
-      visited.concat(newchildren)
-      children.concat(newchildren)
-    end
-    JSON.generate(graph)
-  end
-
   # Static constant defined by the type of updater
   def self.phases_task
     return DevTaskTitles, PreTaskTitles, PostTaskTitles
@@ -75,16 +58,7 @@ class Task < ActiveRecord::Base
     task_status == 'unstarted'
   end
 
-  def self.no_started? task
-    parents = Taskedge.find_parents task
-    parents.each do |parent|
-      if Task.find(parent).task_status != 'finished'
-        return true
-      end
-    end
-    false
-  end
-
+  # create a task in iteration or template through params
   def self.create_task params
     newtask = Task.new
     newtask.updater_type = params[:updater_type]
@@ -96,24 +70,11 @@ class Task < ActiveRecord::Base
     newtask.save
   end
 
-  def self.add_taskedge(parent_id, child_id)
-    if Task.exists?(parent_id) and Task.exists?(child_id)
-      edge = Taskedge.new
-      edge.parenttask_id = parent_id
-      edge.childtask_id = child_id
-      edge.save
-    else
-      nil
-    end
-  end
-
+  # Update the status through Updater
   def update_status(event_name, event_function)
-    # we will use the event name to find out the updater in upcoming week
     return self unless updatable?
     UPDATER[updater_type].update self, event_name, event_function
     self
-    #next_status = StatusLink[self.task_status]
-    #self.update_attributes(task_status: next_status)
   end
 
   # iterate through
@@ -123,12 +84,14 @@ class Task < ActiveRecord::Base
     end
   end
 
+  # updater through updater after analysis
   def callback_updater(key, value)
     if UPDATER[updater_type].analysis_call_back ({key => value})
       update_attributes(task_status: next_status)
     end
   end
 
+  # manually start the task
   def start_task
     false
     if startable?
@@ -137,6 +100,7 @@ class Task < ActiveRecord::Base
     end
   end
 
+  # manully reset status
   def reset_status
     update_attributes(task_status: 'unstarted')
   end
