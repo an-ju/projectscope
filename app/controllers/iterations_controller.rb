@@ -55,6 +55,7 @@ class IterationsController < ApplicationController
     redirect_to '/iterations'
   end
 
+  # Function be call when Event is ready and send update request to Event
   def update_all
     @iteration = Iteration.find(params[:iteration_id])
     redirect_to @iteration
@@ -64,6 +65,7 @@ class IterationsController < ApplicationController
     # Iteration.task_graph_update response_hash
   end
 
+  # delete task
   def delete_task
     task = Task.find(params[:task_id])
     @iteration = Iteration.find(params[:iteration_id])
@@ -71,6 +73,7 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
+  # Edit a single task
   def edit_task
     task = Task.find(params[:task_id])
     @iteration = Iteration.find(params[:iteration_id])
@@ -80,23 +83,18 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
+  # return the aggregate tasks graph by present progress and projects and tasks
+  # for each project's current iteration
   def aggregate_tasks_graph
     if current_user.is_student?
       redirect_to init_user_path current_user
     end
     @progress = Iteration.task_progress
-    @tasks_iter = {}
-    Project.all.each do |proj|
-      iter = Iteration.current_iter proj
-      if iter != nil
-        tasks = Task.where(iteration_id: iter.id)
-        @tasks_iter[proj.id] = tasks
-      else
-        @tasks_iter[proj.id] = []
-      end
-    end
+    @tasks_iter = Iteration.collect_current_tasks
   end
 
+  # Finalize the assignment of template to specific project with
+  # starting and ending date
   def apply_to
     project = Project.find params[:project_id]
     iteration = Iteration.find(params[:id])
@@ -107,6 +105,7 @@ class IterationsController < ApplicationController
     end
   end
 
+  # Apply the assignment to all projects selected
   def apply_to_all
     projects = params[:projects].split(' ')
     projects.each do |project|
@@ -119,6 +118,7 @@ class IterationsController < ApplicationController
     end
   end
 
+  # The Dashboard that is presenting all the iterations of all projects
   def dashboard
     @projects = Project.all
     @progress = Iteration.task_progress
@@ -126,6 +126,7 @@ class IterationsController < ApplicationController
     @iteration_num = 4
   end
 
+  # Present and modify the template iteration graph
   def show_template
     @iteration = Iteration.find(params[:id])
     @editable = !(current_user.is_student?)
@@ -135,29 +136,34 @@ class IterationsController < ApplicationController
     @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
   end
 
+  # Select projects that among all for assigning the template
   def select_projects
     @iteration = Iteration.find(params[:id])
     @projects = Project.all
   end
 
+  # Create the task in timeline
   def create_task
     @iteration = Iteration.find params[:iteration_id]
     Task.create_task params
     redirect_to @iteration
   end
 
+  # create new task in template
   def create_template_task
     @iteration = Iteration.find params[:iteration_id]
     Task.create_task params
     redirect_to show_iter_temp_path(@iteration.id)
   end
 
+  # confirm assignment and select starting and ending date for project
   def confirm_assignment
     project_ids = params[:project_ids].collect {|id| id.to_i} if params[:project_ids]
     @iteration = Iteration.find(params[:id])
     @projects = project_ids.map{|proj| Project.find(proj)}
   end
 
+  # Delete iteration template
   def delete_iteration
     @iteration = Iteration.find(params[:id])
     @iteration.destroy

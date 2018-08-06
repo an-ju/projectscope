@@ -7,10 +7,6 @@ describe Iteration do
     end
   end
 
-  describe 'hand over event call back' do
-    skip
-  end
-
   describe 'iteration tasks percentage calculation' do
     before(:each) do
       @iteration = create(:iteration)
@@ -303,7 +299,32 @@ describe Iteration do
       iter = Iteration.create(name: "template", template: true)
       expect(Iteration.where(template: true)).to include iter
     end
+  end
 
+  describe 'Select all tasks of each project' do
+    before(:each) do
+      @project1 = create(:project)
+      @project2 = create(:project)
+      starttime = DateTime.new(2001,3,1)
+      endtime = DateTime.new(2022,4,3)
+      @iter1 = create(:iteration, start_time: starttime, end_time:endtime, project_id: @project1.id)
+      @iter2 = create(:iteration, start_time: starttime, end_time:endtime, project_id: @project2.id)
+      @pretask1 = create(:task, :preliminary, iteration_id: @iter1.id, task_status:'finished')
+      @pretask2 = create(:task, :preliminary, iteration_id: @iter2.id, task_status:'started')
+      @devtask1 = create(:task, :development, iteration_id: @iter1.id, task_status:'finished')
+      @devtask2 = create(:task, :development, iteration_id: @iter2.id, task_status:'finished')
+    end
+
+    it 'catogories the tasks' do
+      tasks_iter = Iteration.collect_current_tasks
+      expect(Project.all).to include @project1
+      iter = Iteration.current_iter @project1
+      expect(iter).to eq @iter1
+      expect(tasks_iter[@project1.id]).to include @pretask1
+      expect(tasks_iter[@project2.id]).to include @pretask2
+      expect(tasks_iter[@project2.id]).to include @devtask2
+      expect(tasks_iter[@project1.id]).to include @devtask1
+    end
   end
 
 end

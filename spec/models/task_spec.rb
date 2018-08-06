@@ -97,9 +97,6 @@ describe Task do
     end
 
   end
-  describe 'update only started' do
-    skip
-  end
 
   describe 'danger when possibly unable to finish task' do
     skip
@@ -134,20 +131,4 @@ describe Task do
     end
   end
 
-
-  describe 'start task when only if parent task finished' do
-    skip
-  end
-
-  describe 'github update' do
-    skip
-  end
-
-  describe 'pivotal update' do
-    skip
-  end
-
-  describe 'local update' do
-    skip
-  end
 end

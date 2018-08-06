@@ -99,7 +99,7 @@ class Iteration < ActiveRecord::Base
     self.update_attribute(:start_time,startime)
   end
 
-  # count the status of all the projects and return the hash
+  # Count the status of all the projects and return the hash
   def self.task_progress
     projects = Project.all
     progress_hash = {}
@@ -107,6 +107,20 @@ class Iteration < ActiveRecord::Base
       progress_hash[proj.id] = Iteration.count_graph_status proj.id
     end
     progress_hash
+  end
+
+  # Tasks for each project's current iteration
+  def self.collect_current_tasks
+    tasks_iter = {}
+    Project.all.each do |proj|
+      iter = Iteration.current_iter proj
+      tasks_iter[proj.id] = []
+      if iter != nil
+        tasks = Task.where(iteration_id: iter.id)
+        tasks_iter[proj.id] = tasks
+      end
+    end
+    tasks_iter
   end
 
   # return true if the time stamp is inside the time
