@@ -64,24 +64,6 @@ class IterationsController < ApplicationController
     # Iteration.task_graph_update response_hash
   end
 
-  def iteration_task
-    task = Task.find(params[:task_id])
-    @iteration = Iteration.find(params[:iteration_id])
-    if Task.no_update? task
-      redirect_to @iteration, notice: 'Uable to update as parent not fiinished.'
-    else
-      Task.update_status task
-      redirect_to @iteration
-    end
-  end
-
-  def iteration_task_reset
-    task = Task.find(params[:task_id])
-    @iteration = Iteration.find(params[:iteration_id])
-    task.reset_status
-    redirect_to @iteration
-  end
-
   def delete_task
     task = Task.find(params[:task_id])
     @iteration = Iteration.find(params[:iteration_id])

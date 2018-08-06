@@ -42,6 +42,7 @@ class Task < ActiveRecord::Base
     return DevTaskTitles, PreTaskTitles, PostTaskTitles
   end
 
+  # According to iteration separate all tasks according to their updater type(categories)
   def self.tasks_selection iteration
     tasks = Task.where(iteration: iteration.id)
     preliminaryTasks = tasks.select{|task| task.updater_type == 'preliminary'}
