@@ -23,18 +23,11 @@ class IterationsController < ApplicationController
   # GET /iterations/1.json
   def show
     @tasks = Task.where(iteration: @iteration.id)
-    @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
-    @devTasks = @tasks.select{|task| task.updater_type == 'development'}
-    @postTasks = @tasks.select{|task| task.updater_type == 'post'}
+    @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
     @editable = !(current_user.is_student?)
     @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
         Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
-    @devtaskTitles = ['Lo-fi Mockup', 'Pair programming', 'Code Review',
-                     'Finish Story', 'TDD and BDD', 'Points Estimation',
-                     'Pull Request'].freeze
-    @pretaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
-                     'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
-    @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
+    @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
   end
 
   # GET /iterations/new
@@ -46,12 +39,7 @@ class IterationsController < ApplicationController
         redirect_to project_path current_user.project
       end
     end
-    @devtaskTitles = ['Lo-fi Mockup', 'Pair programming', 'Code Review',
-                      'Finish Story', 'TDD and BDD', 'Points Estimation',
-                      'Pull Request'].freeze
-    @pretaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
-                      'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
-    @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
+    @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
     @iteration = Iteration.new
     @projects = Project.all
   end
@@ -63,16 +51,12 @@ class IterationsController < ApplicationController
   # POST /iterations
   # POST /iterations.json
   def create
-    @iteration = Iteration.new
-    @iteration.name = params[:template]
-    @iteration.template = true
-    @iteration.save
+    @iteration = Iteration.create(name: params[:template], template: true)
     redirect_to '/iterations'
   end
 
   def update_all
     @iteration = Iteration.find(params[:iteration_id])
-
     redirect_to @iteration
     # the following are temporarily commented as events is not deployed
     # response = Events::update_all
@@ -162,19 +146,11 @@ class IterationsController < ApplicationController
 
   def show_template
     @iteration = Iteration.find(params[:id])
-    @tasks = Task.where(iteration: @iteration.id)
-    @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
-    @devTasks = @tasks.select{|task| task.updater_type == 'development'}
-    @postTasks = @tasks.select{|task| task.updater_type == 'post'}
     @editable = !(current_user.is_student?)
     @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
         Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
-    @devtaskTitles = ['Lo-fi Mockup', 'Pair programming', 'Code Review',
-                      'Finish Story', 'TDD and BDD', 'Points Estimation',
-                      'Pull Request'].freeze
-    @pretaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
-                      'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
-    @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
+    @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
+    @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
   end
 
   def select_projects

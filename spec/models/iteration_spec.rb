@@ -295,15 +295,12 @@ describe Iteration do
 
   describe 'Create iteration template and modify the tasks graph' do
     it 'create the iteration' do
-      iter = Iteration.new
-      iter.name = "new template"
-      expect(iter.save).to be true
+      iteration = Iteration.create(name: "template", template: true)
+      expect(iteration).not_to be_nil
     end
 
     it 'create a template iteration to include tasks graph' do
-      iter = Iteration.new
-      iter.template = true
-      iter.save
+      iter = Iteration.create(name: "template", template: true)
       expect(Iteration.where(template: true)).to include iter
     end
 

@@ -105,6 +105,35 @@ describe Task do
     skip
   end
 
+  describe 'return and specify tasks from different categories' do
+    before(:each) do
+      @iteration = create(:iteration)
+      @pre_task = create(:task, :preliminary, iteration_id: @iteration.id, title: 'Customer Meeting')
+      @dev_task = create(:task, :development, iteration_id: @iteration.id, title: 'Lo-fi Mockup')
+      @post_task = create(:task, :post, iteration_id: @iteration.id, title: 'Deploy')
+    end
+
+    it 'return the correct tasks categories' do
+      dev, pre, post = Task.phases_task
+      @devtaskTitles = ['Lo-fi Mockup', 'Pair programming', 'Code Review',
+                        'Finish Story', 'TDD and BDD', 'Points Estimation',
+                        'Pull Request'].freeze
+      @pretaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
+                        'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
+      @postaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
+      expect(dev).to eq @devtaskTitles
+      expect(pre).to eq @pretaskTitles
+      expect(post).to eq @postaskTitles
+    end
+
+    it 'categorize the tasks' do
+      devT, preT, postT = Task.tasks_selection @iteration
+      expect(devT).to include @pre_task
+      expect(preT).to include @dev_task
+      expect(postT).to include @post_task
+    end
+  end
+
 
   describe 'start task when only if parent task finished' do
     skip

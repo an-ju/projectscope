@@ -54,6 +54,19 @@ class Task < ActiveRecord::Base
     JSON.generate(graph)
   end
 
+  # Static constant defined by the type of updater
+  def self.phases_task
+    return DevTaskTitles, PreTaskTitles, PostTaskTitles
+  end
+
+  def self.tasks_selection iteration
+    tasks = Task.where(iteration: iteration.id)
+    preliminaryTasks = tasks.select{|task| task.updater_type == 'preliminary'}
+    devTasks = tasks.select{|task| task.updater_type == 'development'}
+    postTasks = tasks.select{|task| task.updater_type == 'post'}
+    return preliminaryTasks, devTasks, postTasks
+  end
+
   def updatable?
     (task_status == 'started') or (task_status == 'danger')
   end
