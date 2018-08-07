@@ -23,29 +23,12 @@ class IterationsController < ApplicationController
   # GET /iterations/1.json
   def show
     @tasks = Task.where(iteration: @iteration.id)
+    # @task_ddl = @iteration.task_ddl
     @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
     @editable = !(current_user.is_student?)
     @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
         Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
     @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
-  end
-
-  # GET /iterations/new
-  def new
-    if current_user.is_student?
-      if current_user.project.nil?
-        redirect_to init_user_path current_user
-      else
-        redirect_to project_path current_user.project
-      end
-    end
-    @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
-    @iteration = Iteration.new
-    @projects = Project.all
-  end
-
-  # GET /iterations/1/edit
-  def edit
   end
 
   # POST /iterations

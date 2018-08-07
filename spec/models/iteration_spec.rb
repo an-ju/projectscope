@@ -32,7 +32,6 @@ describe Iteration do
       expect(@preliminaryTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 1
       expect(@devTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 2
       expect(@postTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 0
-
       precount = @preliminaryTasks.select{|t| t.task_status == 'finished'}.count*1.0
       devcount = @devTasks.select{|t| t.task_status == 'finished'}.count*1.0
       postcount = @postTasks.select{|t| t.task_status == 'finished'}.count*1.0

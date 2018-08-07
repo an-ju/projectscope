@@ -10,7 +10,16 @@ end
 
 Given /the following Iteration exist:$/ do |table|
   table.hashes.each do |hash|
-    Iteration.create hash
+    iter = Iteration.create hash
+    iter.set_timestamp("2012/2/4", "2022/2/4")
+  end
+  @iteration = Iteration.all
+end
+
+Given /the following Iterations exist start "([^\"]*)" end "([^\"]*)":$/ do |startime, endtime, table|
+  table.hashes.each do |hash|
+    iter = Iteration.create hash
+    iter.set_timestamp(startime, endtime)
   end
   @iteration = Iteration.all
 end

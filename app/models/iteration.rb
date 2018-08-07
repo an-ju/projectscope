@@ -89,7 +89,7 @@ class Iteration < ActiveRecord::Base
     end
   end
 
-  # Set the start time and end time
+  # Set the start time and end time like yyyy/mm/dd
   def set_timestamp start_time, end_time
     start = (start_time.split('/')).map{|s| s.to_i}
     startime = DateTime.new(start[0],start[1],start[2])
