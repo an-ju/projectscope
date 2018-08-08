@@ -80,9 +80,9 @@ class Iteration < ActiveRecord::Base
 
   # Set the start time and end time like yyyy/mm/dd
   def set_timestamp start_time, end_time
+    return nil if not (/(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(start_time) and /(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(end_time))
     start = (start_time.split('/')).map{|s| s.to_i}
     endtime = (end_time.split('/')).map{|s| s.to_i}
-    return nil if not (start[0] and start[1] and start[2] and endtime[0] and endtime[1] and endtime[2])
     startime = DateTime.new(start[0],start[1],start[2])
     ending = DateTime.new(endtime[0],endtime[1],endtime[2])
     self.update_attributes(:end_time=> ending, :start_time=> startime)
