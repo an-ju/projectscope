@@ -80,11 +80,20 @@ class IterationsController < ApplicationController
   # starting and ending date
   def apply_to
     project = Project.find params[:project_id]
-    iteration = Iteration.find(params[:id])
-    newiter = Iteration.copy_assignment iteration, project.id
-    newiter.set_timestamp params[:start_time], params[:end_time]
-    respond_to do |format|
-      format.html { redirect_to iterations_path, notice: 'Project was successfully assigned.' }
+    newiter = Iteration.copy_assignment params[:id], project.id
+    if not newiter
+      respond_to do |format|
+        format.html {redirect_to iterations_path, notice: 'Iteration Template copy failed.'}
+      end
+    elsif not newiter.set_timestamp params[:start_time], params[:end_time]
+      newiter.destroy
+      respond_to do |format|
+        format.html { redirect_to iterations_path, notice: 'Failed. Please put in the start and end time according to the implied structure.' }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to iterations_path, notice: 'Project was successfully assigned.' }
+      end
     end
   end
 
@@ -92,8 +101,7 @@ class IterationsController < ApplicationController
   def apply_to_all
     projects = params[:projects].split(' ')
     projects.each do |project|
-      iteration = Iteration.find(params[:iteration_id])
-      newiter = Iteration.copy_assignment iteration, project
+      newiter = Iteration.copy_assignment params[:iteration_id], project
       newiter.set_timestamp params[:start_time], params[:end_time]
     end
     respond_to do |format|

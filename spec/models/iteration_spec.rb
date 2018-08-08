@@ -100,24 +100,33 @@ describe Iteration do
     end
 
     it 'run the copy assignment function' do
-      expect(Iteration.copy_assignment(@iteration,2)).not_to be_nil
+      expect(Iteration.copy_assignment(@iteration.id,2)).not_to be_nil
     end
 
     it 'run the copy assignment function successfully' do
-      newiter = Iteration.copy_assignment(@iteration,2)
+      newiter = Iteration.copy_assignment(@iteration.id,2)
       tasks = Task.where(Iteration_id = @iteration.id)
       tasks.each do |task|
         expect(Task.where(iteration_id: newiter.id).where(title: task.title)).not_to be_nil
+        expect(Task.where(iteration_id: newiter.id).where(description: task.description)).not_to be_nil
+      end
+    end
+
+    it 'copy assignment task status should all be unstarted' do
+      newiter = Iteration.copy_assignment(@iteration.id,2)
+      tasks = Task.where(Iteration_id: newiter.id)
+      tasks.each do |task|
+        expect(task.task_status).to eq "unstarted"
       end
     end
 
     it 'run over a copy assignment all the existing projects' do
-      expect(Iteration.all_copy_assignment @iteration).not_to be_nil
+      expect(Iteration.all_copy_assignment @iteration.id).not_to be_nil
     end
 
     it 'run over a copy assignment all the existing projects with creating new iteration' do
       projs = Project.all
-      Iteration.all_copy_assignment @iteration
+      Iteration.all_copy_assignment @iteration.id
       projs.each do |proj|
         iter = Iteration.where(project_id: proj.id)
         expect(iter).not_to be_nil
@@ -126,7 +135,7 @@ describe Iteration do
 
     it 'after assigning the new iteration to a tasks,they should all be active' do
       projs = Project.all
-      Iteration.all_copy_assignment @iteration
+      Iteration.all_copy_assignment @iteration.id
       projs.each do |proj|
         iter = Iteration.where(project_id: proj.id)
         expect(iter[0].active).to eq true
@@ -135,7 +144,7 @@ describe Iteration do
 
     it 'should only have at most one active iteration' do
       projs = Project.all
-      Iteration.all_copy_assignment @iteration
+      Iteration.all_copy_assignment @iteration.id
       projs.each do |proj|
         iter = Iteration.where(project_id: proj.id).where(active: true)
         expect(iter.length <= 1).to eq true
@@ -144,7 +153,7 @@ describe Iteration do
 
     it 'run over a copy assignment all the existing projects with creating new iteration' do
       projs = Project.all
-      Iteration.all_copy_assignment @iteration
+      Iteration.all_copy_assignment @iteration.id
       projs.each do |proj|
         iter = Iteration.where(project_id: proj.id)
         @tasks.each do |task|
@@ -280,6 +289,12 @@ describe Iteration do
       iter.project_id = @testproj1.id
       iter.set_timestamp start_time, end_time
       expect(Iteration.current_iter @testproj3).to eq nil
+    end
+
+    it 'return nil if the time is not input correctliy' do
+      iter = Iteration.new()
+      iter.save
+      expect(iter.set_timestamp '2', '3').to be_nil
     end
 
     it 'return the current time ' do

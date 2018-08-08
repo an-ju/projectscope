@@ -48,29 +48,18 @@ class Iteration < ActiveRecord::Base
   # assign the iteration template to each project
   def self.all_copy_assignment iteration_id
     projects = Project.all
-    iter = Iteration.find(iteration_id)
     projects.each do |proj|
-      Iteration.copy_assignment iter,proj.id
+      Iteration.copy_assignment iteration_id,proj.id
     end
   end
 
   # copy iteration assignment to the new project
-  def self.copy_assignment iteration, projid
-    newiter = Iteration.new()
-    newiter.project_id = projid
-    newiter.template = false
-    newiter.name = iteration.name
-    newiter.active = true
-    newiter.save
-    tasks = Task.where(iteration_id: iteration.id)
+  def self.copy_assignment iteration_id, projid
+    newiter = Iteration.create(project_id: projid, template: false, active: true)
+    tasks = Task.where(iteration_id: iteration_id)
     tasks.each do |task|
-      newt = Task.new
-      newt.title = task.title
-      newt.updater_type = task.updater_type
-      newt.description = task.description
-      newt.task_status = 'unstarted'
-      newt.iteration_id = newiter.id
-      newt.save
+      newt = Task.create(title: task.title, updater_type: task.updater_type, description: task.description,
+        task_status: "unstarted", iteration_id: newiter.id)
     end
     newiter
   end
@@ -92,11 +81,11 @@ class Iteration < ActiveRecord::Base
   # Set the start time and end time like yyyy/mm/dd
   def set_timestamp start_time, end_time
     start = (start_time.split('/')).map{|s| s.to_i}
-    startime = DateTime.new(start[0],start[1],start[2])
     endtime = (end_time.split('/')).map{|s| s.to_i}
+    return nil if not (start[0] and start[1] and start[2] and endtime[0] and endtime[1] and endtime[2])
+    startime = DateTime.new(start[0],start[1],start[2])
     ending = DateTime.new(endtime[0],endtime[1],endtime[2])
-    self.update_attribute(:end_time,ending)
-    self.update_attribute(:start_time,startime)
+    self.update_attributes(:end_time=> ending, :start_time=> startime)
   end
 
   # Count the status of all the projects and return the hash
