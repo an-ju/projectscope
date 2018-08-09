@@ -6,12 +6,12 @@ class WhitelistsController < ApplicationController
     authorize! :manage, User
     @permitted_users = User.all
   end
-  
+
   # GET /whitelists/new
   def new
     @authorized_user = Whitelist.new(user_params)
   end
-  
+
   # POST /whitelists/
   def create
     username = params[:username]
