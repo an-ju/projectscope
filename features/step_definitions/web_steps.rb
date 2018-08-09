@@ -50,14 +50,8 @@ When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-When /^(?:|I )press "([^\"]*)"(?: within "([^\"]*)")?$/ do |button, selector|
-  with_scope(selector) do
-    begin
-      click_button(button)
-    rescue Capybara::ElementNotFound
-      click_button(button, :disabled => true)
-    end
-  end
+When /^(?:|I )press "([^"]*)"$/ do |button|
+  click_button(button)
 end
 
 When /^(?:|I )follow "([^"]*)"$/ do |link|

@@ -16,7 +16,6 @@ class Project < ActiveRecord::Base
   has_many :ownerships
   has_many :owners, :class_name => "User", :through => :ownerships, :source => :user
   has_many :comments, through: :metric_samples
-  has_many :iterations
 
   validates :name, :presence => true, :uniqueness => true
 

@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   end
   resources :projects do
     member do
-      post "/add_owner", to: "projects#add_owner"
-      get '/metrics/:metric', to: 'projects#get_metric_data'
-      get '/metrics/:metric/series', to: 'projects#get_metric_series'
+      post "/add_owner", :to => "projects#add_owner"
+      get '/metrics/:metric', :to => 'projects#get_metric_data'
+      get '/metrics/:metric/series', :to => 'projects#get_metric_series'
       get '/metrics/:metric/detail', to: 'projects#show_metric'
       get '/metrics/:metric/report', to: 'projects#show_report'
     end
@@ -35,21 +35,8 @@ Rails.application.routes.draw do
       :to => 'comments#comments_for_metric_sample',
       :as => 'metric_sample_comments'
 
-  resources :tasks
-  resources :iterations
-
-  get '/iteration_task/:iteration_id/task/:task_id',
-      to: 'iterations#iteration_task'
-  get '/iteration_task_reset/:iteration_id/task/:task_id',
-      to: 'iterations#iteration_task_reset', as: 'iteration_task_reset'
-  get '/iterations/:iteration_id/delete_task/:task_id',
-       to: 'iterations#delete_task', as: 'iteration_delete_task'
-  get '/login/:id', to: 'application#passthru', as: 'passthru'
+  get '/login/:id', :to => 'application#passthru', :as => 'passthru'
   post '/log', to: 'projects#write_log'
-  post 'iterations/update_all',
-       to: 'iterations#update_all', as: 'update_all_tasks'
-  post 'iterations/create_task',
-       to: 'iterations#create_task', as: 'create_task'
-  post 'event/:callback_token/callback', to: "tasks#call_back_handler"
+
   root 'projects#index'
 end

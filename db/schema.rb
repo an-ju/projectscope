@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180403080956) do
+ActiveRecord::Schema.define(version: 20170612211747) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "metric_sample_id"
@@ -39,15 +39,6 @@ ActiveRecord::Schema.define(version: 20180403080956) do
   end
 
   add_index "configs", ["project_id"], name: "index_configs_on_project_id"
-
-  create_table "iterations", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "project_id"
-  end
-
-  add_index "iterations", ["project_id"], name: "index_iterations_on_project_id"
 
   create_table "metric_samples", force: :cascade do |t|
     t.integer  "project_id"
@@ -87,33 +78,6 @@ ActiveRecord::Schema.define(version: 20180403080956) do
 
   add_index "projects_users", ["project_id"], name: "index_projects_users_on_project_id"
   add_index "projects_users", ["user_id"], name: "index_projects_users_on_user_id"
-
-  create_table "taskedges", force: :cascade do |t|
-    t.integer "childtask_id"
-    t.integer "parenttask_id"
-  end
-
-  create_table "tasks", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.integer  "iteration_id"
-    t.string   "task_status"
-    t.string   "task_callbacks"
-    t.string   "updater_type"
-    t.string   "string"
-    t.datetime "update_time"
-    t.string   "updater_info"
-    t.string   "task_type"
-  end
-
-  add_index "tasks", ["iteration_id"], name: "index_tasks_on_iteration_id"
-
-  create_table "updaters", force: :cascade do |t|
-    t.integer  "task_id"
-    t.string   "updater_type"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
 
   create_table "users", force: :cascade do |t|
     t.string   "provider_username",      default: "",        null: false

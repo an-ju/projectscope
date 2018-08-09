@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/1
-  # GET /projects/1
+  # GET /projects/1.json
   def show
     days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
     @days_from_now = days_from_now
