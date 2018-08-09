@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :skip => [:password]
-  resources :comments
   resources :users, :only => [:show, :update] do
     member do
       get 'init', to: 'users#init_new'

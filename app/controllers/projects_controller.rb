@@ -1,8 +1,7 @@
 require 'json'
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :add_owner, :show_metric, :show_report,
-                                     :get_metric_data, :get_metric_series]
-  before_action :init_existed_configs, only: [:show, :edit, :new]
+  before_action :set_project, only: %I[show edit update destroy add_owner]
+  before_action :init_existed_configs, only: %I[show edit new]
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -151,48 +150,6 @@ class ProjectsController < ApplicationController
     render template: 'projects/metric_detail'
   end
 
-  # GET /projects/:id/metrics/:metric/report
-  def show_report
-    report = ProjectMetrics.hierarchies(:report).select { |m| m[:title].eql? params[:metric].to_sym }.first
-    @sub_metrics = report[:contents]
-    @practice_name = report[:title].to_s
-    @days_from_now = 0
-    @parent_metric = @project.latest_metric_sample params[:metric]
-    metric_min_date = MetricSample.min_date || Date.today
-    @num_days_from_today = (Date.today - metric_min_date).to_i
-    render template: 'projects/metric_report'
-  end
-
-  # GET /projects/:id/metrics/:metric
-  def get_metric_data
-    #TODO: put this to the new controller
-    days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
-    date = Date.today - days_from_now.days
-    metric = @project.metric_on_date params[:metric], date
-    if metric.length > 0
-      render json: metric.last
-    else
-      render :json => {:error => "not found"}, :status => 404
-    end
-  end
-
-  # GET /projects/:id/metrics/:metric/series
-  def get_metric_series
-    #TODO: put it to the new controller
-    metric_samples = @project.metric_samples.limit(3).where(metric_name: params[:metric])
-    if metric_samples.empty?
-      render json: { error: 'not found' }, status: 404
-    else
-      metric_samples = metric_samples.sort_by(&:created_at).map(&:attributes)
-      metric_samples = metric_samples.map do |m|
-        m.delete('encrypted_raw_data')
-        m.delete('encrypted_raw_data_iv')
-        m.update datetime: m['created_at'].strftime('%Y-%m-%dT%H:%M')
-      end
-      render json: metric_samples
-    end
-  end
-
   def add_owner
     new_username = params[:username]
     new_owner = User.find_by_provider_username new_username
@@ -249,7 +206,7 @@ class ProjectsController < ApplicationController
   end
 
   def days_ago(t)
-    days = (Time.now - t).to_i / (24*3600)
+    (Time.now - t).to_i / (24*3600)
   end
 
   # get path: projects/:id/
