@@ -127,7 +127,7 @@ class ProjectsController < ApplicationController
     @metric_name = params[:metric]
 
     @samples = @project.metric_samples
-                       .select(%I[id score created_at]).limit(50)
+                       .select(%I[id project_id metric_name image score created_at]).limit(50)
                        .where(metric_name: @metric_name)
                        .sort_by { |elem| Time.now - elem.created_at }
 

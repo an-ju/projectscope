@@ -18,9 +18,13 @@
     = link_to 'Return', project_path(@project.id), class: 'btn btn-default'
 %div.col-md-8
   - @samples.each do |m|
-    %h3
-      = m.created_at.strftime('%Y-%m-%d')
-    %div{style: 'text-align:center'}
-      %div.chart_place{id: "project-#{@project.id}-metric-#{@metric_name}-#{days_ago(m.created_at)}",
-                       d: "#{@project.metric_on_date(@metric_name, m.created_at).last.to_json}",
-                       s: "#{@project.metric_series(@metric_name, m.created_at).to_json}"}
+    %div.container{style: 'padding: 10px'}
+      %div.col-md-3{style: 'text-align:right'}
+        = m.created_at.strftime('%Y-%m-%d %I%p')
+      %div.col-md-1
+        %span{class: "label #{score_label(m)}"}
+          = m.score.round(2)
+      %div.col-md-8{style: 'text-align:center'}
+        %div.chart_place{id: "project-#{@project.id}-metric-#{@metric_name}-#{hours_ago(m.created_at)}",
+                         d: "#{m.to_json}",
+                         s: "#{@project.metric_series(@metric_name, m.created_at).to_json}"}

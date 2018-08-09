@@ -131,12 +131,14 @@ projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
     if TRUE
       start_date.upto(end_date) do |date|
+        tcreate = date.to_time + 1.hour
         3.times do
           m = MetricSample.create!(:metric_name => metric,
                                    :project_id => project.id,
                                    :score => rand(0.0..4.0).round(2),
                                    :image => dummies[metric].sample,
-                                   :created_at => date)
+                                   :created_at => tcreate)
+          tcreate += 4.hours
         end
       end
       ProjectMetrics.class_for(metric).credentials.each do |param|
