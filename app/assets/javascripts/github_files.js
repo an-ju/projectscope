@@ -37,6 +37,13 @@ function github_files(containerID, data) {
             .style('width', function (d) {
                 return 95 * parseFloat(d[0]) / valsum + '%';
             })
+            .style('display', function (d) {
+                if(parseFloat((d[0])) == 0) {
+                    return 'none';
+                } else {
+                    return 'blocked';
+                }
+            })
             .style('float', 'left')
             .attr('data-toggle', 'tooltip')
             .attr('title', function (d) {

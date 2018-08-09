@@ -28,6 +28,7 @@ module ProjectsHelper
     end
   end
 
+  # TODO: move these methods into a generator that's called on initialization
   def github_files_label(score)
     if score > 2.5
       'label-success'

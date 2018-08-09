@@ -37,6 +37,13 @@ function stacked_bar(containerID, data, stacked_items) {
             .style('width', function (d) {
                 return 100 * parseFloat(d[0]) / valsum + '%';
             })
+            .style('display', function (d) {
+                if(parseFloat((d[0])) == 0) {
+                    return 'none';
+                } else {
+                    return 'blocked';
+                }
+            })
             .style('float', 'left')
             .attr('data-toggle', 'tooltip')
             .attr('title', function (d) {
