@@ -126,19 +126,11 @@ class ProjectsController < ApplicationController
   def show_metric
     @metric_name = params[:metric]
 
-    samples = @project.metric_samples.limit(50).where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
-    date_filter = {}
-    samples.each do |metric_sample|
-      k = days_ago(metric_sample.created_at)
-      if date_filter.key? k
-        date_filter[k] += metric_sample.comments.select(&:general_comment?)
-      else
-        date_filter[k] = metric_sample.comments.select(&:general_comment?)
-      end
-    end
-    @comments = date_filter.map { |k, v| [k, v] }.sort_by { |elem| elem[0] }
+    @samples = @project.metric_samples
+                       .select(%I[id score created_at]).limit(50)
+                       .where(metric_name: @metric_name)
+                       .sort_by { |elem| Time.now - elem.created_at }
 
-    @parent_metric = @project.latest_metric_sample params[:metric]
     render template: 'projects/metric_detail'
   end
 

@@ -137,12 +137,6 @@ projects_list.each do |project|
                                    :score => rand(0.0..4.0).round(2),
                                    :image => dummies[metric].sample,
                                    :created_at => date)
-          rand(3).times do
-            m.comments << Comment.new(content: "Comment on #{date} for #{metric}",
-                                      ctype: 'general_comment',
-                                      params: '{}',
-                                      created_at: date.beginning_of_day)
-          end
         end
       end
       ProjectMetrics.class_for(metric).credentials.each do |param|

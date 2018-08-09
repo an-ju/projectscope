@@ -21,6 +21,5 @@ script:
   - bundle exec rake db:test:prepare
   - bundle exec rspec
   - bundle exec cucumber
-  - bundle exec rake jasmine:ci
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

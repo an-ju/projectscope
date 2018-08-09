@@ -15,4 +15,8 @@ module ProjectsHelper
   def metric_content_class_label sample
     "metric-content " + (sample.created_at >= Date.today ? "" : "outdated-metric")
   end
+
+  def days_ago(t)
+    (Time.now - t).to_i / (24*3600)
+  end
 end
