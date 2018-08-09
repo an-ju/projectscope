@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180529000326) do
+ActiveRecord::Schema.define(version: 20180403080956) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "metric_sample_id"
@@ -45,10 +45,6 @@ ActiveRecord::Schema.define(version: 20180529000326) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "project_id"
-    t.boolean  "active"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.boolean  "template"
   end
 
   add_index "iterations", ["project_id"], name: "index_iterations_on_project_id"

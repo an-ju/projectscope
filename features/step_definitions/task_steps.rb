@@ -15,14 +15,6 @@ Given /the following Iteration exist:$/ do |table|
   @iteration = Iteration.all
 end
 
-Given /the following Iteration template exist:$/ do |table|
-  table.hashes.each do |hash|
-    Iteration.create hash
-  end
-  Iteration.all.update_all(template: true)
-  @iteration = Iteration.all
-end
-
 Given /the "([^\"]*)" iteration is map with the following tasks:$/ do |iter_name, table|
   @iteration = Iteration.find_by(name: iter_name)
   table.hashes.each do |hash|
@@ -42,12 +34,6 @@ Then /^I will see the three parts of the tasks thread/ do
   %{Then I should see "Development Task"}
   %{Then I should see "Preliminary Task"}
   %{Then I should see "Post Task"}
-end
-
-Then /^I assign the "TempIteration" to every iteration/ do
-  %{Given I am on the iterations page}
-  %{Given I select "TempIteration" from "apply_all"}
-  %{Then I press "Apply to all"}
 end
 
 Then /^all the preliminary tasks for "([^\"]*)" are in the preliminary section/ do |iteration|
@@ -120,14 +106,6 @@ When /"Local" updater receives information of a file is being submited/ do
   update_info[:google_doc_link].should equal?"temp_google_doc_link"
   @task.task_status.should equal? "started"
   @task.update_status
-end
-
-Then /All the projects should have status "assigned"/ do
-  @projects = Project.all
-  @projects.each do |proj|
-    iter = Iteration.find_by{project_id:proj.id}
-    iter.wont_be_nil
-  end
 end
 
 
