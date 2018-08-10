@@ -14,7 +14,6 @@ Whitelist.delete_all
 Project.delete_all
 MetricSample.delete_all
 Task.delete_all
-Taskedge.delete_all
 Iteration.delete_all
 
 # dummy1_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/WebsiteOne'
@@ -132,6 +131,7 @@ t1 = Task.create(title: 'Customer Meeting',
                  description: 'Some contents about Task 1',
                  task_status: 'finished',
                  updater_type: 'preliminary',
+                 duration: 4,
                  task_callbacks: 'hello_world')
 t2 = Task.create(title: 'Iteration Planning',
                  iteration: iteration,
@@ -144,6 +144,7 @@ t4 = Task.create(title: 'Test Title',
                  description: 'Some contents about Task 4',
                  task_status: 'danger',
                  updater_type: 'preliminary',
+                 duration: 3,
                  task_callbacks: 'hello_world')
 t5 = Task.create(title: 'GSI Meeting',
                  iteration: iteration,
@@ -156,6 +157,7 @@ t6 = Task.create(title: 'Scrum meeting',
                  description: 'Some contents about Task 6',
                  task_status: 'unstarted',
                  updater_type: 'preliminary',
+                 duration: 5,
                  task_callbacks: 'hello_world')
 t7 = Task.create(title: 'Configuration Setup',
                  iteration: iteration,
@@ -168,12 +170,14 @@ t8 = Task.create(title: 'Lo-fi Mockup',
                  description: 'Some contents about Task 8',
                  task_status: 'started',
                  updater_type: 'development',
+                 duration: 6,
                  task_callbacks: 'hello_world')
 t10 = Task.create(title: 'Pair programming',
                  iteration: iteration,
                  description: 'Some contents about Task 8',
                  task_status: 'started',
                  updater_type: 'development',
+                  duration: 4,
                  task_callbacks: 'hello_world')
 t9 = Task.create(title: 'Scrum Meeting',
                  iteration: iteration,
@@ -192,6 +196,7 @@ t12 = Task.create(title: 'Finish Story',
                  description: 'Pass only get accepted by customers',
                  task_status: 'unstarted',
                  updater_type: 'development',
+                 duration: 2,
                  task_callbacks: 'hello_world')
 t13 = Task.create(title: 'TDD and BDD',
                   iteration: iteration,
@@ -204,6 +209,7 @@ t14 = Task.create(title: 'Points Estimation',
                   description: 'Pass only get accepted by customers',
                   task_status: 'unstarted',
                   updater_type: 'development',
+                  duration: 5,
                   task_callbacks: 'hello_world')
 t15 = Task.create(title: 'Pull Request',
                   iteration: iteration,
@@ -215,6 +221,7 @@ t16 = Task.create(title: 'Deploy',
                   iteration: iteration,
                   description: 'Pass only get accepted by customers',
                   task_status: 'unstarted',
+                  duration: 1,
                   updater_type: 'post',
                   task_callbacks: 'hello_world')
 t17 = Task.create(title: 'Cross Group Review',
@@ -222,6 +229,7 @@ t17 = Task.create(title: 'Cross Group Review',
                   description: 'Pass only get accepted by customers',
                   task_status: 'unstarted',
                   updater_type: 'post',
+                  duration: 3,
                   task_callbacks: 'hello_world')
 t18 = Task.create(title: 'Customer Feedback',
                   iteration: iteration,
@@ -229,16 +237,6 @@ t18 = Task.create(title: 'Customer Feedback',
                   task_status: 'unstarted',
                   updater_type: 'post',
                   task_callbacks: 'hello_world')
-
-Taskedge.create(childtask_id: t2.id, parenttask_id: t1.id)
-Taskedge.create(childtask_id: t4.id, parenttask_id: t2.id)
-Taskedge.create(childtask_id: t5.id, parenttask_id: t2.id)
-Taskedge.create(childtask_id: t7.id, parenttask_id: t4.id)
-Taskedge.create(childtask_id: t8.id, parenttask_id: t5.id)
-Taskedge.create(childtask_id: t9.id, parenttask_id: t4.id)
-Taskedge.create(childtask_id: t10.id, parenttask_id: t5.id)
-Taskedge.create(childtask_id: t11.id, parenttask_id: t7.id)
-Taskedge.create(childtask_id: t12.id, parenttask_id: t11.id)
 
 end_date = Date.today
 start_date = end_date - 7.days

@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(version: 20180806015940) do
     t.string   "task_status"
     t.string   "task_callbacks"
     t.string   "updater_type"
-    t.string   "string"
     t.datetime "update_time"
     t.string   "updater_info"
     t.string   "task_type"
@@ -113,13 +112,6 @@ ActiveRecord::Schema.define(version: 20180806015940) do
   end
 
   add_index "tasks", ["iteration_id"], name: "index_tasks_on_iteration_id"
-
-  create_table "updaters", force: :cascade do |t|
-    t.integer  "task_id"
-    t.string   "updater_type"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
 
   create_table "users", force: :cascade do |t|
     t.string   "provider_username",      default: "",        null: false
