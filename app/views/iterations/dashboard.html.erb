@@ -7,30 +7,47 @@
     <%= render partial: 'dashboard_sidebar' %>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="text-success">Dashboard</h1>
+        <h1 class="text-success">Current Iteration Progress</h1>
       </div>
-      <h2 class="text-secondary">Projects General Progress</h2>
+      <h2 class="text-secondary">Projects</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
           <tr>
             <th>Project</th>
-            <% (1..@iteration_num).each do |p|%>
-                <th>Iteration <%=p%></th>
-            <%end%>
+            <th>Progress</th>
+            <th>Start Time</th>
+            <th>End Time</th>
           </tr>
           </thead>
           <tbody>
-          <% @projects.each do |project| %>
+          <% Project.all.each do |project| %>
               <tr>
-                <td><%= link_to project.name, iteration_path(id: Iteration.where(project_id: project.id)[0])%></td>
-                <% (1..@iteration_num).each do |p|%>
+                <% if @progress[project.id] %>
+                    <td><%= link_to project.name, iteration_path(id: Iteration.where(project_id: project.id)[0])%></td>
                     <td>
-                      <% if @progress[project.id] %>
-                          <%= render partial: 'progress_bar',locals: {project:project} %>
-                      <% end %>
+                      <% @tasks_iter[project.id].each do |task| %>
+                          <% if(task.task_status == "finished") %>
+                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-success"> </span></a>
+                          <%elsif (task.task_status=="started")%>
+                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-info"> </span></a>
+                          <%elsif (task.task_status=="danger")%>
+                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-danger"> </span></a>
+                          <%elsif (task.task_status=="unstarted")%>
+                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-primary"> </span></a>
+                          <%end%>
+                      <%end%>
                     </td>
-                <%end%>
+                    <td>
+                      <%= Iteration.where(project_id: project.id)[0].start_time%>
+                    </td>
+                    <td>
+                      <%= Iteration.where(project_id: project.id)[0].end_time%>
+                    </td>
+                <%else%>
+                    <td><%= project.name %></td>
+                    <td><h5 class="text-danger">***Go to assign template to projects if there is no progress***</h5></td>
+              <% end %>
               </tr>
           <% end %>
           </tbody>

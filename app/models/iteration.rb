@@ -59,7 +59,7 @@ class Iteration < ActiveRecord::Base
     tasks = Task.where(iteration_id: iteration_id)
     tasks.each do |task|
       newt = Task.create(title: task.title, updater_type: task.updater_type, description: task.description,
-        task_status: "unstarted", iteration_id: newiter.id)
+        task_status: "unstarted", iteration_id: newiter.id,duration: task.duration)
     end
     newiter
   end

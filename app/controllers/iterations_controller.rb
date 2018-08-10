@@ -69,11 +69,9 @@ class IterationsController < ApplicationController
   # return the aggregate tasks graph by present progress and projects and tasks
   # for each project's current iteration
   def aggregate_tasks_graph
-    if current_user.is_student?
-      redirect_to init_user_path current_user
-    end
+    @projects = Project.all
     @progress = Iteration.task_progress
-    @tasks_iter = Iteration.collect_current_tasks
+    # temp value that will be class attribute when there are more than one class
   end
 
   # Finalize the assignment of template to specific project with
@@ -111,10 +109,11 @@ class IterationsController < ApplicationController
 
   # The Dashboard that is presenting all the iterations of all projects
   def dashboard
-    @projects = Project.all
+    if current_user.is_student?
+      redirect_to init_user_path current_user
+    end
     @progress = Iteration.task_progress
-    # temp value that will be class attribute when there are more than one class
-    @iteration_num = 4
+    @tasks_iter = Iteration.collect_current_tasks
   end
 
   # Present and modify the template iteration graph
