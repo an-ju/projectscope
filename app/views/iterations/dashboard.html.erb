@@ -26,17 +26,22 @@
                 <% if @progress[project.id] %>
                     <td><%= link_to project.name, iteration_path(id: Iteration.where(project_id: project.id)[0])%></td>
                     <td>
-                      <% @tasks_iter[project.id].each do |task| %>
-                          <% if(task.task_status == "finished") %>
-                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-success"> </span></a>
-                          <%elsif (task.task_status=="started")%>
-                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-info"> </span></a>
-                          <%elsif (task.task_status=="danger")%>
-                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-danger"> </span></a>
-                          <%elsif (task.task_status=="unstarted")%>
-                              <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-primary"> </span></a>
-                          <%end%>
-                      <%end%>
+                      <% if not @tasks_iter[project.id].any? %>
+                        <h5 class="text-danger">***No ongoing iteration***</h5>
+                      <% else %>
+                        <% @tasks_iter[project.id].each do |task| %>
+                            <% if(task.task_status == "finished") %>
+                                <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-success"> </span></a>
+                            <%elsif (task.task_status=="started")%>
+                                <a href="#" data-toggle="toolti@p" title=<%="#{task.title}"%>><span class="label label-info"> </span></a>
+                            <%elsif (task.task_status=="danger")%>
+                                <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-danger"> </span></a>
+                            <%elsif (task.task_status=="unstarted")%>
+                                <a href="#" data-toggle="tooltip" title=<%="#{task.title}"%>><span class="label label-primary"> </span></a>
+                            <% end %>
+                        <%end%>
+
+                      <% end %>
                     </td>
                     <td>
                       <%= Iteration.where(project_id: project.id)[0].start_time%>

@@ -66,14 +66,6 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
-  # return the aggregate tasks graph by present progress and projects and tasks
-  # for each project's current iteration
-  def aggregate_tasks_graph
-    @projects = Project.all
-    @progress = Iteration.task_progress
-    # temp value that will be class attribute when there are more than one class
-  end
-
   # Finalize the assignment of template to specific project with
   # starting and ending date
   def apply_to
