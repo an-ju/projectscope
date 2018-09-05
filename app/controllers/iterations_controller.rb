@@ -111,11 +111,10 @@ class IterationsController < ApplicationController
   # Present and modify the template iteration graph
   def show_template
     @iteration = Iteration.find(params[:id])
-    @editable = !(current_user.is_student?)
-    @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
-        Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
     @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
     @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
+    @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
+        Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
   end
 
   # Select projects that among all for assigning the template
