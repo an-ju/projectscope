@@ -14,7 +14,6 @@
         <tr>
           <th>   </th>
           <th>Project</th>
-          <th>iterations assigned</th>
         </tr>
         </thead>
         <tbody>
@@ -22,7 +21,6 @@
             <tr>
               <td><%= check_box_tag('project_ids[]',project.id, true, class: "checkbox") %></td>
               <td><%=project.name%></td>
-              <td>3</td>
             </tr>
           <% end %>
         </tbody>
