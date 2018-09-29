@@ -24,6 +24,7 @@ class IterationsController < ApplicationController
   def show
     @tasks = Task.where(iteration: @iteration.id)
     # @task_ddl = @iteration.task_ddl
+    @project = Project.find(@iteration.project_id)
     @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
     @editable = !(current_user.is_student?)
     @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =

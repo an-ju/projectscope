@@ -1,85 +1,86 @@
-<ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Projects</a></li>
-  <li class="active">Iteration 1</li>
-</ol>
-<div class="page-header">
-  <h1> Tasks Graph <small>Audience 1st</small></h1>
-</div>
-<div>
-  <section id="timeline">
-    <% total_time = 0%>
-    <%= render partial: 'section_card', locals: {section_title: "Preliminary", danger_percentage:@predan, success_percentage:@prepercent}%>
-    <% @preliminaryTasks.each do |task| %>
-        <article>
-          <%= render partial: 'show_task_card', locals: {node: task, updater_type: "preliminary", task_titles: @pretaskTitles}%>
-        </article>
-        <% if task.duration%>
+<body>
+<%= render partial: 'dashboard_sidebar' %>
+<div class="container-fluid">
+  <div class="row">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="page-header">
+        <h1> Tasks Graph <small><%= @project.name%></small></h1>
+      </div>
+      <div>
+        <section id="timeline">
+          <% total_time = 0%>
+          <%= render partial: 'section_card', locals: {section_title: "Preliminary", danger_percentage:@predan, success_percentage:@prepercent}%>
+          <% @preliminaryTasks.each do |task| %>
+              <article>
+                <%= render partial: 'show_task_card', locals: {node: task, updater_type: "preliminary", task_titles: @pretaskTitles}%>
+              </article>
+              <% if task.duration%>
+                  <article>
+                    <div class="inner">
+                      <span class="date"></span>
+                      <h3 class = "card-deadline">
+                        <% total_time+=task.duration%>
+                        <%= (@iteration.start_time+total_time.days).day%>
+                        <%= (@iteration.start_time+total_time.days).strftime("%B")%>
+                        ,
+                        <%= (@iteration.start_time+total_time.days).year%>
+                      </h3>
+                    </div>
+                  </article>
+              <% end %>
+          <% end %>
           <article>
-            <div class="inner">
-            <span class="date"></span>
-                <h3 class = "card-deadline">
-                  <% total_time+=task.duration%>
-                  <%= (@iteration.start_time+total_time.days).day%>
-                    <%= (@iteration.start_time+total_time.days).strftime("%B")%>
-                    ,
-                    <%= (@iteration.start_time+total_time.days).strftime("%A")%>
-                    <%= (@iteration.start_time+total_time.days).year%>
-                </h3>
-            </div>
+            <%= render partial: 'show_task_card_create', locals: {updater_type: "preliminary", task_titles: @pretaskTitles}%>
           </article>
-        <% end %>
-  <% end %>
-    <article>
-      <%= render partial: 'show_task_card_create', locals: {updater_type: "preliminary", task_titles: @pretaskTitles}%>
-    </article>
-    <%= render partial: 'section_card', locals: {section_title: "Development", danger_percentage:@devpercent, success_percentage:@devdan}%>
-    <% @devTasks.each do |task| %>
-        <article>
-          <%= render partial: 'show_task_card', locals: {node: task, updater_type: "development", task_titles: @devtaskTitles}%>
-        </article>
-        <% if task.duration%>
-            <article>
-              <div class="inner">
-                <span class="date"></span>
-                <h3 class = "card-deadline">
-                  <% total_time+=task.duration%>
-                  <%= (@iteration.start_time+total_time.days).day%>
-                  <%= (@iteration.start_time+total_time.days).strftime("%B")%>
-                  ,
-                  <%= (@iteration.start_time+total_time.days).strftime("%A")%>
-                  <%= (@iteration.start_time+total_time.days).year%>
-                </h3>
-              </div>
-            </article>
-        <% end %>
-    <% end %>
-    <article>
-      <%= render partial: 'show_task_card_create', locals: {updater_type: "devlopment", task_titles: @devtaskTitles}%>
-    </article>
-    <%= render partial: 'section_card', locals: {section_title: "Post", danger_percentage:@postpercent, success_percentage: @postdan}%>
-    <% @postTasks.each do |task| %>
-        <article>
-          <%= render partial: 'show_task_card', locals: {node: task, updater_type: "post", task_titles: @postaskTitles}%>
-        </article>
-        <% if task.duration%>
-            <article>
-              <div class="inner">
-                <span class="date"></span>
-                <h3 class = "card-deadline">
-                  <% total_time+=task.duration%>
-                  <%= (@iteration.start_time+total_time.days).day%>
-                  <%= (@iteration.start_time+total_time.days).strftime("%B")%>
-                  ,
-                  <%= (@iteration.start_time+total_time.days).strftime("%A")%>
-                  <%= (@iteration.start_time+total_time.days).year%>
-                </h3>
-              </div>
-            </article>
-        <% end %>
-    <% end %>
-    <article>
-      <%= render partial: 'show_task_card_create', locals: {updater_type: "post", task_titles: @postaskTitles}%>
-    </article>
-  </section>
+          <%= render partial: 'section_card', locals: {section_title: "Development", danger_percentage:@devpercent, success_percentage:@devdan}%>
+          <% @devTasks.each do |task| %>
+              <article>
+                <%= render partial: 'show_task_card', locals: {node: task, updater_type: "development", task_titles: @devtaskTitles}%>
+              </article>
+              <% if task.duration%>
+                  <article>
+                    <div class="inner">
+                      <span class="date"></span>
+                      <h3 class = "card-deadline">
+                        <% total_time+=task.duration%>
+                        <%= (@iteration.start_time+total_time.days).day%>
+                        <%= (@iteration.start_time+total_time.days).strftime("%B")%>
+                        ,
+                        <%= (@iteration.start_time+total_time.days).year%>
+                      </h3>
+                    </div>
+                  </article>
+              <% end %>
+          <% end %>
+          <article>
+            <%= render partial: 'show_task_card_create', locals: {updater_type: "development", task_titles: @devtaskTitles}%>
+          </article>
+          <%= render partial: 'section_card', locals: {section_title: "Post", danger_percentage:@postpercent, success_percentage: @postdan}%>
+          <% @postTasks.each do |task| %>
+              <article>
+                <%= render partial: 'show_task_card', locals: {node: task, updater_type: "post", task_titles: @postaskTitles}%>
+              </article>
+              <% if task.duration%>
+                  <article>
+                    <div class="inner">
+                      <span class="date"></span>
+                      <h3 class = "card-deadline">
+                        <% total_time+=task.duration%>
+                        <%= (@iteration.start_time+total_time.days).day%>
+                        <%= (@iteration.start_time+total_time.days).strftime("%B")%>
+                        ,
+                        <%= (@iteration.start_time+total_time.days).year%>
+                      </h3>
+                    </div>
+                  </article>
+              <% end %>
+          <% end %>
+          <article>
+            <%= render partial: 'show_task_card_create', locals: {updater_type: "post", task_titles: @postaskTitles}%>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
 </div>
+</body>

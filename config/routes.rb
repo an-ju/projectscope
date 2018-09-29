@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       to: 'iterations#iteration_task'
   get '/iteration_task_reset/:iteration_id/task/:task_id',
       to: 'iterations#iteration_task_reset', as: 'iteration_task_reset'
-  post '/iterations/:iteration_id/delete_task/:task_id',
+  get '/iterations/:iteration_id/delete_task/:task_id',
        to: 'iterations#delete_task', as: 'iteration_delete_task'
   get '/login/:id', to: 'application#passthru', as: 'passthru'
   post '/log', to: 'projects#write_log'

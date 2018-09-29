@@ -4,13 +4,13 @@
     <!-- Button trigger modal -->
       <!-- Button trigger modal -->
       Create New Task
-      <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal1">
+      <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%=updater_type%>-create" style="float: right;">
         create
       </button>
   </h2>
 
   <!-- Create Modal -->
-  <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="myModal<%=updater_type%>-create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

@@ -1,16 +1,20 @@
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="inner">
   <h2 class = "<%="task-#{node.task_status}"%>">
     <%= node.title%>
       <!-- Button trigger details modal -->
-    <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>">
-      details
+    <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>" style="float: right;">
+      <span class="glyphicons glyphicon-plus"></span>
     </button>
     <% if @editable %>
         <!-- Button trigger edit modal -->
-        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>edit">
-          edit
+        <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>edit" style="float: right;">
+          <span class="glyphicons glyphicon-remove"></span>
         </button>
-        <%=button_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:@iteration.id} ), class:"card-link btn btn-sm", type:"button"%>
+        <button type="button" class="card-link btn btn-sm" style="float: right;">
+          <%=link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:@iteration.id} ), type:"button"%>
+        </button>
     <% end %>
   </h2>
   <!-- Detail Modal -->
@@ -31,7 +35,6 @@
       </div>
     </div>
   </div>
-
   <!-- Edit Modal -->
   <div class="modal fade" id="myModal<%="#{node.id}"%>edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -65,5 +68,4 @@
       </div>
     </div>
   </div>
-
 </div>
