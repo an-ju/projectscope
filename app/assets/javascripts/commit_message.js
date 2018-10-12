@@ -2,11 +2,17 @@ function commit_message(containerID, data) {
     var num_bad_commits = data.bad_commits;
     var types = data.type_counting;
 
-    var plotdata = [{'type': 'untyped', 'number': num_bad_commits}];
+    if (num_bad_commits > 0) {
+        var plotdata = [{'type': 'untyped', 'number': num_bad_commits}];
+    } else {
+        var plotdata = [];
+    }
     var sum = parseInt(num_bad_commits);
     Object.keys(types).forEach(function (t) {
-        plotdata.push({'type': t, 'number': types[t]});
-        sum += parseInt(types[t]);
+        if (parseInt(types[t]) != 0) {
+            plotdata.push({'type': t, 'number': types[t]});
+            sum += parseInt(types[t]);
+        }
     });
 
     var color = function (d) {

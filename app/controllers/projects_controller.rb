@@ -1,8 +1,9 @@
 require 'json'
+
+
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :add_owner, :show_metric, :show_report,
-                                     :get_metric_data, :get_metric_series]
-  before_action :init_existed_configs, only: [:show, :edit, :new]
+  before_action :set_project, only: %I[show edit update destroy add_owner]
+  before_action :init_existed_configs, only: %I[show edit new]
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -18,24 +19,19 @@ class ProjectsController < ApplicationController
     end
     days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
     @days_from_now = days_from_now
-    @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
-    @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
-    # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
+    @current_page = params.key?(:page) ? (params[:page].to_i - 1) : 0
+    @display_type = params.key?(:type) ? params[:type] : 'metric'
     @projects = Project.all
-    update_session
-
-    # metric_min_date = MetricSample.min_date || Date.today
-    # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
 
   # GET /projects/1
-  # GET /projects/1
+  # GET /projects/1.json
   def show
     days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
     @days_from_now = days_from_now
-    @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
-    @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
-    @other_projects = Project.select([:id, :name]).where.not(id: @project.id)
+    @current_page = params.key?(:page) ? (params[:page].to_i - 1) : 0
+    @display_type = params.key?(:type) ? params[:type] : 'metric'
+    @other_projects = Project.select(%I[id name]).where.not(id: @project.id)
   end
 
   # GET /projects/new
@@ -58,11 +54,6 @@ class ProjectsController < ApplicationController
         @configs[metric] << { c => config.nil? ? '' : config.token }
       end
     end
-    # all_configs = @project.configs.select(:metric_name, :metrics_params, :token).map(&:attributes)
-    # all_configs.each do |config|
-    #   @configs[config["metric_name"]] ||= []
-    #   @configs[config["metric_name"]] << {config["metrics_params"] => config["token"]}
-    # end
   end
 
   # POST /projects
@@ -135,62 +126,12 @@ class ProjectsController < ApplicationController
   def show_metric
     @metric_name = params[:metric]
 
-    samples = @project.metric_samples.limit(50).where(metric_name: @metric_name).sort_by { |elem| Time.now-elem.created_at }
-    date_filter = {}
-    samples.each do |metric_sample|
-      k = days_ago(metric_sample.created_at)
-      if date_filter.key? k
-        date_filter[k] += metric_sample.comments.select(&:general_comment?)
-      else
-        date_filter[k] = metric_sample.comments.select(&:general_comment?)
-      end
-    end
-    @comments = date_filter.map { |k, v| [k, v] }.sort_by { |elem| elem[0] }
+    @samples = @project.metric_samples
+                       .select(%I[id project_id metric_name image score created_at]).limit(50)
+                       .where(metric_name: @metric_name)
+                       .sort_by { |elem| Time.now - elem.created_at }
 
-    @parent_metric = @project.latest_metric_sample params[:metric]
     render template: 'projects/metric_detail'
-  end
-
-  # GET /projects/:id/metrics/:metric/report
-  def show_report
-    report = ProjectMetrics.hierarchies(:report).select { |m| m[:title].eql? params[:metric].to_sym }.first
-    @sub_metrics = report[:contents]
-    @practice_name = report[:title].to_s
-    @days_from_now = 0
-    @parent_metric = @project.latest_metric_sample params[:metric]
-    metric_min_date = MetricSample.min_date || Date.today
-    @num_days_from_today = (Date.today - metric_min_date).to_i
-    render template: 'projects/metric_report'
-  end
-
-  # GET /projects/:id/metrics/:metric
-  def get_metric_data
-    #TODO: put this to the new controller
-    days_from_now = params[:days_from_now] ? params[:days_from_now].to_i : 0
-    date = Date.today - days_from_now.days
-    metric = @project.metric_on_date params[:metric], date
-    if metric.length > 0
-      render json: metric.last
-    else
-      render :json => {:error => "not found"}, :status => 404
-    end
-  end
-
-  # GET /projects/:id/metrics/:metric/series
-  def get_metric_series
-    #TODO: put it to the new controller
-    metric_samples = @project.metric_samples.limit(3).where(metric_name: params[:metric])
-    if metric_samples.empty?
-      render json: { error: 'not found' }, status: 404
-    else
-      metric_samples = metric_samples.sort_by(&:created_at).map(&:attributes)
-      metric_samples = metric_samples.map do |m|
-        m.delete('encrypted_raw_data')
-        m.delete('encrypted_raw_data_iv')
-        m.update datetime: m['created_at'].strftime('%Y-%m-%dT%H:%M')
-      end
-      render json: metric_samples
-    end
   end
 
   def add_owner
@@ -232,31 +173,7 @@ class ProjectsController < ApplicationController
     params[:project]
   end
 
-  def order_by_project_name(preferred_projects)
-    session[:order] = "ASC" if session[:pre_click] != "project_name"
-    preferred_projects.order_by_name(session[:order])
-  end
-
-  def order_by_metric_name(preferred_projects)
-    click_type = params[:type]
-    session[:order] = "ASC" if session[:pre_click] != click_type
-    preferred_projects.order_by_metric_score(click_type, session[:order])
-  end
-
-  def update_session
-    session[:order] = session[:order] == "ASC" ? "DESC" : "ASC"
-    session[:pre_click] = params[:type]
-  end
-
   def days_ago(t)
-    days = (Time.now - t).to_i / (24*3600)
+    (Time.now - t).to_i / (24*3600)
   end
-
-  # get path: projects/:id/
-  # param metric_name string:"github"
-  # return all data from matrics_smaple of github relate to this project
-  def metrics_data(id, metric_name)
-    MetricSample.latest_metric(id, metric_name)
-  end
-
 end

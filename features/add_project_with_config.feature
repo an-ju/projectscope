@@ -20,7 +20,7 @@ Feature: add project and its config/credentials info
       | token   | 5     |
     And I press "Create"
     Then there should be a project "Test Project" with config values:
-      | metric_name      | key             | value |
-      | pull_requests    | github_project  | a.com |
-      | github_files     | github_project  | a.com |
-      | tracker_velocity | tracker_project | b.com |
+      | metric_name        | key             | value |
+      | pull_requests      | github_project  | a.com |
+      | github_files       | github_project  | a.com |
+      | point_distribution | tracker_project | b.com |

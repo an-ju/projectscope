@@ -13,9 +13,7 @@ User.delete_all
 Whitelist.delete_all
 Project.delete_all
 MetricSample.delete_all
-Task.delete_all
-Taskedge.delete_all
-Iteration.delete_all
+
 
 # dummy1_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/WebsiteOne'
 # dummy2_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/project_metric_slack'
@@ -124,122 +122,6 @@ projects_list = []
   projects_list << Project.create!(name: "Project #{num}")
 end
 
-# create iteration
-iteration = Iteration.create(name: "Iteration 0", template: true)
-# create the seed for task graph
-t1 = Task.create(title: 'Customer Meeting',
-                 iteration: iteration,
-                 description: 'Some contents about Task 1',
-                 task_status: 'finished',
-                 updater_type: 'preliminary',
-                 task_callbacks: 'hello_world')
-t2 = Task.create(title: 'Iteration Planning',
-                 iteration: iteration,
-                 description: 'Some contents about Task 2',
-                 task_status: 'finished',
-                 updater_type: 'preliminary',
-                 task_callbacks: 'hello_world')
-t4 = Task.create(title: 'Test Title',
-                 iteration: iteration,
-                 description: 'Some contents about Task 4',
-                 task_status: 'danger',
-                 updater_type: 'preliminary',
-                 task_callbacks: 'hello_world')
-t5 = Task.create(title: 'GSI Meeting',
-                 iteration: iteration,
-                 description: 'Some contents about Task 5',
-                 task_status: 'finished',
-                 updater_type: 'preliminary',
-                 task_callbacks: 'hello_world')
-t6 = Task.create(title: 'Scrum meeting',
-                 iteration: iteration,
-                 description: 'Some contents about Task 6',
-                 task_status: 'unstarted',
-                 updater_type: 'preliminary',
-                 task_callbacks: 'hello_world')
-t7 = Task.create(title: 'Configuration Setup',
-                 iteration: iteration,
-                 description: 'Some contents about Task 7',
-                 task_status: 'unstarted',
-                 updater_type: 'preliminary',
-                 task_callbacks: 'hello_world')
-t8 = Task.create(title: 'Lo-fi Mockup',
-                 iteration: iteration,
-                 description: 'Some contents about Task 8',
-                 task_status: 'started',
-                 updater_type: 'development',
-                 task_callbacks: 'hello_world')
-t10 = Task.create(title: 'Pair programming',
-                 iteration: iteration,
-                 description: 'Some contents about Task 8',
-                 task_status: 'started',
-                 updater_type: 'development',
-                 task_callbacks: 'hello_world')
-t9 = Task.create(title: 'Scrum Meeting',
-                 iteration: iteration,
-                 description: 'Pass only get accepted by customers',
-                 task_status: 'unstarted',
-                 updater_type: 'development',
-                 task_callbacks: 'hello_world')
-t11 = Task.create(title: 'Code Review',
-                 iteration: iteration,
-                 description: 'Pass only get accepted by customers',
-                 task_status: 'unstarted',
-                 updater_type: 'development',
-                 task_callbacks: 'hello_world')
-t12 = Task.create(title: 'Finish Story',
-                 iteration: iteration,
-                 description: 'Pass only get accepted by customers',
-                 task_status: 'unstarted',
-                 updater_type: 'development',
-                 task_callbacks: 'hello_world')
-t13 = Task.create(title: 'TDD and BDD',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'development',
-                  task_callbacks: 'hello_world')
-t14 = Task.create(title: 'Points Estimation',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'development',
-                  task_callbacks: 'hello_world')
-t15 = Task.create(title: 'Pull Request',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'development',
-                  task_callbacks: 'hello_world')
-t16 = Task.create(title: 'Deploy',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'post',
-                  task_callbacks: 'hello_world')
-t17 = Task.create(title: 'Cross Group Review',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'post',
-                  task_callbacks: 'hello_world')
-t18 = Task.create(title: 'Customer Feedback',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'post',
-                  task_callbacks: 'hello_world')
-
-Taskedge.create(childtask_id: t2.id, parenttask_id: t1.id)
-Taskedge.create(childtask_id: t4.id, parenttask_id: t2.id)
-Taskedge.create(childtask_id: t5.id, parenttask_id: t2.id)
-Taskedge.create(childtask_id: t7.id, parenttask_id: t4.id)
-Taskedge.create(childtask_id: t8.id, parenttask_id: t5.id)
-Taskedge.create(childtask_id: t9.id, parenttask_id: t4.id)
-Taskedge.create(childtask_id: t10.id, parenttask_id: t5.id)
-Taskedge.create(childtask_id: t11.id, parenttask_id: t7.id)
-Taskedge.create(childtask_id: t12.id, parenttask_id: t11.id)
-
 end_date = Date.today
 start_date = end_date - 7.days
 
@@ -249,18 +131,14 @@ projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
     if TRUE
       start_date.upto(end_date) do |date|
+        tcreate = date.to_time + 1.hour
         3.times do
           m = MetricSample.create!(:metric_name => metric,
                                    :project_id => project.id,
                                    :score => rand(0.0..4.0).round(2),
                                    :image => dummies[metric].sample,
-                                   :created_at => date)
-          rand(3).times do
-            m.comments << Comment.new(content: "Comment on #{date} for #{metric}",
-                                      ctype: 'general_comment',
-                                      params: '{}',
-                                      created_at: date.beginning_of_day)
-          end
+                                   :created_at => tcreate)
+          tcreate += 4.hours
         end
       end
       ProjectMetrics.class_for(metric).credentials.each do |param|

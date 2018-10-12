@@ -14,11 +14,9 @@ class Project < ActiveRecord::Base
   has_many :metric_samples
   has_and_belongs_to_many :users
   has_many :ownerships
-  has_many :owners, :class_name => "User", :through => :ownerships, :source => :user
-  has_many :comments, through: :metric_samples
-  has_many :iterations
+  has_many :owners, class_name: 'User', through: :ownerships, source: :user
 
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, presence: true, uniqueness: true
 
   accepts_nested_attributes_for :configs
   attr_accessible :name, :configs_attributes
@@ -44,12 +42,6 @@ class Project < ActiveRecord::Base
       metrics_name_ary << config.metric_name
     end
     metrics_name_ary.uniq
-  end
-
-  def report
-    ProjectMetrics.hierarchies(:report).map do |r|
-      latest_metric_sample r[:title]
-    end
   end
 
   def latest_metric_sample(metric)
