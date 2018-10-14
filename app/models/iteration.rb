@@ -4,32 +4,23 @@ class Iteration < ActiveRecord::Base
 
   # calculate the percentage of accomplish of each task graph
   def self.percentage_progress requestingTasks, planningTasks, executionTasks, deliveringTasks
-    reqcount = requestingTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    plancount = planningTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    execount = executionTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    delivercount = deliveringTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    reqcountdanger = requestingTasks.select{ |task| task.task_status == 'danger'}.count*100.0
-    plancountdanger = planningTasks.select{ |task| task.task_status == 'danger'}.count*100.0
-    execountdanger = executionTasks.select{ |task| task.task_status == 'danger'}.count*100.0
-    delivercountdanger = deliveringTasks.select{ |task| task.task_status == 'danger'}.count*100.0
-    reqdan = exepercent = planpercent = plandan = reqpercent = execdan = deliverpercent = deliverdan = 0
-    if requestingTasks.count > 0
-      reqpercent = reqcount / requestingTasks.count
-      reqdan = reqcountdanger / requestingTasks.count
-    end
-    if planningTasks.count > 0
-      planpercent = plancount / planningTasks.count
-      plandan = plancountdanger / planningTasks.count
-    end
-    if executionTasks.count > 0
-      exepercent = execount / executionTasks.count
-      execdan = execountdanger / executionTasks.count
-    end
-    if deliveringTasks.count > 0
-      deliverpercent = delivercount / deliveringTasks.count
-      deliverdan = delivercountdanger / deliveringTasks.count
-    end
+    reqpercent, reqdan = Iteration.calculate_type requestingTasks
+    planpercent,plandan = Iteration.calculate_type planningTasks
+    exepercent,execdan = Iteration.calculate_type executionTasks
+    deliverpercent,deliverdan = Iteration.calculate_type deliveringTasks
     return reqpercent, planpercent, exepercent, reqdan, plandan, execdan, deliverpercent, deliverdan
+  end
+
+  # calculate each type
+  def self.calculate_type tasks
+    finishcount = tasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    dangercount = tasks.select{ |task| task.task_status == 'danger'}.count*100.0
+    danpercent = finishpercent = 0
+    if tasks.count > 0
+      finishpercent = finishcount / tasks.count
+      danpercent = dangercount / tasks.count
+    end
+    return finishpercent, danpercent
   end
 
   # return the 2-d lists where the key is stored inside the level slot
