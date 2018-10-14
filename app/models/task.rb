@@ -11,37 +11,38 @@ class Task < ActiveRecord::Base
     started: :finished,
     danger: :finished
   }.stringify_keys.freeze
-  Updaters = %w[github pivotal local preliminary development post].freeze
+  Updaters = %w[github pivotal local requesting planning execution delivering].freeze
   UPDATER = {
     github: GithubUpdater,
     pivotal: PivotalUpdater,
     local: LocalUpdater,
-    preliminary: PreliminaryUpdater,
-    development: DevelopmentUpdater,
-    post: PostUpdater
+    requesting: RequestingUpdater,
+    planning: PlanningUpdater,
+    execution: ExecutionUpdater,
+    delivering: DeliveringUpdater,
+    testing: TestingUpdater
   }.stringify_keys.freeze
-  DevTaskTitles = ['Lo-fi Mockup', 'Pair programming', 'Code Review',
-                   'Finish Story', 'TDD and BDD', 'Points Estimation',
-                   'Pull Request'].freeze
-  PreTaskTitles = ['Customer Meeting', 'Iteration Planning', 'GSI Meeting',
-                   'Scrum meeting', 'Configuration Setup', 'Test Title'].freeze
-  PostTaskTitles = ['Deploy', 'Cross Group Review', 'Customer Feedback'].freeze
+  Requesting = ['Contact Customer', 'Customer Meeting', 'Create Stories'].freeze
+  Planning = ['Planning Meetings', 'Behavior Tests'].freeze
+  Execution = ['Unit Tests', 'Implementation'].freeze
+  Delivering = ['Pull Requests', 'Code Review'].freeze
   validates :task_status, presence: true, inclusion: { in: Status }
-  validates :updater_type, presence: true, inclusion: { in: Updaters }
-  validates :title, inclusion: { in: PreTaskTitles | DevTaskTitles | PostTaskTitles }
+  validates :updater_type, presence: true, inclusion: { in: Updaters | ["testing"]}
+  validates :title, inclusion: { in: Requesting | Planning | Execution | Delivering | ["test task"]}
 
   # Static constant defined by the type of updater
   def self.phases_task
-    return DevTaskTitles, PreTaskTitles, PostTaskTitles
+    return Requesting, Planning, Execution, Delivering
   end
 
   # According to iteration separate all tasks according to their updater type(categories)
   def self.tasks_selection iteration
     tasks = Task.where(iteration: iteration.id)
-    preliminaryTasks = tasks.select{|task| task.updater_type == 'preliminary'}
-    devTasks = tasks.select{|task| task.updater_type == 'development'}
-    postTasks = tasks.select{|task| task.updater_type == 'post'}
-    return preliminaryTasks, devTasks, postTasks
+    requestingTasks = tasks.select{|task| task.updater_type == 'requesting'}
+    planningTasks = tasks.select{|task| task.updater_type == 'planning'}
+    executionTasks = tasks.select{|task| task.updater_type == 'execution'}
+    deliveringTasks = tasks.select{|task| task.updater_type == 'delivering'}
+    return requestingTasks, planningTasks, executionTasks, deliveringTasks
   end
 
   def updatable?

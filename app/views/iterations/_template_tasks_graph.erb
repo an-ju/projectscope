@@ -1,33 +1,44 @@
 <div>
-  <h3  class="text-info">Preliminary Task</h3>
+  <h3  class="text-info">Requesting Features</h3>
   <div class="row">
-    <% @preliminaryTasks.each do |task| %>
-        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: "preliminary",task_titles: @pretaskTitles}%>
+    <% @requestingTasks.each do |task| %>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: 'requesting',task_titles: @requestingTitles}%>
     <% end %>
     <% if @editable %>
-        <%= render partial: 'create_task_template',locals: {updater_type: "preliminary", task_titles: @pretaskTitles}%>
+        <%= render partial: 'create_task_template',locals: {updater_type: 'requesting', task_titles: @requestingTitles}%>
     <% end %>
   </div>
 </div>
 <div>
   <h3  class="text-info">Development Task</h3>
   <div class="row">
-    <% @devTasks.each do |task| %>
-        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: "development", task_titles: @devtaskTitles}%>
+    <% @planningTasks.each do |task| %>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: 'planning', task_titles: @planningTitles}%>
     <% end %>
     <% if @editable %>
-        <%= render partial: 'create_task_template',locals: {updater_type: "development", task_titles: @devtaskTitles}%>
+        <%= render partial: 'create_task_template',locals: {updater_type: 'planning', task_titles: @planningTitles}%>
     <% end %>
   </div>
 </div>
 <div>
   <h3  class="text-info">Post Task</h3>
   <div class="row">
-    <% @postTasks.each do |task| %>
-        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: "post", task_titles: @postaskTitles}%>
+    <% @executionTasks.each do |task| %>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: 'execution', task_titles: @executionTitles}%>
     <% end %>
     <% if @editable %>
-        <%= render partial: 'create_task_template',locals: {updater_type: "post", task_titles: @postaskTitles}%>
+        <%= render partial: 'create_task_template',locals: {updater_type: 'execution', task_titles: @executionTitles}%>
+    <% end %>
+  </div>
+</div>
+<div>
+  <h3  class="text-info">Post Task</h3>
+  <div class="row">
+    <% @deliveringTasks.each do |task| %>
+        <%= render partial: 'task_card', locals: {node: task, iteration: @iteration,updater_type: 'delivering', task_titles:@deliveringTitles}%>
+    <% end %>
+    <% if @editable %>
+        <%= render partial: 'create_task_template',locals: {updater_type: 'delivering', task_titles: @deliveringTitles}%>
     <% end %>
   </div>
 </div>

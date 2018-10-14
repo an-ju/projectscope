@@ -25,11 +25,11 @@ class IterationsController < ApplicationController
     @tasks = Task.where(iteration: @iteration.id)
     # @task_ddl = @iteration.task_ddl
     @project = Project.find(@iteration.project_id)
-    @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
+    @requestingTasks, @planningTasks, @executionTasks, @deliveringTasks = Task.tasks_selection @iteration
     @editable = !(current_user.is_student?)
-    @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
-        Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
-    @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
+    @reqpercent, @reqdan, @planpercent, @plandan, @exepercent, @execdan, @deliverpercent, @deliverdan =
+        Iteration.percentage_progress @requestingTasks, @planningTasks, @executionTasks, @deliveringTasks
+    @requestingTitles, @planningTitles, @executionTitles, @deliveringTitles = Task.phases_task
   end
 
   # POST /iterations
@@ -112,10 +112,8 @@ class IterationsController < ApplicationController
   # Present and modify the template iteration graph
   def show_template
     @iteration = Iteration.find(params[:id])
-    @devtaskTitles, @pretaskTitles, @postaskTitles = Task.phases_task
-    @preliminaryTasks, @devTasks, @postTasks = Task.tasks_selection @iteration
-    @prepercent, @devpercent, @postpercent, @predan, @devdan, @postdan =
-        Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
+    @requestingTitles, @planningTitles, @executionTitles, @deliveringTitles = Task.phases_task
+    @requestingTasks, @planningTasks, @executionTasks, @deliveringTasks = Task.tasks_selection @iteration
   end
 
   # Select projects that among all for assigning the template

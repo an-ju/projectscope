@@ -1,10 +1,3 @@
-Given /I should see "delete" inside "task-Scrum meeting"/ do
-
-end
-
-Given /I press the "delete" "Scrum meeting"/ do
-
-end
 
 Given /Tasks will be updated if they reach the requirement to update/ do
 

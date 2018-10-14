@@ -10,7 +10,7 @@
     <% if @editable %>
         <!-- Button trigger edit modal -->
         <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%="#{node.id}"%>edit" style="float: right;">
-          <span class="glyphicons glyphicon-remove"></span>
+          Edit
         </button>
         <button type="button" class="card-link btn btn-sm" style="float: right;">
           <%=link_to "Delete", iteration_delete_task_path( {task_id: node.id, iteration_id:@iteration.id} ), type:"button"%>

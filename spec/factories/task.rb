@@ -4,31 +4,43 @@ FactoryGirl.define do
     trait :github do
       task_status 'started'
       updater_type 'github'
+      title 'test task'
     end
 
     trait :pivotal do
       task_status 'started'
       updater_type 'pivotal'
+      title 'test task'
     end
 
     trait :local do
       task_status 'started'
       updater_type 'local'
+      title 'test task'
     end
 
-    trait :preliminary do
+    trait :requesting do
       task_status 'started'
-      updater_type 'preliminary'
+      updater_type 'requesting'
+      title 'test task'
     end
 
-    trait :development do
+    trait :planning do
       task_status 'started'
-      updater_type 'development'
+      updater_type 'planning'
+      title 'test task'
     end
 
-    trait :post do
+    trait :execution do
       task_status 'started'
-      updater_type 'post'
+      updater_type 'execution'
+      title 'test task'
+    end
+
+    trait :delivering do
+      task_status 'started'
+      updater_type 'delivering'
+      title 'test task'
     end
 
     trait :started do

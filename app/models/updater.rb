@@ -39,9 +39,9 @@ module Updater
       nil
     end
   end
-
-  # task that handle over the preliminary task
-  class PreliminaryUpdater < Updater
+  # The updaters catogorize by phase: requesting planning execution delivering
+  # currently doing no checking
+  class RequestingUpdater < Updater
     def self.update task, key, value
       if (value == 'true' and task.title == key)
         task.update_attributes(task_status: 'finished')
@@ -53,7 +53,7 @@ module Updater
     end
   end
 
-  class DevelopmentUpdater < Updater
+  class PlanningUpdater < Updater
     def self.update task, key, value
       if (value == 'true' and task.title == key)
         task.update_attributes(task_status: 'finished')
@@ -65,7 +65,7 @@ module Updater
     end
   end
 
-  class PostUpdater < Updater
+  class ExecutionUpdater < Updater
     def self.update task, key, value
       if (value == 'true' and task.title == key)
         task.update_attributes(task_status: 'finished')
@@ -76,4 +76,29 @@ module Updater
       nil
     end
   end
+
+  class DeliveringUpdater < Updater
+    def self.update task, key, value
+      if (value == 'true' and task.title == key)
+        task.update_attributes(task_status: 'finished')
+      end
+    end
+
+    def self.analysis_call_back localdata
+      nil
+    end
+  end
+
+  class TestingUpdater < Updater
+    def self.update task, key, value
+      if (value == 'true' and task.title == key)
+        task.update_attributes(task_status: 'finished')
+      end
+    end
+
+    def self.analysis_call_back localdata
+      nil
+    end
+  end
+
 end

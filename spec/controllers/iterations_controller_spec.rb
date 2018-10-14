@@ -9,8 +9,7 @@ RSpec.describe IterationsController, type: :controller do
     @github_task = create(:task, :github, iteration_id: @iteration.id)
     @local_task = create(:task, :local, iteration_id: @iteration.id)
     @pivotal_task = create(:task, :pivotal, iteration_id: @iteration.id)
-    @CM_task = create(:task, :preliminary, iteration_id: @iteration.id, title: 'Customer Meeting')
-
+    @CM_task = create(:task, :requesting, iteration_id: @iteration.id, title: 'Customer Meeting')
   end
   describe 'show task graph' do
     it "should get the all tasks iteration have" do
@@ -48,14 +47,17 @@ RSpec.describe IterationsController, type: :controller do
     # stub the name of the http response from event
     before(:each) do
       response_hash = {:event_update => "Stub working", :time_stamp => "12324", "Customer Meeting"=>"true"}
-      stub_request(:get, /api.projects_scope_events.com/).
-          with(headers: {'Accept'=>'*/*',
-                         'Host'=>'api.projects_scope_events.com',
-                         'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                         'User-Agent'=>'Faraday v0.12.2',
-                         'User-Agent'=>'Ruby',
-          }).
-          to_return(status: 200, body: JSON[response_hash], headers: {:content_type => 'json'})
+
+      response_hash = stub_request(:get, "https://api.projects_scope_events.com/update_event").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'Host'=>'api.projects_scope_events.com',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: JSON[response_hash], headers: {})
+
       @url = 'https://api.projects_scope_events.com'
     end
 

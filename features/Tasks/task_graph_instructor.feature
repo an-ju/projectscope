@@ -17,17 +17,15 @@ Feature:  Task graph will help user to finish the task step by step
       | IterationInstructor |
     And the "IterationInstructor" iteration is map with the following tasks:
       | title               | updater_type      | task_status |
-      | Scrum meeting       | preliminary       | finished    |
-      | Customer Meeting    | preliminary       | started     |
-      | Lo-fi Mockup        | development       | finished    |
-      | Pair programming    | development       | danger      |
-      | Code Review         | development       | started     |
-      | Code Review         | development       | started     |
-      | Deploy              | post              | danger      |
-      | Cross Group Review  | post              | danger      |
-      | Customer Feedback   | post              | unstarted   |
-      | Customer Feedback   | post              | unstarted   |
-      | Customer Feedback   | post              | unstarted   |
+      | test task           | requesting        | finished    |
+      | test task           | requesting        | started     |
+      | test task           | planning          | finished    |
+      | test task           | planning          | danger      |
+      | test task           | planning          | started     |
+      | test task           | planning          | started     |
+      | test task           | execution         | danger      |
+      | test task           | execution         | danger      |
+
     And I am on the iteration page for "IterationInstructor"
 
   Scenario: Task progress bar should show the correct percentage for every category
@@ -36,11 +34,11 @@ Feature:  Task graph will help user to finish the task step by step
     #And I should see the progress bar within post tasks
 
   Scenario: The percentage should show how many task are finished
-    Then I should see the percentage for preliminary task should be 50
-    And I should see the percentage for development task should be 25
-    And I should see the percentage for post task should be 20
+    Then I should see the percentage for requesting task should be 50
+    And I should see the percentage for planning task should be 25
+    And I should see the percentage for execution task should be 20
 
   Scenario: Student will be able to see the color of the tasks are as required
-    Then I should see the color of preliminary progress bar should be green
-    And I should see the color of preliminary progress bar should be yellow
-    And I should see the color of preliminary progress bar should be red
+    #Then I should see the color of preliminary progress bar should be green
+    #And I should see the color of preliminary progress bar should be yellow
+    #And I should see the color of preliminary progress bar should be red

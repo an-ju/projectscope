@@ -10,32 +10,36 @@ describe Iteration do
   describe 'iteration tasks percentage calculation' do
     before(:each) do
       @iteration = create(:iteration)
-      @pretask1 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'finished')
-      @pretask2 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'started')
-      @devtask1 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
-      @devtask2 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
-      @posttask1 = create(:task, :post, iteration_id: @iteration.id, task_status:'danger')
-      @posttask2 = create(:task, :post, iteration_id: @iteration.id, task_status:'started')
+      @retask1 = create(:task, :requesting, iteration_id: @iteration.id, task_status:'finished')
+      @retask2 = create(:task, :requesting, iteration_id: @iteration.id, task_status:'started')
+      @plantask1 = create(:task, :planning, iteration_id: @iteration.id, task_status:'finished')
+      @plantask2 = create(:task, :planning, iteration_id: @iteration.id, task_status:'finished')
+      @exetask1 = create(:task, :execution, iteration_id: @iteration.id, task_status:'danger')
+      @exettask2 = create(:task, :execution, iteration_id: @iteration.id, task_status:'started')
+      @detask1 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'danger')
+      @detask2 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'started')
       @tasks = Task.where(iteration: @iteration.id)
     end
 
     it 'should show the correct percentage' do
-      @preliminaryTasks = @tasks.select{|task| task.updater_type == 'preliminary'}
-      @devTasks = @tasks.select{|task| task.updater_type == 'development'}
-      @postTasks = @tasks.select{|task| task.updater_type == 'post'}
-      expect(@preliminaryTasks).not_to be_nil
-      expect(@devTasks).not_to be_nil
-      expect(@postTasks).not_to be_nil
-      expect(@preliminaryTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
-      expect(@devTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
-      expect(@postTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
-      expect(@preliminaryTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 1
-      expect(@devTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 2
-      expect(@postTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 0
-      precount = @preliminaryTasks.select{|t| t.task_status == 'finished'}.count*1.0
-      devcount = @devTasks.select{|t| t.task_status == 'finished'}.count*1.0
-      postcount = @postTasks.select{|t| t.task_status == 'finished'}.count*1.0
-      @prepercent, @devpercent, @postpercent = Iteration.percentage_progress @preliminaryTasks, @devTasks, @postTasks
+      @RequestingTasks = @tasks.select{|task| task.updater_type == 'requesting'}
+      @PlaningTasks = @tasks.select{|task| task.updater_type == 'planning'}
+      @ExecutionTasks = @tasks.select{|task| task.updater_type == 'execution'}
+      @DeliveringTasks = @tasks.select{|task| task.updater_type == 'delivering'}
+      expect(@RequestingTasks).not_to be_nil
+      expect(@PlaningTasks).not_to be_nil
+      expect(@ExecutionTasks).not_to be_nil
+      expect(@DeliveringTasks).not_to be_nil
+      expect(@RequestingTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
+      expect(@PlaningTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
+      expect(@ExecutionTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
+      expect(@RequestingTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 1
+      expect(@PlaningTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 2
+      expect(@ExecutionTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 0
+      precount = @RequestingTasks.select{|t| t.task_status == 'finished'}.count*1.0
+      devcount = @PlaningTasks.select{|t| t.task_status == 'finished'}.count*1.0
+      postcount = @ExecutionTasks.select{|t| t.task_status == 'finished'}.count*1.0
+      @prepercent, @devpercent, @postpercent = Iteration.percentage_progress @RequestingTasks, @PlaningTasks, @ExecutionTasks,@DeliveringTasks
       expect(@prepercent).to eq 50
       expect(@devpercent).to eq 100
       expect(@postpercent).to eq 0
@@ -46,12 +50,14 @@ describe Iteration do
   describe 'copy over the iteration' do
     before(:each) do
       @iteration = create(:iteration)
-      @pretask1 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'finished')
-      @pretask2 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'started')
-      @devtask1 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
-      @devtask2 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
-      @posttask1 = create(:task, :post, iteration_id: @iteration.id, task_status:'danger')
-      @posttask2 = create(:task, :post, iteration_id: @iteration.id, task_status:'started')
+      @retask1 = create(:task, :requesting, iteration_id: @iteration.id, task_status:'finished')
+      @retask2 = create(:task, :requesting, iteration_id: @iteration.id, task_status:'started')
+      @plantask1 = create(:task, :planning, iteration_id: @iteration.id, task_status:'finished')
+      @plantask2 = create(:task, :planning, iteration_id: @iteration.id, task_status:'finished')
+      @exetask1 = create(:task, :execution, iteration_id: @iteration.id, task_status:'danger')
+      @exettask2 = create(:task, :execution, iteration_id: @iteration.id, task_status:'started')
+      @detask1 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'danger')
+      @detask2 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'started')
       testproj1 =  create(:project)
       testproj2 =  create(:project)
       @tasks = Task.where(iteration: @iteration.id)
@@ -65,14 +71,14 @@ describe Iteration do
 
     it 'can call the tasks' do
       tasks = Task.where(Iteration_id = @iteration.id)
-      expect(tasks).to include @pretask1
+      expect(tasks).to include @retask1
     end
 
     it 'copy one task' do
       newt = Task.new
-      newt.title = @pretask1.title
-      newt.updater_type = @pretask1.updater_type
-      newt.description = @pretask1.description
+      newt.title = @retask1.title
+      newt.updater_type = @retask1.updater_type
+      newt.description = @retask1.description
       newt.task_status = 'unstarted'
       newt.iteration_id = 2
       expect(newt.save).to be true
@@ -168,12 +174,14 @@ describe Iteration do
     before(:each) do
       @testproj3 = create(:project)
       @iteration = create(:iteration, active: true, project_id: @testproj3.id)
-      @pretask1 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'finished')
-      @pretask2 = create(:task, :preliminary, iteration_id: @iteration.id, task_status:'started')
-      @devtask1 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
-      @devtask2 = create(:task, :development, iteration_id: @iteration.id, task_status:'finished')
-      @posttask1 = create(:task, :post, iteration_id: @iteration.id, task_status:'danger')
-      @posttask2 = create(:task, :post, iteration_id: @iteration.id, task_status:'started')
+      @retask1 = create(:task, :requesting, iteration_id: @iteration.id, task_status:'finished')
+      @retask2 = create(:task, :requesting, iteration_id: @iteration.id, task_status:'started')
+      @plantask1 = create(:task, :planning, iteration_id: @iteration.id, task_status:'finished')
+      @plantask2 = create(:task, :planning, iteration_id: @iteration.id, task_status:'finished')
+      @exetask1 = create(:task, :execution, iteration_id: @iteration.id, task_status:'danger')
+      @exettask2 = create(:task, :execution, iteration_id: @iteration.id, task_status:'started')
+      @detask1 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'danger')
+      @detask2 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'started')
       @testproj1 =  create(:project)
       @testproj2 =  create(:project)
       @tasks = Task.where(iteration: @iteration.id)
@@ -184,16 +192,8 @@ describe Iteration do
       expect(iter[0]).to eq @iteration
     end
 
-    it 'count the number of tasks of each status  ' do
-      tasks = Task.where(iteration_id: @iteration.id)
-      expect(tasks.select{|t| t.task_status == "finished"}.count).to eq 3
-      expect(tasks.select{|t| t.task_status == "danger"}.count).to eq 1
-      expect(tasks.select{|t| t.task_status == "started"}.count).to eq 2
-      expect(tasks.select{|t| t.task_status == "unstarted"}.count).to eq 0
-    end
-
-    it 'perform the function and return a list of each status' do
-      expect(Iteration.count_graph_status @testproj3.id).to eq [3,1,2,0]
+    it 'perform the function and return a list of number of tasks of each status' do
+      expect(Iteration.count_graph_status @testproj3.id).to eq [3,2,3,0]
     end
 
     it 'perform the function and return false when there is no such project to be found' do
@@ -209,7 +209,7 @@ describe Iteration do
       expect(Project.all).to include(@testproj3)
       expect(Project.all).to include(@testproj1)
       expect(Project.all).to include(@testproj2)
-      expect(progress_hash[@testproj3.id]).to eq [3,1,2,0]
+      expect(progress_hash[@testproj3.id]).to eq [3,2,3,0]
       expect(progress_hash[@testproj1.id]).to eq nil
       expect(progress_hash[@testproj2.id]).to eq nil
     end
@@ -323,21 +323,21 @@ describe Iteration do
       endtime = DateTime.new(2022,4,3)
       @iter1 = create(:iteration, start_time: starttime, end_time:endtime, project_id: @project1.id)
       @iter2 = create(:iteration, start_time: starttime, end_time:endtime, project_id: @project2.id)
-      @pretask1 = create(:task, :preliminary, iteration_id: @iter1.id, task_status:'finished')
-      @pretask2 = create(:task, :preliminary, iteration_id: @iter2.id, task_status:'started')
-      @devtask1 = create(:task, :development, iteration_id: @iter1.id, task_status:'finished')
-      @devtask2 = create(:task, :development, iteration_id: @iter2.id, task_status:'finished')
+      @retask1 = create(:task, :requesting, iteration_id: @iter1.id, task_status:'finished')
+      @retask2 = create(:task, :requesting, iteration_id: @iter2.id, task_status:'started')
+      @plantask1 = create(:task, :planning, iteration_id: @iter1.id, task_status:'finished')
+      @plantask2 = create(:task, :planning, iteration_id: @iter2.id, task_status:'finished')
     end
 
-    it 'catogories the tasks' do
+    it 'current task be correctly shown' do
       tasks_iter = Iteration.collect_current_tasks
       expect(Project.all).to include @project1
       iter = Iteration.current_iter @project1
       expect(iter).to eq @iter1
-      expect(tasks_iter[@project1.id]).to include @pretask1
-      expect(tasks_iter[@project2.id]).to include @pretask2
-      expect(tasks_iter[@project2.id]).to include @devtask2
-      expect(tasks_iter[@project1.id]).to include @devtask1
+      expect(tasks_iter[@project1.id]).to include @retask1
+      expect(tasks_iter[@project2.id]).to include @retask2
+      expect(tasks_iter[@project2.id]).to include @plantask2
+      expect(tasks_iter[@project1.id]).to include @plantask1
     end
   end
 

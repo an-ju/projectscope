@@ -3,29 +3,33 @@ class Iteration < ActiveRecord::Base
   has_many :tasks
 
   # calculate the percentage of accomplish of each task graph
-  def self.percentage_progress preTasks, devTasks, postTasks
-    precount = preTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    devcount = devTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    postcount = postTasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    precountdanger = preTasks.select{ |task| task.task_status == 'danger'}.count*100.0
-    devcountdanger = devTasks.select{ |task| task.task_status == 'danger'}.count*100.0
-    postcountdanger = postTasks.select{ |task| task.task_status == 'danger'}.count*100.0
-    perdan = prepercent = devpercent = devdan = postpercent = postdan = 0
-    if preTasks.count > 0
-      prepercent = precount / preTasks.count
-      predan = precountdanger / preTasks.count
+  def self.percentage_progress requestingTasks, planningTasks, executionTasks, deliveringTasks
+    reqcount = requestingTasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    plancount = planningTasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    execount = executionTasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    delivercount = deliveringTasks.select{ |task| task.task_status == 'finished'}.count*100.0
+    reqcountdanger = requestingTasks.select{ |task| task.task_status == 'danger'}.count*100.0
+    plancountdanger = planningTasks.select{ |task| task.task_status == 'danger'}.count*100.0
+    execountdanger = executionTasks.select{ |task| task.task_status == 'danger'}.count*100.0
+    delivercountdanger = deliveringTasks.select{ |task| task.task_status == 'danger'}.count*100.0
+    reqdan = exepercent = planpercent = plandan = reqpercent = execdan = deliverpercent = deliverdan = 0
+    if requestingTasks.count > 0
+      reqpercent = reqcount / requestingTasks.count
+      reqdan = reqcountdanger / requestingTasks.count
     end
-
-    if devTasks.count > 0
-      devpercent = devcount / devTasks.count
-      devdan = devcountdanger / devTasks.count
+    if planningTasks.count > 0
+      planpercent = plancount / planningTasks.count
+      plandan = plancountdanger / planningTasks.count
     end
-
-    if postTasks.count > 0
-      postpercent = postcount / postTasks.count
-      postdan = postcountdanger / postTasks.count
+    if executionTasks.count > 0
+      exepercent = execount / executionTasks.count
+      execdan = execountdanger / executionTasks.count
     end
-    return prepercent, devpercent, postpercent, predan, devdan, postdan
+    if deliveringTasks.count > 0
+      deliverpercent = delivercount / deliveringTasks.count
+      deliverdan = delivercountdanger / deliveringTasks.count
+    end
+    return reqpercent, planpercent, exepercent, reqdan, plandan, execdan, deliverpercent, deliverdan
   end
 
   # return the 2-d lists where the key is stored inside the level slot

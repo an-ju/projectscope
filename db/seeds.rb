@@ -126,117 +126,69 @@ end
 # create iteration
 iteration = Iteration.create(name: "Iteration 0", template: true)
 # create the seed for task graph
-t1 = Task.create(title: 'Customer Meeting',
+t1 = Task.create(title: 'Contact Customer',
                  iteration: iteration,
                  description: 'Some contents about Task 1',
                  task_status: 'finished',
-                 updater_type: 'preliminary',
+                 updater_type: 'requesting',
                  duration: 4,
                  task_callbacks: 'hello_world')
-t2 = Task.create(title: 'Iteration Planning',
+t2 = Task.create(title: 'Customer Meeting',
                  iteration: iteration,
                  description: 'Some contents about Task 2',
                  task_status: 'finished',
-                 updater_type: 'preliminary',
+                 updater_type: 'requesting',
                  task_callbacks: 'hello_world')
-t4 = Task.create(title: 'Test Title',
+t4 = Task.create(title: 'Create Stories',
                  iteration: iteration,
                  description: 'Some contents about Task 4',
                  task_status: 'danger',
-                 updater_type: 'preliminary',
+                 updater_type: 'requesting',
                  duration: 3,
                  task_callbacks: 'hello_world')
-t5 = Task.create(title: 'GSI Meeting',
+
+t5 = Task.create(title: 'Planning Meetings',
                  iteration: iteration,
                  description: 'Some contents about Task 5',
                  task_status: 'finished',
-                 updater_type: 'preliminary',
+                 updater_type: 'planning',
                  task_callbacks: 'hello_world')
-t6 = Task.create(title: 'Scrum meeting',
+t6 = Task.create(title: 'Behavior Tests',
                  iteration: iteration,
                  description: 'Some contents about Task 6',
                  task_status: 'unstarted',
-                 updater_type: 'preliminary',
+                 updater_type: 'planning',
                  duration: 5,
                  task_callbacks: 'hello_world')
-t7 = Task.create(title: 'Configuration Setup',
+
+t7 = Task.create(title: 'Unit Tests',
                  iteration: iteration,
                  description: 'Some contents about Task 7',
                  task_status: 'unstarted',
-                 updater_type: 'preliminary',
+                 updater_type: 'execution',
                  task_callbacks: 'hello_world')
-t8 = Task.create(title: 'Lo-fi Mockup',
+t8 = Task.create(title: 'Implementation',
                  iteration: iteration,
                  description: 'Some contents about Task 8',
                  task_status: 'started',
-                 updater_type: 'development',
+                 updater_type: 'execution',
                  duration: 6,
                  task_callbacks: 'hello_world')
-t10 = Task.create(title: 'Pair programming',
+
+t10 = Task.create(title: 'Pull Requests',
                  iteration: iteration,
                  description: 'Some contents about Task 8',
                  task_status: 'started',
-                 updater_type: 'development',
+                 updater_type: 'delivering',
                   duration: 4,
                  task_callbacks: 'hello_world')
-t9 = Task.create(title: 'Scrum Meeting',
+t9 = Task.create(title: 'Code Review',
                  iteration: iteration,
                  description: 'Pass only get accepted by customers',
                  task_status: 'unstarted',
-                 updater_type: 'development',
+                 updater_type: 'delivering',
                  task_callbacks: 'hello_world')
-t11 = Task.create(title: 'Code Review',
-                 iteration: iteration,
-                 description: 'Pass only get accepted by customers',
-                 task_status: 'unstarted',
-                 updater_type: 'development',
-                 task_callbacks: 'hello_world')
-t12 = Task.create(title: 'Finish Story',
-                 iteration: iteration,
-                 description: 'Pass only get accepted by customers',
-                 task_status: 'unstarted',
-                 updater_type: 'development',
-                 duration: 2,
-                 task_callbacks: 'hello_world')
-t13 = Task.create(title: 'TDD and BDD',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'development',
-                  task_callbacks: 'hello_world')
-t14 = Task.create(title: 'Points Estimation',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'development',
-                  duration: 5,
-                  task_callbacks: 'hello_world')
-t15 = Task.create(title: 'Pull Request',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'development',
-                  task_callbacks: 'hello_world')
-t16 = Task.create(title: 'Deploy',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  duration: 1,
-                  updater_type: 'post',
-                  task_callbacks: 'hello_world')
-t17 = Task.create(title: 'Cross Group Review',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'post',
-                  duration: 3,
-                  task_callbacks: 'hello_world')
-t18 = Task.create(title: 'Customer Feedback',
-                  iteration: iteration,
-                  description: 'Pass only get accepted by customers',
-                  task_status: 'unstarted',
-                  updater_type: 'post',
-                  task_callbacks: 'hello_world')
+
 
 end_date = Date.today
 start_date = end_date - 7.days
