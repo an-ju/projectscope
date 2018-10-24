@@ -22,27 +22,15 @@ describe Iteration do
     end
 
     it 'should show the correct percentage' do
-      @RequestingTasks = @tasks.select{|task| task.updater_type == 'requesting'}
-      @PlaningTasks = @tasks.select{|task| task.updater_type == 'planning'}
-      @ExecutionTasks = @tasks.select{|task| task.updater_type == 'execution'}
-      @DeliveringTasks = @tasks.select{|task| task.updater_type == 'delivering'}
-      expect(@RequestingTasks).not_to be_nil
-      expect(@PlaningTasks).not_to be_nil
-      expect(@ExecutionTasks).not_to be_nil
-      expect(@DeliveringTasks).not_to be_nil
-      expect(@RequestingTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
-      expect(@PlaningTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
-      expect(@ExecutionTasks.select{|t| t.task_status == 'finished'}).not_to be_nil
-      expect(@RequestingTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 1
-      expect(@PlaningTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 2
-      expect(@ExecutionTasks.select{|t| t.task_status == 'finished'}.count*1.0).to eq 0
-      precount = @RequestingTasks.select{|t| t.task_status == 'finished'}.count*1.0
-      devcount = @PlaningTasks.select{|t| t.task_status == 'finished'}.count*1.0
-      postcount = @ExecutionTasks.select{|t| t.task_status == 'finished'}.count*1.0
-      @prepercent, @devpercent, @postpercent = Iteration.percentage_progress @RequestingTasks, @PlaningTasks, @ExecutionTasks,@DeliveringTasks
-      expect(@prepercent).to eq 50
-      expect(@devpercent).to eq 100
-      expect(@postpercent).to eq 0
+      tasks = Hash.new
+      tasks[:requestingTasks] = @tasks.select{|task| task.updater_type == 'requesting'}
+      tasks[:planningTasks] = @tasks.select{|task| task.updater_type == 'planning'}
+      tasks[:executionTasks] = @tasks.select{|task| task.updater_type == 'execution'}
+      tasks[:deliveringTasks] = @tasks.select{|task| task.updater_type == 'delivering'}
+      percentage = Iteration.percentage_progress tasks
+      expect(percentage[:reqpercent]).to eq 50
+      expect(percentage[:planpercent]).to eq 100
+      expect(percentage[:exepercent]).to eq 0
     end
 
   end
@@ -289,12 +277,6 @@ describe Iteration do
       iter.project_id = @testproj1.id
       iter.set_timestamp start_time, end_time
       expect(Iteration.current_iter @testproj3).to eq nil
-    end
-
-    it 'return nil if the time is not input correctliy' do
-      iter = Iteration.new()
-      iter.save
-      expect(iter.set_timestamp '2', '3').to be_nil
     end
 
     it 'return the current time ' do

@@ -3,22 +3,21 @@ class Iteration < ActiveRecord::Base
   has_many :tasks
 
   # calculate the percentage of accomplish of each task graph
-  def self.percentage_progress requestingTasks, planningTasks, executionTasks, deliveringTasks
-    reqpercent, reqdan = Iteration.calculate_type requestingTasks
-    planpercent,plandan = Iteration.calculate_type planningTasks
-    exepercent,execdan = Iteration.calculate_type executionTasks
-    deliverpercent,deliverdan = Iteration.calculate_type deliveringTasks
-    return reqpercent, planpercent, exepercent, reqdan, plandan, execdan, deliverpercent, deliverdan
+  def self.percentage_progress multitasks
+    percentage = Hash.new
+    percentage[:reqpercent], percentage[:reqdan] = Iteration.calculate_type multitasks[:requestingTasks]
+    percentage[:planpercent],percentage[:plandan] = Iteration.calculate_type multitasks[:planningTasks]
+    percentage[:exepercent],percentage[:execdan] = Iteration.calculate_type multitasks[:executionTasks]
+    percentage[:deliverpercent],percentage[:deliverdan] = Iteration.calculate_type multitasks[:deliveringTasks]
+    return percentage
   end
 
   # calculate each type
   def self.calculate_type tasks
-    finishcount = tasks.select{ |task| task.task_status == 'finished'}.count*100.0
-    dangercount = tasks.select{ |task| task.task_status == 'danger'}.count*100.0
     danpercent = finishpercent = 0
     if tasks.count > 0
-      finishpercent = finishcount / tasks.count
-      danpercent = dangercount / tasks.count
+      finishpercent = tasks.select{ |task| task.task_status == 'finished'}.count * 100.0 / tasks.count
+      danpercent = tasks.select{ |task| task.task_status == 'danger'}.count * 100.0 / tasks.count
     end
     return finishpercent, danpercent
   end
@@ -75,12 +74,11 @@ class Iteration < ActiveRecord::Base
 
   # Set the start time and end time like yyyy/mm/dd
   def set_timestamp start_time, end_time
-    return nil if not (/(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(start_time) and /(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(end_time))
     start = (start_time.split('/')).map{|s| s.to_i}
     endtime = (end_time.split('/')).map{|s| s.to_i}
     startime = DateTime.new(start[0],start[1],start[2])
     ending = DateTime.new(endtime[0],endtime[1],endtime[2])
-    self.update_attributes(:end_time=> ending, :start_time=> startime)
+    self.update_attributes(end_time: ending, start_time: startime)
   end
 
   # Count the status of all the projects and return the hash

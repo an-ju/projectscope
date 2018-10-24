@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   post 'iterations/create_template_task',
        to: 'iterations#create_template_task', as: 'create_template_task'
   get 'aggregate_tasks_graph', to: 'iterations#aggregate_tasks_graph'
-  post '/iterations/apply_to_all', to: 'iterations#apply_to_all'
+  post '/iterations/apply_to_all', to: 'iterations#apply_to_all', as: 'iterations_apply_to_all'
   post 'event/:callback_token/callback', to: "tasks#call_back_handler"
   post 'iterations/:id/apply_to', to: "iterations#apply_to", as: 'iteration_apply'
   get  'iterations/:id/show_template', to: "iterations#show_template", as: 'show_iter_temp'

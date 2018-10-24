@@ -1,20 +1,18 @@
 require 'faraday'
 
 class IterationsController < ApplicationController
-  before_action :set_iteration, only: [:show, :edit, :update, :destroy]
+  before_action :set_iteration, only: %i[show edit update destroy]
 
   # GET /iterations
   # GET /iterations.json
   def index
     @iterations = Iteration.all
-    if current_user.is_student?
-      redirect_to init_user_path current_user
-    end
-    @current_page = params.has_key?(:page) ? (params[:page].to_i - 1) : 0
-    @display_type = params.has_key?(:type) ? (params[:type]) : 'metric'
+    redirect_to init_user_path current_user if current_user.is_student?
+    @current_page = params.key?(:page) ? (params[:page].to_i - 1) : 0
+    @display_type = params.key?(:type) ? params[:type] : 'metric'
     # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
     @projects = Project.all
-    @template_iterations = Iteration.where(template:true)
+    @template_iterations = Iteration.where(template: true)
     # metric_min_date = MetricSample.min_date || Date.today
     # @num_days_from_today = (Date.today - metric_min_date).to_i
   end
@@ -24,12 +22,14 @@ class IterationsController < ApplicationController
   def show
     @tasks = Task.where(iteration: @iteration.id)
     # @task_ddl = @iteration.task_ddl
+    @titles = {}
+    @tasks = {}
+    @titles[:requestingTitles], @titles[:planningTitles], @titles[:executionTitles], @titles[:deliveringTitles] = Task.phases_task
+    @tasks[:requestingTasks], @tasks[:planningTasks], @tasks[:executionTasks], @tasks[:deliveringTasks] =
+      Task.tasks_selection @iteration
     @project = Project.find(@iteration.project_id)
-    @requestingTasks, @planningTasks, @executionTasks, @deliveringTasks = Task.tasks_selection @iteration
-    @editable = !(current_user.is_student?)
-    @reqpercent, @reqdan, @planpercent, @plandan, @exepercent, @execdan, @deliverpercent, @deliverdan =
-        Iteration.percentage_progress @requestingTasks, @planningTasks, @executionTasks, @deliveringTasks
-    @requestingTitles, @planningTitles, @executionTitles, @deliveringTitles = Task.phases_task
+    @editable = !current_user.is_student?
+    @percentage = Iteration.percentage_progress @tasks
   end
 
   # POST /iterations
@@ -67,44 +67,39 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
-  # Finalize the assignment of template to specific project with
-  # starting and ending date
+  # Finalize the assignment of template to specific project with starting and ending
+  # date. Respond with different message considering if the template is successful
   def apply_to
     project = Project.find params[:project_id]
     newiter = Iteration.copy_assignment params[:id], project.id
-    if not newiter
-      respond_to do |format|
-        format.html {redirect_to iterations_path, notice: 'Iteration Template copy failed.'}
-      end
-    elsif not newiter.set_timestamp params[:start_time], params[:end_time]
-      newiter.destroy
-      respond_to do |format|
-        format.html { redirect_to iterations_path, notice: 'Failed. Please put in the start and end time according to the implied structure.' }
-      end
+    if !newiter
+      copy_fail
+    elsif !newiter.set_timestamp params[:start_time], params[:end_time]
+      copy_reset_time
     else
-      respond_to do |format|
-        format.html { redirect_to iterations_path, notice: 'Project was successfully assigned.' }
-      end
+      copy_success
     end
   end
 
   # Apply the assignment to all projects selected
   def apply_to_all
-    projects = params[:projects].split(' ')
-    projects.each do |project|
-      newiter = Iteration.copy_assignment params[:iteration_id], project
-      newiter.set_timestamp params[:start_time], params[:end_time]
-    end
-    respond_to do |format|
-      format.html { redirect_to iterations_path, notice: 'Projects was successfully assigned.' }
+    if not validate_date
+      copy_reset_time
+    else
+      projects = params[:projects].split(' ')
+      projects.each do |project|
+        newiter = Iteration.copy_assignment params[:iteration_id], project
+        newiter.set_timestamp params[:start_time], params[:end_time]
+      end
+      respond_to do |format|
+        format.html { redirect_to iterations_path, notice: 'Projects was successfully assigned.' }
+      end
     end
   end
 
   # The Dashboard that is presenting all the iterations of all projects
   def dashboard
-    if current_user.is_student?
-      redirect_to init_user_path current_user
-    end
+    redirect_to init_user_path current_user if current_user.is_student?
     @progress = Iteration.task_progress
     @tasks_iter = Iteration.collect_current_tasks
   end
@@ -112,8 +107,11 @@ class IterationsController < ApplicationController
   # Present and modify the template iteration graph
   def show_template
     @iteration = Iteration.find(params[:id])
-    @requestingTitles, @planningTitles, @executionTitles, @deliveringTitles = Task.phases_task
-    @requestingTasks, @planningTasks, @executionTasks, @deliveringTasks = Task.tasks_selection @iteration
+    @titles = {}
+    @tasks = {}
+    @titles[:requestingTitles], @titles[:planningTitles], @titles[:executionTitles], @titles[:deliveringTitles] = Task.phases_task
+    @tasks[:requestingTasks], @tasks[:planningTasks], @tasks[:executionTasks], @tasks[:deliveringTasks] =
+      Task.tasks_selection @iteration
   end
 
   # Select projects that among all for assigning the template
@@ -138,9 +136,9 @@ class IterationsController < ApplicationController
 
   # confirm assignment and select starting and ending date for project
   def confirm_assignment
-    project_ids = params[:project_ids].collect {|id| id.to_i} if params[:project_ids]
+    project_ids = params[:project_ids].collect(&:to_i) if params[:project_ids]
     @iteration = Iteration.find(params[:id])
-    @projects = project_ids.map{|proj| Project.find(proj)}
+    @projects = project_ids.map { |proj| Project.find(proj) }
   end
 
   # Delete iteration template
@@ -151,13 +149,42 @@ class IterationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_iteration
-      @iteration = Iteration.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def iteration_params
-      params.fetch(:iteration, {})
+  # Template application fail
+  def copy_fail
+    respond_to do |format|
+      format.html { redirect_to iterations_path, notice: 'Iteration Template copy failed.' }
     end
+  end
+
+  # Template application successful
+  def copy_success
+    respond_to do |format|
+      format.html { redirect_to iterations_path, notice: 'Project was successfully assigned.' }
+    end
+  end
+
+  # time stamp fail
+  def copy_reset_time
+    @iteration = Iteration.find(params[:iteration_id])
+    @projects = params[:projects].split(' ').map { |proj| Project.find(proj) }
+    respond_to do |format|
+      format.html { redirect_to iterations_path, notice: 'Failed. Please put in the start and end time according to the implied structure.' }
+    end
+  end
+  # Validate_date
+  def validate_date
+    return nil unless /(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(params[:start_time]) &&
+                      /(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(params[:end_time])
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_iteration
+    @iteration = Iteration.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def iteration_params
+    params.fetch(:iteration, {})
+  end
 end
