@@ -67,33 +67,12 @@ class IterationsController < ApplicationController
     redirect_to @iteration
   end
 
-  # Finalize the assignment of template to specific project with starting and ending
-  # date. Respond with different message considering if the template is successful
-  def apply_to
-    project = Project.find params[:project_id]
-    newiter = Iteration.copy_assignment params[:id], project.id
-    if !newiter
-      copy_fail
-    elsif !newiter.set_timestamp params[:start_time], params[:end_time]
-      copy_reset_time
-    else
-      copy_success
-    end
-  end
-
   # Apply the assignment to all projects selected
   def apply_to_all
-    if not validate_date
+    if !validate_date
       copy_reset_time
     else
-      projects = params[:projects].split(' ')
-      projects.each do |project|
-        newiter = Iteration.copy_assignment params[:iteration_id], project
-        newiter.set_timestamp params[:start_time], params[:end_time]
-      end
-      respond_to do |format|
-        format.html { redirect_to iterations_path, notice: 'Projects was successfully assigned.' }
-      end
+      assign_success
     end
   end
 
@@ -123,14 +102,14 @@ class IterationsController < ApplicationController
   # Create the task in timeline
   def create_task
     @iteration = Iteration.find params[:iteration_id]
-    Task.create_task params
+    Task.create params
     redirect_to @iteration
   end
 
   # create new task in template
   def create_template_task
     @iteration = Iteration.find params[:iteration_id]
-    Task.create_task params
+    Task.create params
     redirect_to show_iter_temp_path(@iteration.id)
   end
 
@@ -150,17 +129,15 @@ class IterationsController < ApplicationController
 
   private
 
-  # Template application fail
-  def copy_fail
-    respond_to do |format|
-      format.html { redirect_to iterations_path, notice: 'Iteration Template copy failed.' }
+  # successfully copy
+  def assign_success
+    projects = params[:projects].split(' ')
+    projects.each do |project|
+      newiter = Iteration.copy_assignment params[:iteration_id], project
+      newiter.set_timestamp params[:start_time], params[:end_time]
     end
-  end
-
-  # Template application successful
-  def copy_success
     respond_to do |format|
-      format.html { redirect_to iterations_path, notice: 'Project was successfully assigned.' }
+      format.html { redirect_to iterations_path, notice: 'Projects were successfully assigned.' }
     end
   end
 
@@ -172,10 +149,11 @@ class IterationsController < ApplicationController
       format.html { redirect_to iterations_path, notice: 'Failed. Please put in the start and end time according to the implied structure.' }
     end
   end
+
   # Validate_date
   def validate_date
-    return nil unless /(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(params[:start_time]) &&
-                      /(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(params[:end_time])
+    (/(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(params[:start_time]) &&
+        /(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/.match(params[:end_time]))
   end
 
   # Use callbacks to share common setup or constraints between actions.

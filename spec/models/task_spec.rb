@@ -47,11 +47,6 @@ describe Task do
       @params[:description] = "testing"
       @params[:duration] = 1
     end
-
-    it 'call task and do the job' do
-      expect(Task.create_task @params).not_to be_nil
-    end
-
   end
 
   describe 'return and specify tasks from different categories' do

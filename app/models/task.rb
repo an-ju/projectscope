@@ -53,18 +53,6 @@ class Task < ActiveRecord::Base
     task_status == 'unstarted'
   end
 
-  # create a task in iteration or template through params
-  def self.create_task params
-    newtask = Task.new
-    newtask.updater_type = params[:updater_type]
-    newtask.title = params[:title]
-    newtask.task_status = "unstarted"
-    newtask.iteration_id = params[:iteration_id]
-    newtask.description = params[:description]
-    newtask.duration = params[:duration]
-    newtask.save
-  end
-
   # Update the status through Updater
   def update_status(event_name, event_function)
     return self unless updatable?
