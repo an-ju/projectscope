@@ -9,7 +9,7 @@
 #  user_id    :integer
 #
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   has_many :configs
   has_many :metric_samples
   has_and_belongs_to_many :users

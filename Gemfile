@@ -21,8 +21,8 @@ gem 'attr_encrypted'
 gem 'figaro'
 
 gem 'rake'
-# gem 'rails', '>= 5.0.0.rc2', '< 5.1'
-gem 'rails', '4.2.6'
+gem 'rails', '>= 5.0.0.rc2', '< 5.1'
+# gem 'rails', '4.2.6'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -85,10 +85,10 @@ end
 
 group :test do
   gem 'rspec-rails'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', require: false
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'simplecov'
   gem 'launchy'
   gem 'poltergeist'

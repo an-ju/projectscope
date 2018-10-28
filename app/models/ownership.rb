@@ -1,4 +1,4 @@
-class Ownership < ActiveRecord::Base
+class Ownership < ApplicationRecord
   belongs_to :project
   belongs_to :user
 

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :metric_sample do
   	metric_name "test_metric"
