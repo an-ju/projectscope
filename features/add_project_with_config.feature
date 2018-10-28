@@ -1,12 +1,12 @@
 @javascript @omniauth
 Feature: add project and its config/credentials info
 
-  As a project supervisor
+  As an instructor
   So that I can keep tabs on another project
   I want to add a project and specify credentials for scraping its metrics
 
   Scenario: add project with config info for CodeClimate gem
-    Given I am logged in
+    Given I am logged in as admin
     And I am on the new project page
     Then I fill in "project_name" with "Test Project"
     And I enter new "Github" config values:

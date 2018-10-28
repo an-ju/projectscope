@@ -16,16 +16,14 @@ gem 'project_metric_point_distribution', git: 'https://github.com/an-ju/project_
 gem 'project_metric_smart_story', git: 'https://github.com/an-ju/project_metric_smart_story.git'
 gem 'project_metric_commit_message', git: 'https://github.com/an-ju/project_metric_commit_message.git'
 
-gem 'highcharts-rails'
-
-# use Rails 3-style protected attributes rather than strong params
-gem 'protected_attributes'
 # Securely store secrets, including symmetric encrypt key for attr_encrypted
 gem 'attr_encrypted'
 gem 'figaro'
 
 gem 'rake'
+# gem 'rails', '>= 5.0.0.rc2', '< 5.1'
 gem 'rails', '4.2.6'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'haml'

@@ -5,7 +5,6 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %I[show edit update destroy add_owner]
   before_action :init_existed_configs, only: %I[show edit new]
   before_action :authenticate_user!
-  load_and_authorize_resource
 
   # GET /projects
   # GET /projects.json
@@ -59,7 +58,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    update_params = project_params
+    update_params = project_create_params
     config_params = update_params.delete 'configs'
     @project = Project.new(update_params)
     ProjectMetrics.metric_names.each do |m|
@@ -85,7 +84,7 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1
   # PATCH/PUT /projects/1.json
   def update
-    update_params = project_params
+    update_params = project_update_params
     config_params = update_params.delete 'configs'
     notice = ''
     ProjectMetrics.metric_names.each do |m|
@@ -169,8 +168,18 @@ class ProjectsController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def project_params
-    params[:project]
+  def project_create_params
+    params.require(:project).permit([:name, :user_id, configs: allowed_configs])
+  end
+
+  def project_update_params
+    params.require(:project)
+  end
+
+  def allowed_configs
+    ProjectMetrics.metric_names
+        .flat_map { |m| ProjectMetrics.class_for(m).credentials }
+        .uniq
   end
 
   def days_ago(t)
