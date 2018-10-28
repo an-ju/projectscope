@@ -29,11 +29,11 @@ module ProjectscopeMvp
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    ActiveSupport.halt_callback_chains_on_return_false = false
     config.generators do |g|
       g.orm             :active_record
       g.template_engine :erb
       g.test_framework  :rspec
+      g.javascript_engine :js
     end
     config.time_zone = 'Pacific Time (US & Canada)'
   end
