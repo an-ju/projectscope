@@ -21,8 +21,10 @@ gem 'attr_encrypted'
 gem 'figaro'
 
 gem 'rake'
-gem 'rails', '5.1'
+gem 'rails', '5.2'
 # gem 'rails', '4.2.6'
+
+gem "bootsnap", ">= 1.1.0", require: false
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

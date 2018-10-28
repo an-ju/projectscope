@@ -36,5 +36,6 @@ module ProjectscopeMvp
       g.javascript_engine :js
     end
     config.time_zone = 'Pacific Time (US & Canada)'
+    config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end
