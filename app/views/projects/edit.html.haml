@@ -27,6 +27,10 @@
             %div.input-group
               %div.input-group-addon
                 = name
-              %input{:type => "text", value: name.to_s.include?('token') ? '' : value,  :name => "project[configs][#{metric_name}][#{name}]", :class => "form-control"}
+              %input{type: "text",
+                     value: name.to_s.include?('token') ? '' : value,
+                     name: "project[configs][#{metric_name}][#{name}]",
+                     class: "form-control",
+                     id: "#{metric_name}-#{name}"}
   = submit_tag "Finish", class: "btn btn-primary"
   = link_to 'Back', projects_path, class: "btn btn-primary"
