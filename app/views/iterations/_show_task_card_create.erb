@@ -1,0 +1,51 @@
+<div class="inner">
+
+  <h2 class = "<%="task-unstarted"%>">
+    <!-- Button trigger modal -->
+      <!-- Button trigger modal -->
+      Create New Task
+      <button type="button" class="card-link btn btn-sm" data-toggle="modal" data-target="#myModal<%=updater_type%>-create" style="float: right;">
+        create
+      </button>
+  </h2>
+
+  <!-- Create Modal -->
+  <div class="modal fade" id="myModal<%=updater_type%>-create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <%= form_tag("/iterations/create_task", method: "post") do %>
+              <table>
+                <tbody>
+                <tr>
+                  <td><%= label_tag(:title, "Name:") %></td>
+                  <td>
+                    <%=select_tag :title, options_for_select(task_titles.collect{ |u| [u, u] })%>
+                  </td>
+                </tr>
+                <tr>
+                  <td><%= label_tag(:description, "Description:") %></td>
+                  <td><%= text_field_tag(:description) %></td>
+                </tr>
+                <tr>
+                  <td><%= label_tag(:description, "Duration:") %></td>
+                  <td><%= text_field_tag(:duration) %></td>
+                </tr>
+                </tbody>
+              </table>
+              <%= hidden_field_tag :iteration_id, @iteration.id %>
+              <%= hidden_field_tag :updater_type, updater_type %>
+              <%= submit_tag "Create" , class: "card-link btn btn-sm", role: "button"%>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

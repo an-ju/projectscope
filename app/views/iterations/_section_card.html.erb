@@ -1,0 +1,15 @@
+<article>
+  <div class="inner">
+    <h2 class = "card-section">
+      <%=section_title%>
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" style="width: <%= @prepercent %>%">
+          <span class="sr-only"><%=success_percentage%>% Complete (success)</span>
+        </div>
+        <div class="progress-bar progress-bar-danger" style="width: <%= @predan %>%">
+          <span class="sr-only"><%=danger_percentage%>% Complete (danger)</span>
+        </div>
+      </div>
+    </h2>
+  </div>
+</article>

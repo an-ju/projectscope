@@ -1,0 +1,109 @@
+<body>
+<%= render partial: 'dashboard_sidebar' %>
+<div class="container-fluid">
+  <div class="row">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="page-header">
+        <h1> Tasks Graph <small><%= @project.name%></small></h1>
+      </div>
+      <div>
+        <section id="timeline">
+          <% total_time = 0%>
+          <%= render partial: 'section_card', locals: {section_title: "Requesting Features", danger_percentage:@percentage[:reqdan], success_percentage:@percentage[:reqpercent]}%>
+          <% @tasks[:requestingTasks].each do |task| %>
+              <article>
+                <%= render partial: 'show_task_card', locals: {node: task, updater_type: 'requesting', task_titles: @titles[:requestingTitles]}%>
+              </article>
+              <% if task.duration%>
+                  <article>
+                    <div class="inner">
+                      <span class="date"></span>
+                      <h3 class = "card-deadline">
+                        <% total_time+=task.duration%>
+                        <%= (@iteration.start_time+total_time.days).day%>
+                        <%= (@iteration.start_time+total_time.days).strftime("%B")%>
+                        ,
+                        <%= (@iteration.start_time+total_time.days).year%>
+                      </h3>
+                    </div>
+                  </article>
+              <% end %>
+          <% end %>
+          <article>
+            <%= render partial: 'show_task_card_create', locals: {updater_type: 'requesting', task_titles: @titles[:requestingTitles]}%>
+          </article>
+          <%= render partial: 'section_card', locals: {section_title: "Planning", danger_percentage:@percentage[:plandan], success_percentage:@percentage[:planpercent]}%>
+          <% @tasks[:planningTasks].each do |task| %>
+              <article>
+                <%= render partial: 'show_task_card', locals: {node: task, updater_type: 'planning', task_titles: @titles[:planningTitles]}%>
+              </article>
+              <% if task.duration%>
+                  <article>
+                    <div class="inner">
+                      <span class="date"></span>
+                      <h3 class = "card-deadline">
+                        <% total_time+=task.duration%>
+                        <%= (@iteration.start_time+total_time.days).day%>
+                        <%= (@iteration.start_time+total_time.days).strftime("%B")%>
+                        ,
+                        <%= (@iteration.start_time+total_time.days).year%>
+                      </h3>
+                    </div>
+                  </article>
+              <% end %>
+          <% end %>
+          <article>
+            <%= render partial: 'show_task_card_create', locals: {updater_type: 'planning', task_titles: @titles[:planningTitles]}%>
+          </article>
+          <%= render partial: 'section_card', locals: {section_title: "Execution", danger_percentage:@percentage[:execdan], success_percentage: @percentage[:exepercent]}%>
+          <% @tasks[:executionTasks].each do |task| %>
+              <article>
+                <%= render partial: 'show_task_card', locals: {node: task, updater_type: 'execution', task_titles: @titles[:executionTitles]}%>
+              </article>
+              <% if task.duration%>
+                  <article>
+                    <div class="inner">
+                      <span class="date"></span>
+                      <h3 class = "card-deadline">
+                        <% total_time+=task.duration%>
+                        <%= (@iteration.start_time+total_time.days).day%>
+                        <%= (@iteration.start_time+total_time.days).strftime("%B")%>
+                        ,
+                        <%= (@iteration.start_time+total_time.days).year%>
+                      </h3>
+                    </div>
+                  </article>
+              <% end %>
+          <% end %>
+          <article>
+            <%= render partial: 'show_task_card_create', locals: {updater_type: 'execution', task_titles: @titles[:executionTitles]}%>
+          </article>
+          <%= render partial: 'section_card', locals: {section_title: "Delivering", danger_percentage:@percentage[:deliverdan], success_percentage: @percentage[:deliverpercent]}%>
+          <% @tasks[:deliveringTasks].each do |task| %>
+              <article>
+                <%= render partial: 'show_task_card', locals: {node: task, updater_type: 'delivering', task_titles: @titles[:deliveringTitles]}%>
+              </article>
+              <% if task.duration%>
+                  <article>
+                    <div class="inner">
+                      <span class="date"></span>
+                      <h3 class = "card-deadline">
+                        <% total_time+=task.duration%>
+                        <%= (@iteration.start_time+total_time.days).day%>
+                        <%= (@iteration.start_time+total_time.days).strftime("%B")%>
+                        ,
+                        <%= (@iteration.start_time+total_time.days).year%>
+                      </h3>
+                    </div>
+                  </article>
+              <% end %>
+          <% end %>
+          <article>
+            <%= render partial: 'show_task_card_create', locals: {updater_type: 'delivering', task_titles: @titles[:deliveringTitles]}%>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+</body>

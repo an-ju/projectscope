@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<body>
+<%= render partial: 'dashboard_sidebar' %>
+<div class="container-fluid">
+  <div class="row">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <h1 class="text-success">Edit Iterations Templates</h1>
+      <%= render partial: 'template_tasks_graph' %>
+      <%= link_to 'Back to Template Assignment', iterations_path%>
+    </main>
+  </div>
+</div>
+</body>
+</html>

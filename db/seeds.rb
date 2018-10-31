@@ -13,6 +13,7 @@ User.delete_all
 Whitelist.delete_all
 Project.delete_all
 MetricSample.delete_all
+Task.delete_all
 
 
 # dummy1_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/WebsiteOne'
@@ -121,6 +122,75 @@ projects_list = []
 0.upto(10).each do |num|
   projects_list << Project.create!(name: "Project #{num}")
 end
+
+
+# create iteration
+iteration = Iteration.create(name: "Iteration 0", template: true)
+# create the seed for task graph
+t1 = Task.create(title: 'Contact Customer',
+                 iteration: iteration,
+                 description: 'Some contents about Task 1',
+                 task_status: 'finished',
+                 updater_type: 'requesting',
+                 duration: 4,
+                 task_callbacks: 'hello_world')
+t2 = Task.create(title: 'Customer Meeting',
+                 iteration: iteration,
+                 description: 'Some contents about Task 2',
+                 task_status: 'finished',
+                 updater_type: 'requesting',
+                 task_callbacks: 'hello_world')
+t4 = Task.create(title: 'Create Stories',
+                 iteration: iteration,
+                 description: 'Some contents about Task 4',
+                 task_status: 'danger',
+                 updater_type: 'requesting',
+                 duration: 3,
+                 task_callbacks: 'hello_world')
+
+t5 = Task.create(title: 'Planning Meetings',
+                 iteration: iteration,
+                 description: 'Some contents about Task 5',
+                 task_status: 'finished',
+                 updater_type: 'planning',
+                 task_callbacks: 'hello_world')
+t6 = Task.create(title: 'Behavior Tests',
+                 iteration: iteration,
+                 description: 'Some contents about Task 6',
+                 task_status: 'unstarted',
+                 updater_type: 'planning',
+                 duration: 5,
+                 task_callbacks: 'hello_world')
+
+t7 = Task.create(title: 'Unit Tests',
+                 iteration: iteration,
+                 description: 'Some contents about Task 7',
+                 task_status: 'unstarted',
+                 updater_type: 'execution',
+                 task_callbacks: 'hello_world')
+t8 = Task.create(title: 'Implementation',
+                 iteration: iteration,
+                 description: 'Some contents about Task 8',
+                 task_status: 'started',
+                 updater_type: 'execution',
+                 duration: 6,
+                 task_callbacks: 'hello_world')
+
+t10 = Task.create(title: 'Pull Requests',
+                 iteration: iteration,
+                 description: 'Some contents about Task 8',
+                 task_status: 'started',
+                 updater_type: 'delivering',
+                  duration: 4,
+                 task_callbacks: 'hello_world')
+t9 = Task.create(title: 'Code Review',
+                 iteration: iteration,
+                 description: 'Pass only get accepted by customers',
+                 task_status: 'unstarted',
+                 updater_type: 'delivering',
+                 task_callbacks: 'hello_world')
+
+
 
 end_date = Date.today
 start_date = end_date - 7.days

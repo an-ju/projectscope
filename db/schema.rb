@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180809191300) do
+ActiveRecord::Schema.define(version: 20181031085546) do
 
   create_table "configs", force: :cascade do |t|
     t.integer  "project_id"
@@ -25,6 +25,19 @@ ActiveRecord::Schema.define(version: 20180809191300) do
   end
 
   add_index "configs", ["project_id"], name: "index_configs_on_project_id"
+
+  create_table "iterations", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.boolean  "template"
+    t.integer  "project_id"
+    t.boolean  "active"
+  end
+
+  add_index "iterations", ["project_id"], name: "index_iterations_on_project_id"
 
   create_table "metric_samples", force: :cascade do |t|
     t.integer  "project_id"
@@ -64,6 +77,20 @@ ActiveRecord::Schema.define(version: 20180809191300) do
 
   add_index "projects_users", ["project_id"], name: "index_projects_users_on_project_id"
   add_index "projects_users", ["user_id"], name: "index_projects_users_on_user_id"
+
+  create_table "tasks", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "task_status"
+    t.integer  "duration"
+    t.string   "task_callbacks"
+    t.string   "updater_type"
+    t.datetime "update_time"
+    t.string   "updater_info"
+    t.integer  "iteration_id"
+  end
+
+  add_index "tasks", ["iteration_id"], name: "index_tasks_on_iteration_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "provider_username",      default: "",        null: false
