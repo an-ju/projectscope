@@ -11,7 +11,7 @@
 #  encrypted_options_iv :string
 #
 
-class Config < ActiveRecord::Base
+class Config < ApplicationRecord
   belongs_to :project
   scope :for, ->(metric_name) { where(:metric_name => metric_name).first }
   # validates_uniqueness_of :metric_name, :scope => :project_id

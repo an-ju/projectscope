@@ -9,7 +9,7 @@
 #  user_id    :integer
 #
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   has_many :configs
   has_many :metric_samples
   has_and_belongs_to_many :users
@@ -19,7 +19,6 @@ class Project < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   accepts_nested_attributes_for :configs
-  attr_accessible :name, :configs_attributes
 
   scope :order_by_metric_score, -> (metric_name, order) {
     joins(:metric_samples).where("metric_samples.metric_name = ?", metric_name)

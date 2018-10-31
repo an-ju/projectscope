@@ -29,13 +29,13 @@ module ProjectscopeMvp
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
     config.generators do |g|
       g.orm             :active_record
       g.template_engine :erb
       g.test_framework  :rspec
+      g.javascript_engine :js
     end
     config.time_zone = 'Pacific Time (US & Canada)'
+    config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end

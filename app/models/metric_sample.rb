@@ -13,7 +13,7 @@
 #  image                 :text
 #
 
-class MetricSample < ActiveRecord::Base
+class MetricSample < ApplicationRecord
   belongs_to :project
   has_many :comments
   attr_encrypted :raw_data, :key => Figaro.env.attr_encrypted_key!

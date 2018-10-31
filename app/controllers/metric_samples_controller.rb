@@ -1,5 +1,4 @@
 class MetricSamplesController < ApplicationController
-  load_and_authorize_resource
 
   def index
     @metrics = ProjectMetrics.hierarchies :metric

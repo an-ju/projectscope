@@ -1,4 +1,4 @@
-class Iteration < ActiveRecord::Base
+class Iteration < ApplicationRecord
   belongs_to :project
   has_many :tasks
 

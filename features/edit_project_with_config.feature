@@ -6,7 +6,7 @@ Feature: edit existing project and its config/credentials info
   I want to edit a project and specify different credentials for scraping its metrics
 
   Scenario: Cannot see credentials
-    Given I am logged in
+    Given I am logged in as admin
     And the following projects exist:
       | name         |
       | LocalSupport |

@@ -37,11 +37,6 @@ Given(/^they have the following metric configs:$/) do |table|
       metrics_params: hash['key'],
       token: hash['value']
     )
-    # existing_config = project.config_for(hash['metric_name'])
-    # new_options = existing_config.options
-    # new_options[hash['key'].to_sym] = hash['value']
-    # existing_config.options = new_options
-    # existing_config.save!
   end
 end
 
@@ -56,25 +51,11 @@ Given(/^A project update job has been run$/) do
   $rake['project:resample_all'].execute
 end
 
-And(/^I am logged in$/) do
+And(/^I am logged in/) do
   admin_user = User.create!(provider_username: "Admin", uid: "uadmin", email: 'uadmin@example.com',
                             provider: "developer", role: User::ADMIN, password: Devise.friendly_token[0,20])
   ENV['ADMIN_PASSWORD'] = 'password'
   visit "/login/#{admin_user.uid}?passwd=password"
-  # OmniAuth.config.mock_auth[admin_user.provider] = OmniAuth::AuthHash.new(
-  #   uid: admin_user.uid,
-  #   info: {
-  #     email: admin_user.email
-  #   },
-  #   extra: {
-  #     raw_info: {
-  #       email: admin_user.email,
-  #       login: admin_user.provider_username
-  #     }
-  #   }
-  # )
-  # click_link "Sign in with GitHub"
-  # sleep(1)
 end
 
 Given /^user with username "(.*)" exists/ do |name|

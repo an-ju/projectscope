@@ -6,7 +6,7 @@
 #  username :string
 #
 
-class Whitelist < ActiveRecord::Base
+class Whitelist < ApplicationRecord
   validates_format_of :username,:with => /\A[a-z0-9\-_]+\z/i
   
   def self.has_username?(username)

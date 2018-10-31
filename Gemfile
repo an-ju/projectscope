@@ -16,23 +16,23 @@ gem 'project_metric_point_distribution', git: 'https://github.com/an-ju/project_
 gem 'project_metric_smart_story', git: 'https://github.com/an-ju/project_metric_smart_story.git'
 gem 'project_metric_commit_message', git: 'https://github.com/an-ju/project_metric_commit_message.git'
 
-gem 'highcharts-rails'
-
-# use Rails 3-style protected attributes rather than strong params
-gem 'protected_attributes'
 # Securely store secrets, including symmetric encrypt key for attr_encrypted
 gem 'attr_encrypted'
 gem 'figaro'
 
 gem 'rake'
-gem 'rails', '4.2.6'
+gem 'rails', '5.2'
+# gem 'rails', '4.2.6'
+
+gem "bootsnap", ">= 1.1.0", require: false
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'haml'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+# gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -87,10 +87,10 @@ end
 
 group :test do
   gem 'rspec-rails'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', require: false
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'simplecov'
   gem 'launchy'
   gem 'poltergeist'

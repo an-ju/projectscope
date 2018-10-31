@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :iteration do
-    name 'fixture_iteration'
+    name { 'fixture_iteration' }
   end
 end

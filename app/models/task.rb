@@ -1,5 +1,5 @@
 require 'json'
-class Task < ActiveRecord::Base
+class Task < ApplicationRecord
   belongs_to :iteration
 
   scope :require_updating, -> { where("status = 'started'") }

@@ -1,4 +1,4 @@
-class CreateAuthorizedUser < ActiveRecord::Migration
+class CreateAuthorizedUser < ActiveRecord::Migration[4.2]
   def up
   	Whitelist.create!(username: "DrakeW")
   	Whitelist.create!(username: "armandofox")

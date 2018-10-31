@@ -1,4 +1,4 @@
-class CreateRootUser < ActiveRecord::Migration
+class CreateRootUser < ActiveRecord::Migration[4.2]
   def up
   	User.create!(email: "junyuw@berkeley.edu",
   		password: Devise.friendly_token[0,20], 
