@@ -51,7 +51,7 @@ Given(/^A project update job has been run$/) do
   $rake['project:resample_all'].execute
 end
 
-And(/^I am logged in as (.+)$/) do |role|
+And(/^I am logged in/) do
   admin_user = User.create!(provider_username: "Admin", uid: "uadmin", email: 'uadmin@example.com',
                             provider: "developer", role: User::ADMIN, password: Devise.friendly_token[0,20])
   ENV['ADMIN_PASSWORD'] = 'password'

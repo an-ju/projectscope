@@ -48,7 +48,7 @@ describe Iteration do
       @detask2 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'started')
       testproj1 =  create(:project)
       testproj2 =  create(:project)
-      @tasks = Task.where(iteration: @iteration.id)
+      @tasks = @iteration.tasks
     end
 
     it 'should copy the iteration' do
@@ -58,7 +58,7 @@ describe Iteration do
     end
 
     it 'can call the tasks' do
-      tasks = Task.where(Iteration_id = @iteration.id)
+      tasks = @iteration.tasks
       expect(tasks).to include @retask1
     end
 
@@ -77,7 +77,7 @@ describe Iteration do
       newiter.project_id = 1
       newiter.save
       expect(newiter.save).not_to be_nil
-      tasks = Task.where(Iteration_id = @iteration.id)
+      tasks = @iteration.tasks
       tasks.each do |task|
         newt = Task.new
         newt.title = task.title
@@ -99,7 +99,7 @@ describe Iteration do
 
     it 'run the copy assignment function successfully' do
       newiter = Iteration.copy_assignment(@iteration.id,2)
-      tasks = Task.where(Iteration_id = @iteration.id)
+      tasks = @iteration.tasks
       tasks.each do |task|
         expect(Task.where(iteration_id: newiter.id).where(title: task.title)).not_to be_nil
         expect(Task.where(iteration_id: newiter.id).where(description: task.description)).not_to be_nil
