@@ -1,0 +1,64 @@
+.body-timeline {
+  background: #25303B;
+}
+section#timeline {
+  width: 90%;
+  margin: 20px auto;
+  position: relative;
+}
+section#timeline article {
+  width: 100%;
+  margin: 0 0 20px 0;
+  position: relative;
+}
+
+section#timeline article div.inner {
+  width: 70%;
+  float: left;
+  margin: 3px 0 0 0;
+  border-radius: 6px;
+}
+section#timeline article div.inner h1 {
+  padding: 15px;
+  margin: 0;
+  color: #fff;
+  font-size: 24px;
+  letter-spacing: -1px;
+  border-radius: 0 0 0 0;
+  position: relative;
+}
+section#timeline article div.inner h2 {
+  padding: 15px;
+  margin: 0;
+  color: #fff;
+  font-size: 24px;
+  letter-spacing: -1px;
+  border-radius: 0 0 0 0;
+  position: relative;
+}
+section#timeline article div.inner h3 {
+  padding: 8px;
+  margin: 0;
+  color: #000;
+  font-size: 15px;
+  letter-spacing: 1px;
+  border-radius: 8px 8px 8px 8px;
+  position: relative;
+}
+section#timeline article div.inner h2:after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  -webkit-transform: rotate(-45deg);
+}
+section#timeline article div.inner p {
+  padding: 15px;
+  margin: 0;
+  font-size: 14px;
+  background: #fff;
+  color: #656565;
+  border-radius: 0 0 6px 6px;
+}
