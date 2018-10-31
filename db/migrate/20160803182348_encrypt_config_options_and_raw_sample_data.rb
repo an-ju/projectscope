@@ -1,4 +1,4 @@
-class EncryptConfigOptionsAndRawSampleData < ActiveRecord::Migration
+class EncryptConfigOptionsAndRawSampleData < ActiveRecord::Migration[4.2]
   def change
     rename_column :configs, :options, :encrypted_options
     add_column    :configs, :encrypted_options_iv, :string

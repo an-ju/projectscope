@@ -1,4 +1,4 @@
-class CreateBasicTables < ActiveRecord::Migration
+class CreateBasicTables < ActiveRecord::Migration[4.2]
   def change
     create_table :projects, :force => true do |t|
       t.string :name
