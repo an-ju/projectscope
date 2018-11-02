@@ -61,18 +61,24 @@ import MetricTable from '../metric-table.vue'
 import CodeClimate from '../metrics/code_climate.vue'
 import TestCoverage from '../metrics/test_coverage.vue'
 import PullRequests from '../metrics/pull_requests.vue'
+import TravisCI from '../metrics/travis_ci.vue'
+import GithubFiles from '../metrics/github_files.vue'
+import CommitMessage from '../metrics/commit_message.vue'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(VTooltip)
 
 document.addEventListener('turbolinks:load', () => {
-    var app = new Vue({
+    const app = new Vue({
         el: '#metric_table',
         components: {
             'metric-table': MetricTable,
             'code_climate': CodeClimate,
             'test_coverage': TestCoverage,
             'pull_requests': PullRequests,
+            'travis_ci': TravisCI,
+            'github_files': GithubFiles,
+            'commit_message': CommitMessage,
         }
     })
 })
