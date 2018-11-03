@@ -97,7 +97,6 @@ group :test do
   gem 'simplecov'
   gem 'launchy'
   gem 'poltergeist'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'vcr'
   gem 'webmock'
   gem 'codeclimate-test-reporter', require: nil

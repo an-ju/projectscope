@@ -465,7 +465,6 @@ DEPENDENCIES
   newrelic_rpm
   omniauth-github
   pg (~> 0.15)
-  phantomjs
   poltergeist
   project_metric_code_climate!
   project_metric_commit_message!
