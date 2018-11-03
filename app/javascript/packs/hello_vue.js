@@ -28,8 +28,6 @@
 // Then add this markup to your html template:
 //
 // <div id='hello'>
-//   {{message}}
-//   <app></app>
 // </div>
 
 
@@ -57,19 +55,20 @@
 import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
 import VTooltip from 'v-tooltip'
-import MetricTable from '../metric-table.vue'
 import MetricTableProjectMetric from '../metric-table-project-metric.vue'
-
 
 Vue.use(TurbolinksAdapter)
 Vue.use(VTooltip)
 
+Vue.component('metric-table-project-metric', MetricTableProjectMetric)
+
 document.addEventListener('turbolinks:load', () => {
-    const app = new Vue({
-        el: '#metric_table',
-        components: {
-            'metric-table': MetricTable,
-            'metric-table-project-metric': MetricTableProjectMetric,
-        }
-    })
+    let element = document.getElementById('metric_table')
+    if (element != null) {
+        let app = new Vue({
+            el: '#metric_table',
+        })
+        console.log(app)
+    }
 })
+

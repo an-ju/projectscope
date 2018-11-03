@@ -32,6 +32,14 @@ RSpec.feature "MetricDashboards", type: :feature do
     metrics = ProjectMetrics.hierarchies(:metric).second
     check_metrics(metrics, Date.today - 1)
   end
+
+  scenario 'navigate through pages' do
+    sign_in_admin
+    visit projects_path
+    visit projects_path(days_from_now: 1)
+    metrics = ProjectMetrics.hierarchies(:metric).first
+    check_metrics(metrics, Date.today - 1)
+  end
 end
 
 def d_values(page)
