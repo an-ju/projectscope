@@ -8,3 +8,17 @@
 // layout file, like app/views/layouts/application.html.erb
 
 console.log('Hello World from Webpacker')
+import TurbolinksAdapter from 'vue-turbolinks'
+import Vue from 'vue/dist/vue.esm'
+
+import MetricTableProjectMetric from '../metric-table-project-metric.vue'
+Vue.component('metric-table-project-metric', MetricTableProjectMetric)
+
+Vue.use(TurbolinksAdapter)
+
+document.addEventListener('turbolinks:load', () => {
+    let app = new Vue({
+        el: '[data-behavior="vue"]',
+    })
+    console.log(app)
+})
