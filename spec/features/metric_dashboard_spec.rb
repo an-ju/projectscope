@@ -35,7 +35,7 @@ RSpec.feature "MetricDashboards", type: :feature do
 end
 
 def d_values(page)
-  page.all('.chart_place').map { |elem| elem[:d] }.join('')
+  page.all('metric-table-project-metric').map { |elem| elem[:d] }.join('')
 end
 
 def check_metrics(metrics, date)
