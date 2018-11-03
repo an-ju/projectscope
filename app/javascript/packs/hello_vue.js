@@ -54,21 +54,16 @@
 //
 import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
-import VTooltip from 'v-tooltip'
+
 import MetricTableProjectMetric from '../metric-table-project-metric.vue'
-
-Vue.use(TurbolinksAdapter)
-Vue.use(VTooltip)
-
 Vue.component('metric-table-project-metric', MetricTableProjectMetric)
 
+Vue.use(TurbolinksAdapter)
+
 document.addEventListener('turbolinks:load', () => {
-    let element = document.getElementById('metric_table')
-    if (element != null) {
-        let app = new Vue({
-            el: '#metric_table',
-        })
-        console.log(app)
-    }
+    let app = new Vue({
+        el: '[data-behavior="vue"]',
+    })
+    console.log(app)
 })
 

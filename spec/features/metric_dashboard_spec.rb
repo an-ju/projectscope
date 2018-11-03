@@ -6,7 +6,7 @@ RSpec.configure do |c|
   c.include Features
 end
 
-RSpec.feature "MetricDashboards", type: :feature do
+RSpec.feature "MetricDashboards", js:false, type: :feature do
   before :each do
     seed_metric_samples
   end
