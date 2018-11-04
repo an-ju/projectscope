@@ -58,6 +58,11 @@ jobs: # a collection of steps
         paths:
         - ~/.cache/yarn
 
+    - run:
+        name: debug node modules
+        command: |
+          ls -al node_modules
+          ls -al node_modules/.bin
 #    - run:
 #        name: Wait for DB
 #        command: dockerize -wait tcp://localhost:5432 -timeout 1m
