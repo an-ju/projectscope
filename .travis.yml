@@ -20,10 +20,10 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-before_install:
 script:
   - RAILS_ENV=test bundle exec rails db:migrate --trace
   - bundle exec rails db:test:prepare
+  - RAILS_ENV=development ./bin/webpack-dev-server
   - bundle exec rspec
   - bundle exec cucumber
 after_script:
