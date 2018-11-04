@@ -16,7 +16,7 @@ before_script:
 script:
   - nvm install node
   - npm i -g yarn
-  - RAILS_ENV=test rails webpacker:yarn_install
+  - RAILS_ENV=test bundle exec rails webpacker:yarn_install
   - RAILS_ENV=test bundle exec rails db:migrate --trace
   - bundle exec rails db:test:prepare
   - RAILS_ENV=test bundle exec rails assets:precompile
