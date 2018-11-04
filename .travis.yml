@@ -14,7 +14,8 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - ./bin/bin/yarn install
+  - ./bin/yarn install
+  - ls -al node_modules/.bin
   - RAILS_ENV=test bundle exec rails db:migrate --trace
   - bundle exec rails db:test:prepare
   - RAILS_ENV=test bundle exec rails assets:precompile
