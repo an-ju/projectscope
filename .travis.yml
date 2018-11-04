@@ -14,17 +14,16 @@ install:
   - nvm install node
   - node -v
   - npm i -g yarn
-  - yarn
-  - rake db:setup
+  - yarn install
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
+  - rails db:setup
   - RAILS_ENV=test bundle exec rails db:migrate --trace
   - bundle exec rails db:test:prepare
-  - RAILS_ENV=development ./bin/webpack-dev-server
-  - bundle exec rspec
-  - bundle exec cucumber
+  - RAILS_ENV=test bundle exec rspec
+  - RAILS_ENV=test bundle exec cucumber
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
