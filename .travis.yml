@@ -24,7 +24,6 @@ before_install:
 script:
   - RAILS_ENV=test bundle exec rails db:migrate --trace
   - bundle exec rails db:test:prepare
-  - NODE_ENV=test bundle exec rails webpacker:compile
   - bundle exec rspec
   - bundle exec cucumber
 after_script:
