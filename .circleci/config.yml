@@ -67,6 +67,10 @@ jobs: # a collection of steps
         command: bin/rails db:schema:load --trace
 
     - run:
+        name: compile assets for testing
+        command: RAILS_ENV=test bundle exec rails assets:precompile
+
+    - run:
         name: Setup Code Climate test-reporter
         command: |
           # download test reporter as a static binary
