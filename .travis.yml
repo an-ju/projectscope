@@ -6,6 +6,11 @@ rvm:
   - 2.3.1
 install:
   - bundle install
+  - nvm install stable && nvm alias default stable
+  - npm install -g npm@5.6.x
+  - npm install -g yarn
+  - node --version
+  - npm --version
   - yarn install
   - rake db:setup
 before_script:
