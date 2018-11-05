@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/an-ju/ProjectMetrics.git
-  revision: c3be07f6a1e136cd42cfcc429c36e1bc75ef5a98
-  specs:
-    project_metrics (0.2.0)
-      activesupport
-
-GIT
   remote: https://github.com/an-ju/project_metric_code_climate.git
   revision: 871092c5d2a55b7a3c442abba8bad1c0feb495b1
   specs:
@@ -81,6 +74,13 @@ GIT
   specs:
     project_metric_travis_ci (0.2.0)
       faraday (~> 0.1, >= 0.1.0.0)
+
+GIT
+  remote: https://github.com/an-ju/project_metrics.git
+  revision: 6a14047965457d89c022a2b8de0ec5f98694e038
+  specs:
+    project_metrics (0.1.0)
+      activesupport
 
 GEM
   remote: https://rubygems.org/

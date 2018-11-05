@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.3.8'
 
 # Gems for metrics to use
-gem 'project_metrics', git: 'https://github.com/an-ju/ProjectMetrics.git'
+gem 'project_metrics', git: 'https://github.com/an-ju/project_metrics.git'
 gem 'project_metric_code_climate', git: 'https://github.com/an-ju/project_metric_code_climate.git'
 gem 'project_metric_point_estimation', git: 'https://github.com/an-ju/project_metric_point_estimation.git'
 gem 'project_metric_story_overall', git: 'https://github.com/an-ju/project_metric_story_overall.git'
