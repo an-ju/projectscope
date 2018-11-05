@@ -6,7 +6,7 @@ RSpec.configure do |c|
   c.include Features
 end
 
-RSpec.feature "MetricDashboards", type: :feature do
+RSpec.feature "MetricDashboards", js:false, type: :feature do
   before :each do
     seed_metric_samples
   end
@@ -32,10 +32,18 @@ RSpec.feature "MetricDashboards", type: :feature do
     metrics = ProjectMetrics.hierarchies(:metric).second
     check_metrics(metrics, Date.today - 1)
   end
+
+  scenario 'navigate through pages' do
+    sign_in_admin
+    visit projects_path
+    visit projects_path(days_from_now: 1)
+    metrics = ProjectMetrics.hierarchies(:metric).first
+    check_metrics(metrics, Date.today - 1)
+  end
 end
 
 def d_values(page)
-  page.all('.chart_place').map { |elem| elem[:d] }.join('')
+  page.all('metric-table-project-metric').map { |elem| elem[:d] }.join('')
 end
 
 def check_metrics(metrics, date)

@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.3.8'
 
 # Gems for metrics to use
-gem 'project_metrics', git: 'https://github.com/an-ju/ProjectMetrics.git'
+gem 'project_metrics', git: 'https://github.com/an-ju/project_metrics.git'
 gem 'project_metric_code_climate', git: 'https://github.com/an-ju/project_metric_code_climate.git'
 gem 'project_metric_point_estimation', git: 'https://github.com/an-ju/project_metric_point_estimation.git'
 gem 'project_metric_story_overall', git: 'https://github.com/an-ju/project_metric_story_overall.git'
@@ -21,7 +21,7 @@ gem 'attr_encrypted'
 gem 'figaro'
 
 gem 'rake'
-gem 'rails', '5.2'
+gem 'rails', '~> 5.2.0'
 # gem 'rails', '4.2.6'
 
 gem "bootsnap", ">= 1.1.0", require: false
@@ -68,15 +68,18 @@ gem "font-awesome-rails"
 gem 'bootswatch-rails', '~>3.3.5'
 gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
-gem 'sprockets-rails', '~> 3.1.1', require: 'sprockets/railtie'
+# gem 'sprockets-rails', '~> 3.1.1', require: 'sprockets/railtie'
+gem 'webpacker'
 
 gem 'newrelic_rpm'
 gem 'pg', '~> 0.15'
 
+gem 'puma', '~> 3.11'
+
 group :development, :test do
   gem 'sqlite3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
   gem 'annotate'
   gem 'better_errors'
@@ -87,14 +90,15 @@ end
 
 group :test do
   gem 'rspec-rails'
+  gem 'rspec_junit_formatter'
   gem 'cucumber-rails', require: false
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov'
   gem 'launchy'
   gem 'poltergeist'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'vcr'
   gem 'webmock'
   gem 'codeclimate-test-reporter', require: nil
