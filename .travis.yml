@@ -15,10 +15,8 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - ./bin/yarn install
-  - ls -al node_modules/.bin
   - RAILS_ENV=test bundle exec rails db:migrate --trace
   - bundle exec rails db:test:prepare
-  - RAILS_ENV=test bundle exec rails assets:precompile
   - RAILS_ENV=test bundle exec rspec
   - RAILS_ENV=test bundle exec cucumber
 after_script:
