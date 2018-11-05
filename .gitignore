@@ -28,6 +28,7 @@ coverage/
 .autotest
 # Ignore Gemfile.lock
 Gemfile.lock
+/public/packs/*
 /node_modules
 yarn-debug.log*
 .yarn-integrity
