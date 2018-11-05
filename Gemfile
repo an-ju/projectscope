@@ -95,6 +95,7 @@ group :test do
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov'
   gem 'launchy'
   gem 'poltergeist'
