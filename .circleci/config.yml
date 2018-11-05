@@ -13,11 +13,6 @@ jobs: # a collection of steps
         PGHOST: 127.0.0.1
         PGUSER: circleci-demo-ruby
         RAILS_ENV: test
-#    - image: circleci/postgres:9.5-alpine # database image
-#      environment: # environment variables for database
-#        POSTGRES_USER: teamscope_user
-#        POSTGRES_DB: teamscope
-#        POSTGRES_PASSWORD: ""
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
 
@@ -58,25 +53,9 @@ jobs: # a collection of steps
         paths:
         - ~/.cache/yarn
 
-#    - run:
-#        name: Wait for DB
-#        command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
     - run:
         name: Database setup
         command: bin/rails db:schema:load --trace
-
-    - run:
-        name: Setup Code Climate test-reporter
-        command: |
-          # download test reporter as a static binary
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-    - run:
-        name: Code climate before build
-        command: |
-          # notify Code Climate of a pending test report using `before-build`
-          ./cc-test-reporter before-build
 
     - run:
         name: Run rspec in parallel
@@ -91,20 +70,7 @@ jobs: # a collection of steps
         name: Run cucumber
         command: bundle exec cucumber
 
-    - run:
-        name: Code Climate Test Coverage
-        command: |
-          ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
-
     # Save test results for timing analysis
     - store_test_results:
         path: test_results
     # See https://circleci.com/docs/2.0/deployment-integrations/ for example deploy configs
-
-    - store_artifacts:
-        path: /tmp/test-results
-        destination: test-results
-    - deploy:
-        command: |
-          ./cc-test-reporter sum-coverage --output - --parts $CIRCLE_NODE_TOTAL coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
-
