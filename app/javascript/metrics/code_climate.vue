@@ -1,16 +1,15 @@
 <template>
-    <div>
-        <dropdown>
-            <div slot="link" :style="{ width: bar_width }" :class="bar_color" class="cc-rating">{{ 100 - this.maintainability['measure']['value'] }}</div>
-            <div slot="dropdown-items">
-                <div class="bg-white rounded overflow-hidden">Test</div>
-                <p>Another test</p>
-            </div>
-        </dropdown>
+    <div class="dropdown">
+        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :style="{ width: bar_width }" :class="bar_color" class="cc-rating dropdown-toggle">
+            {{ 100 - this.maintainability['measure']['value'] }}
+        </div>
+        <ul class="dropdown-menu">
+            <li class="px-3 py-3" v-for="(value, k, index) in measures" :key="index">{{ k }}: {{ value.value }}</li>
+            <li><a :href="issue_link" target="_blank"><span class="pin-l text-black px-5">Issues</span><span class="pin-r badge">{{ issues }}</span></a></li>
+        </ul>
     </div>
 </template>
 <script>
-    import Dropdown from '../components/dropdown'
     export default {
         name: "code_climate",
         props: {
@@ -34,11 +33,17 @@
             },
             bar_color: function () {
                 return 'cc-rating' + this.maintainability['letter']
+            },
+            issue_link: function () {
+                return this.image['data']['issue_link']
+            },
+            measures: function () {
+                return this.image['data']['meta']['measures']
+            },
+            issues: function () {
+                return this.image['data']['meta']['issues_count']
             }
         },
-        components: {
-            'dropdown': Dropdown
-        }
     }
 </script>
 
