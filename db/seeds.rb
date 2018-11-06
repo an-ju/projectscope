@@ -24,11 +24,6 @@ Task.delete_all
 # slack_trends2 = File.read './db/fake_data/spline2.json'
 # slack_trends3 = File.read './db/fake_data/spline3.json'
 
-#TODO: code climate fake data is not consistent with real format.
-code_climate1 = File.read './db/fake_data/codeclimate1.json'
-code_climate2 = File.read './db/fake_data/codeclimate2.json'
-code_climate3 = File.read './db/fake_data/codeclimate3.json'
-
 collective_gauge1 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 3.5}}'
 collective_gauge2 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 2.3}}'
 collective_gauge3 = '{"chartType" : "gauge", "titleText" : "Collective Onwership GPA", "data" : {"score" : 1.6}}'
@@ -99,7 +94,6 @@ commit_message2 = File.read './db/fake_data/commit_message2.json'
 commit_message3 = File.read './db/fake_data/commit_message3.json'
 
 dummies = Hash.new
-dummies["code_climate"] = [code_climate1, code_climate2, code_climate3]
 dummies["github"] = [github1, github2, github3]
 dummies["slack"] = [slack1, slack2,	slack3]
 dummies["pivotal_tracker"] = [pivot1, pivot2, pivot3]
@@ -199,7 +193,19 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if TRUE
+    if %w[code_climate].include? metric
+      start_date.upto(end_date) do |date|
+        tcreate = date.to_time + 1.hour
+        ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|
+          MetricSample.create!( metric_name: metric,
+                                project_id: project.id,
+                                score: d[:score],
+                                image: d[:image],
+                                created_at: tcreate )
+          tcreate += 4.hours
+        end
+      end
+    else
       start_date.upto(end_date) do |date|
         tcreate = date.to_time + 1.hour
         3.times do
@@ -221,20 +227,6 @@ projects_list.each do |project|
     end
   end
 end
-
-# preferred_metrics = [{
-#                          'code_climate' => [],
-#                          'test_coverage' => [],
-#                          'pull_requests' => [],
-#                          'github_files' => [],
-#                          'github_flow' => [],
-#                      }, {
-#                          'travis_ci' => [],
-#                          'tracker_velocity' => [],
-#                          'point_estimation' => [],
-#                          'story_overall' => [],
-#                          'slack' => []
-#                      }]
 
 @user01 = User.create!(provider_username: "Admin", uid: "uadmin", email: 'uadmin@example.com',
                        provider: "developer", role: User::ADMIN, password: Devise.friendly_token[0,20],

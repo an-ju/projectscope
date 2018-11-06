@@ -8,6 +8,7 @@
     "vue-turbolinks": "^2.0.3"
   },
   "devDependencies": {
+    "tailwindcss": "^0.7.2",
     "webpack-dev-server": "2.11.2"
   }
 }

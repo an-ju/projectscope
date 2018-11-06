@@ -1,6 +1,6 @@
 <template>
     <p v-if="null_data"> No Data </p>
-   <component v-else :is="this.metric_name" :d="this.d" :s="this.s"></component>
+   <component v-else :is="this.metric_name" :d="this.d" :s="this.s" :i="image"></component>
 </template>
 
 <script>
@@ -26,6 +26,9 @@
         computed: {
             null_data: function () {
                 return this.d === 'null'
+            },
+            image: function () {
+                return JSON.parse(this.d)['image']
             }
         },
         components: {
