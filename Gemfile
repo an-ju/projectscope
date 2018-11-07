@@ -71,8 +71,6 @@ gem 'jquery-turbolinks'
 # gem 'sprockets-rails', '~> 3.1.1', require: 'sprockets/railtie'
 gem 'webpacker'
 
-gem "font-awesome-rails"
-
 gem 'newrelic_rpm'
 gem 'pg', '~> 0.15'
 

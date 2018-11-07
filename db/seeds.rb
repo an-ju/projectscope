@@ -20,14 +20,6 @@ Task.delete_all
 # dummy2_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/project_metric_slack'
 
 
-# slack_trends1 = File.read './db/fake_data/spline1.json'
-# slack_trends2 = File.read './db/fake_data/spline2.json'
-# slack_trends3 = File.read './db/fake_data/spline3.json'
-
-collective_gauge1 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 3.5}}'
-collective_gauge2 = '{"chartType" : "gauge", "titleText" : "Collective Ownership GPA", "data" : {"score" : 2.3}}'
-collective_gauge3 = '{"chartType" : "gauge", "titleText" : "Collective Onwership GPA", "data" : {"score" : 1.6}}'
-
 story_1 = open('./db/fake_data/p1.json', 'r') { |f| f.read }
 story_2 = open('./db/fake_data/p2.json', 'r') { |f| f.read }
 story_3 = open('./db/fake_data/p3.json', 'r') { |f| f.read }
@@ -43,11 +35,6 @@ pivot3 = File.read './db/fake_data/stories3.json'
 github1 = File.read './db/fake_data/spline1.json'
 github2 = File.read './db/fake_data/spline2.json'
 github3 = File.read './db/fake_data/spline3.json'
-
-#TODO: test coverage fake data is not consistent with real format.
-test_coverage1 = File.read './db/fake_data/test_coverage1.json'
-test_coverage2 = File.read './db/fake_data/test_coverage2.json'
-test_coverage3 = File.read './db/fake_data/test_coverage3.json'
 
 pull_requests1 = File.read './db/fake_data/pull_requests1.json'
 pull_requests2 = File.read './db/fake_data/pull_requests2.json'
@@ -101,8 +88,6 @@ dummies["pivotal_tracker"] = [pivot1, pivot2, pivot3]
 dummies["story_transition"] = [story_1, story_2, story_3]
 dummies["point_estimation"] = [point_est1, point_est2, point_est3]
 dummies["story_overall"] = [story_overall1, story_overall2, story_overall3]
-dummies["collective_overview"] = [collective_gauge1, collective_gauge2, collective_gauge3]
-dummies["test_coverage"] = [test_coverage1, test_coverage2, test_coverage3]
 dummies["pull_requests"] = [pull_requests1, pull_requests2, pull_requests3]
 dummies["travis_ci"] = [travis_ci1, travis_ci2, travis_ci3]
 dummies["github_files"] = [github_files1, github_files2, github_files3]
@@ -193,7 +178,7 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if %w[code_climate].include? metric
+    if %w[code_climate test_coverage].include? metric
       start_date.upto(end_date) do |date|
         tcreate = date.to_time + 1.hour
         ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|
