@@ -40,10 +40,6 @@ pull_requests1 = File.read './db/fake_data/pull_requests1.json'
 pull_requests2 = File.read './db/fake_data/pull_requests2.json'
 pull_requests3 = File.read './db/fake_data/pull_requests3.json'
 
-travis_ci1 = File.read './db/fake_data/travis_ci1.json'
-travis_ci2 = File.read './db/fake_data/travis_ci2.json'
-travis_ci3 = File.read './db/fake_data/travis_ci3.json'
-
 github_files1 = File.read './db/fake_data/github_files1.json'
 github_files2 = File.read './db/fake_data/github_files2.json'
 github_files3 = File.read './db/fake_data/github_files3.json'
@@ -89,7 +85,6 @@ dummies["story_transition"] = [story_1, story_2, story_3]
 dummies["point_estimation"] = [point_est1, point_est2, point_est3]
 dummies["story_overall"] = [story_overall1, story_overall2, story_overall3]
 dummies["pull_requests"] = [pull_requests1, pull_requests2, pull_requests3]
-dummies["travis_ci"] = [travis_ci1, travis_ci2, travis_ci3]
 dummies["github_files"] = [github_files1, github_files2, github_files3]
 dummies["github_flow"] = [github_flow1, github_flow2, github_flow3]
 dummies["tracker_velocity"] = [tracker_velocity1, tracker_velocity2, tracker_velocity3]
@@ -178,7 +173,7 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if %w[code_climate test_coverage].include? metric
+    if %w[code_climate test_coverage travis_ci].include? metric
       start_date.upto(end_date) do |date|
         tcreate = date.to_time + 1.hour
         ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|

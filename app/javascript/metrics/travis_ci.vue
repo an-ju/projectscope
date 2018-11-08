@@ -1,11 +1,11 @@
 <template>
-    <div style="height:30px">
-        <svg viewBox="0 0 300 100">
-            <g>
-                <circle cx="30" cy="50" r="15" :fill="ci_color"></circle>
-                <text x="60" y="50">{{ ci_status }}</text>
-            </g>
-        </svg>
+    <div class="dropdown">
+        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :class="ci_color" class="rounded-full h-full dropdown-toggle">
+            <p class="text-white text-center w-full">{{ fail_since }}</p>
+        </div>
+        <ul class="dropdown-menu">
+            <li><a :href="this.image.build_link" target="_blank">Latest build: {{ days_ago(this.build)}} days ago</a></li>
+        </ul>
     </div>
 </template>
 
@@ -20,15 +20,48 @@
             image: function () {
                 return JSON.parse(JSON.parse(this.d)['image'])
             },
-            ci_status: function () {
-                return this.image['data']['current_state']
+            builds: function () {
+                return this.image.data.builds
+            },
+            build() {
+                return this.builds[0]
+            },
+            ci_state: function () {
+                return this.build.state
             },
             ci_color: function () {
-                if (this.ci_status === 'passed') {
-                    return 'green'
+                if (this.ci_state === 'passed') {
+                    return 'bg-green'
                 } else {
-                    return 'red'
+                    return 'bg-red'
                 }
+            },
+            first_pass: function () {
+                for (let i = 0; i !== this.builds.length; i++) {
+                    if (this.builds[i].state === 'passed') {
+                        return this.builds[i]
+                    }
+                }
+                return false
+            },
+            fail_since: function () {
+                if (this.ci_state === 'passed') {
+                    return "Passed"
+                } else {
+                    let ps = this.first_pass
+                    if (ps) {
+                        return "Failed for " + this.days_ago(ps) + " days"
+                    } else {
+                        return "Failed over " + this.days_ago(ps) + " days"
+                    }
+                }
+            },
+        },
+        methods: {
+            days_ago(start_bd) {
+                let d2 = new Date(start_bd.started_at)
+                return Math.round((Date.now() -d2) / (1000*60*60*24))
+
             }
         }
     }
