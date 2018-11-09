@@ -15,6 +15,7 @@
     import PointEstimation from 'metrics/point_estimation'
     import SmartStory from 'metrics/smart_story'
     import StoryOverall from 'metrics/story_overall'
+    import HerokuStatus from 'metrics/heroku_status'
 
     export default {
         name: "metric-table-project-metric",
@@ -42,7 +43,8 @@
             'point_distribution': PointDistribution,
             'point_estimation': PointEstimation,
             'smart_story': SmartStory,
-            'story_overall': StoryOverall
+            'story_overall': StoryOverall,
+            'heroku_status': HerokuStatus
         }
     }
 </script>

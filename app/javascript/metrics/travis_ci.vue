@@ -13,12 +13,11 @@
     export default {
         name: "travis_ci",
         props: {
-            d: String,
-            s: String,
+            i: String,
         },
         computed: {
             image: function () {
-                return JSON.parse(JSON.parse(this.d)['image'])
+                return JSON.parse(this.i)
             },
             builds: function () {
                 return this.image.data.builds

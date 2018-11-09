@@ -23,15 +23,11 @@
     export default {
         name: "test_coverage",
         props: {
-            d: String,
-            s: String,
+            i: String,
         },
         computed: {
-            null_data: function () {
-                return this.d === 'null'
-            },
             image: function () {
-                return JSON.parse(JSON.parse(this.d)['image'])
+                return JSON.parse(this.i)
             },
             report_attributes: function () {
                 return this.image['data']['report']['attributes']

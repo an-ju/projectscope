@@ -16,9 +16,6 @@
             i: String,
         },
         computed: {
-            null_data: function () {
-                return this.d === 'null'
-            },
             image: function () {
                 return JSON.parse(this.i)
             },

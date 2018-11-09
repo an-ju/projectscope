@@ -10,9 +10,10 @@ ProjectMetrics.configure do
   add_metric :project_metric_point_distribution
   add_metric :project_metric_smart_story
   add_metric :project_metric_commit_message
+  add_metric :project_metric_heroku_status
 
-  add_hierarchy metric: [%I[pull_requests github_files commit_message test_coverage code_climate travis_ci],
-                         %I[point_estimation github_flow point_distribution smart_story story_overall]]
+  add_hierarchy metric: [%I[github_files commit_message test_coverage code_climate travis_ci heroku_status],
+                         %I[pull_requests point_estimation github_flow point_distribution smart_story story_overall]]
 end
 
 METRIC_NAMES = {
@@ -26,5 +27,6 @@ METRIC_NAMES = {
   point_estimation: 'Story Points',
   story_overall: 'Story Status',
   point_distribution: 'Finished Stories',
-  commit_message: 'Commit Message'
+  commit_message: 'Commit Message',
+  heroku_status: 'Heroku Status'
 }.freeze

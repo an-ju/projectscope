@@ -27,6 +27,13 @@ GIT
       octokit (~> 4.0)
 
 GIT
+  remote: https://github.com/an-ju/project_metric_heroku_status.git
+  revision: e5be0a2b3f1d8f3629dc2119e175b2f95a612891
+  specs:
+    project_metric_heroku_status (0.1.0)
+      faraday
+
+GIT
   remote: https://github.com/an-ju/project_metric_point_distribution.git
   revision: 685d330026eb178fc30a01a351d4a52f934f2b72
   specs:
@@ -276,7 +283,7 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
-    newrelic_rpm (5.4.0.347)
+    newrelic_rpm (5.5.0.348)
     nio4r (2.3.1)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
@@ -369,7 +376,7 @@ GEM
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     safe_yaml (1.0.4)
-    sass (3.7.1)
+    sass (3.7.2)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -473,6 +480,7 @@ DEPENDENCIES
   project_metric_commit_message!
   project_metric_github_files!
   project_metric_github_flow!
+  project_metric_heroku_status!
   project_metric_point_distribution!
   project_metric_point_estimation!
   project_metric_pull_requests!
