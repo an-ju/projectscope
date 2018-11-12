@@ -30,9 +30,9 @@
             },
             ci_color: function () {
                 if (this.ci_state === 'passed') {
-                    return 'bg-green'
+                    return 'bg-green-dark'
                 } else {
-                    return 'bg-red'
+                    return 'bg-red-dark'
                 }
             },
             first_pass: function () {

@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown">
-        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :style="{ width: bar_width }" :class="bar_color" class="tc-rating dropdown-toggle">
+        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :style="{ width: bar_width }" :class="bar_color" class="text-white float-left dropdown-toggle">
             {{ this.report_attributes['covered_percent'] }}
         </div>
         <ul class="dropdown-menu">
@@ -36,7 +36,16 @@
                 return this.report_attributes['covered_percent'] + '%'
             },
             bar_color: function () {
-                return 'tc-rating' + this.report_attributes['rating']['letter']
+                switch(this.report_attributes['rating']['letter']) {
+                    case 'A':
+                        return 'bg-green-dark'
+                    case 'B':
+                        return 'bg-yellow-dark'
+                    case 'C':
+                        return 'bg-orange-dark'
+                    case 'D':
+                        return 'bg-red-dark'
+                }
             },
             coverage_link: function () {
                 return this.image['data']['coverage_link']
@@ -54,17 +63,5 @@
 <style scoped>
     .tc-rating {
         float: left
-    }
-    .tc-ratingA {
-        background-color: green;
-    }
-    .tc-ratingB {
-        background-color: yellowgreen;
-    }
-    .tc-ratingC {
-        background-color: yellow;
-    }
-    .tc-ratingD {
-        background-color: orange;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown">
-        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :style="{ width: bar_width }" :class="bar_color" class="cc-rating dropdown-toggle">
+        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :style="{ width: bar_width }" :class="bar_color" class="float-left text-white dropdown-toggle">
             {{ 100 - this.maintainability['measure']['value'] }}
         </div>
         <ul class="dropdown-menu">
@@ -29,7 +29,16 @@
                 return 100.0 - this.maintainability['measure']['value'] + '%'
             },
             bar_color: function () {
-                return 'cc-rating' + this.maintainability['letter']
+                switch(this.maintainability['letter']) {
+                    case 'A':
+                        return 'bg-green-dark'
+                    case 'B':
+                        return 'bg-yellow-dark'
+                    case 'C':
+                        return 'bg-orange-dark'
+                    case 'D':
+                        return 'bg-red-dark'
+                }
             },
             issue_link: function () {
                 return this.image['data']['issue_link']
@@ -44,20 +53,5 @@
     }
 </script>
 
-<style lang="scss" scoped>
-    .cc-rating {
-        float: left
-    }
-    .cc-ratingA {
-        background-color: green;
-    }
-    .cc-ratingB {
-        background-color: yellowgreen;
-    }
-    .cc-ratingC {
-        background-color: yellow;
-    }
-    .cc-ratingD {
-        background-color: orange;
-    }
+<style scoped>
 </style>

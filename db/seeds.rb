@@ -64,10 +64,6 @@ slack1 = File.read './db/fake_data/slack1.json'
 slack2 = File.read './db/fake_data/slack2.json'
 slack3 = File.read './db/fake_data/slack3.json'
 
-point_distribution1 = File.read './db/fake_data/point_distribution1.json'
-point_distribution2 = File.read './db/fake_data/point_distribution2.json'
-point_distribution3 = File.read './db/fake_data/point_distribution3.json'
-
 smart_story1 = File.read './db/fake_data/smart_story1.json'
 smart_story2 = File.read './db/fake_data/smart_story2.json'
 smart_story3 = File.read './db/fake_data/smart_story3.json'
@@ -88,7 +84,6 @@ dummies["pull_requests"] = [pull_requests1, pull_requests2, pull_requests3]
 dummies["github_files"] = [github_files1, github_files2, github_files3]
 dummies["github_flow"] = [github_flow1, github_flow2, github_flow3]
 dummies["tracker_velocity"] = [tracker_velocity1, tracker_velocity2, tracker_velocity3]
-dummies["point_distribution"] = [point_distribution1, point_distribution2, point_distribution3]
 dummies["smart_story"] = [smart_story1, smart_story2, smart_story3]
 dummies["commit_message"] = [commit_message1, commit_message2, commit_message3]
 
@@ -173,7 +168,7 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if %w[code_climate test_coverage travis_ci heroku_status].include? metric
+    if %w[code_climate test_coverage travis_ci heroku_status point_distribution].include? metric
       start_date.upto(end_date) do |date|
         tcreate = date.to_time + 1.hour
         ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|

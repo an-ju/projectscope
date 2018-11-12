@@ -1,6 +1,6 @@
 <template>
     <div class="w-full dropdown">
-        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :class="bar_color" class="w-full dropdown-toggle rounded-full">
+        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :class="bar_color" class="text-white w-full dropdown-toggle rounded-full">
             {{ image['data']['web_status'] }}: {{ image['data']['web_response'] }}
         </div>
         <ul class="dropdown-menu">
@@ -25,9 +25,9 @@
             },
             bar_color() {
                 if (this.image['data']['web_status'] < 400) {
-                    return 'bg-green'
+                    return 'bg-green-dark'
                 } else {
-                    return 'bg-red'
+                    return 'bg-red-dark'
                 }
             },
             releases() {
