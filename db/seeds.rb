@@ -44,10 +44,6 @@ github_files1 = File.read './db/fake_data/github_files1.json'
 github_files2 = File.read './db/fake_data/github_files2.json'
 github_files3 = File.read './db/fake_data/github_files3.json'
 
-github_flow1 = File.read './db/fake_data/github_flow1.json'
-github_flow2 = File.read './db/fake_data/github_flow2.json'
-github_flow3 = File.read './db/fake_data/github_flow3.json'
-
 tracker_velocity1 = File.read './db/fake_data/tracker_velocity1.json'
 tracker_velocity2 = File.read './db/fake_data/tracker_velocity2.json'
 tracker_velocity3 = File.read './db/fake_data/tracker_velocity3.json'
@@ -82,7 +78,6 @@ dummies["point_estimation"] = [point_est1, point_est2, point_est3]
 dummies["story_overall"] = [story_overall1, story_overall2, story_overall3]
 dummies["pull_requests"] = [pull_requests1, pull_requests2, pull_requests3]
 dummies["github_files"] = [github_files1, github_files2, github_files3]
-dummies["github_flow"] = [github_flow1, github_flow2, github_flow3]
 dummies["tracker_velocity"] = [tracker_velocity1, tracker_velocity2, tracker_velocity3]
 dummies["smart_story"] = [smart_story1, smart_story2, smart_story3]
 dummies["commit_message"] = [commit_message1, commit_message2, commit_message3]
@@ -168,7 +163,7 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if %w[code_climate test_coverage travis_ci heroku_status point_distribution].include? metric
+    if %w[code_climate test_coverage travis_ci heroku_status point_distribution github_flow].include? metric
       start_date.upto(end_date) do |date|
         tcreate = date.to_time + 1.hour
         ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|

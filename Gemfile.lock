@@ -21,9 +21,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: 3bcbb72d579e840a189840638dddd6ec13acd19b
+  revision: d61ececf3aad58b15111f1a94c6c3c62fbeca15f
   specs:
-    project_metric_github_flow (0.2.0)
+    project_metric_github_flow (0.3.0)
       octokit (~> 4.0)
 
 GIT
