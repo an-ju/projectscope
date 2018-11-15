@@ -49,7 +49,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_pull_requests.git
-  revision: 63de774d392d2e01cc098f164979e48f21cc3a62
+  revision: a833420a489e906fb14291ad3664981f438d5e33
   specs:
     project_metric_pull_requests (0.1.0)
       octokit
@@ -63,9 +63,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_story_overall.git
-  revision: 99ec79a59776c6122a421d23bedffb7f152ef501
+  revision: 7ff1d973a3833961cebb19563a1f3cfaf58ccf0c
   specs:
-    project_metric_story_overall (0.2.0)
+    project_metric_story_overall (0.3.0)
       faraday (~> 0.1, >= 0.1.0.0)
 
 GIT
