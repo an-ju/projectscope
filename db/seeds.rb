@@ -36,10 +36,6 @@ github1 = File.read './db/fake_data/spline1.json'
 github2 = File.read './db/fake_data/spline2.json'
 github3 = File.read './db/fake_data/spline3.json'
 
-pull_requests1 = File.read './db/fake_data/pull_requests1.json'
-pull_requests2 = File.read './db/fake_data/pull_requests2.json'
-pull_requests3 = File.read './db/fake_data/pull_requests3.json'
-
 github_files1 = File.read './db/fake_data/github_files1.json'
 github_files2 = File.read './db/fake_data/github_files2.json'
 github_files3 = File.read './db/fake_data/github_files3.json'
@@ -76,7 +72,6 @@ dummies["pivotal_tracker"] = [pivot1, pivot2, pivot3]
 dummies["story_transition"] = [story_1, story_2, story_3]
 dummies["point_estimation"] = [point_est1, point_est2, point_est3]
 dummies["story_overall"] = [story_overall1, story_overall2, story_overall3]
-dummies["pull_requests"] = [pull_requests1, pull_requests2, pull_requests3]
 dummies["github_files"] = [github_files1, github_files2, github_files3]
 dummies["tracker_velocity"] = [tracker_velocity1, tracker_velocity2, tracker_velocity3]
 dummies["smart_story"] = [smart_story1, smart_story2, smart_story3]
@@ -163,7 +158,7 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if %w[code_climate test_coverage travis_ci heroku_status point_distribution github_flow].include? metric
+    if %w[code_climate test_coverage travis_ci heroku_status point_distribution github_flow pull_requests].include? metric
       start_date.upto(end_date) do |date|
         tcreate = date.to_time + 1.hour
         ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|

@@ -1,7 +1,26 @@
 <template>
-    <div>
-        <div :style="{ width: comment_width }" class="pr-commented" >{{ commented }} </div>
-        <div :style="{ width: uncommented_width }" class="pr-uncommented" >{{ total - commented}}</div>
+    <div class="dropdown">
+        <div class="w-1/2 px-1 float-left dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="rounded-full w-full text-white" :class="bg_color(open_pr)"> {{ open_pr.length }}</div>
+        </div>
+        <div class="w-1/2 px-1 float-left dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="rounded-full w-full text-white" :class="bg_color(closed_pr)"> {{ closed_pr.length }}</div>
+        </div>
+        <ul class="dropdown-menu">
+            <li class="dropdown-header">Recently opened PR</li>
+            <li v-for="pr in open_pr">
+                <a :href="html_link(pr)" target="_blank">{{ pr_name(pr) }}</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">Recently closed PR</li>
+            <li v-for="pr in closed_pr">
+                <a :href="html_link(pr)" target="_blank">{{ pr_name(pr) }}</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+                <a :href="image['data']['pr_link']" target="_blank">Pull Requests</a>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -9,30 +28,32 @@
     export default {
         name: "pull_requests",
         props: {
-            d: String,
-            s: String,
+            i: String
         },
         computed: {
-            null_data: function () {
-                return this.d === 'null'
-            },
             image: function () {
-                return JSON.parse(JSON.parse(this.d)['image'])
+                return JSON.parse(this.i)
             },
-            commented: function () {
-                return this.image['data']['commented']
+            open_pr() {
+                return this.image['data']['new_pr']
             },
-            open: function () {
-                return this.image['data']['open']
+            closed_pr() {
+                return this.image['data']['closed_pr']
+            }
+        },
+        methods: {
+            bg_color(pr_list) {
+                if (pr_list.length > 0) {
+                    return 'bg-green-dark'
+                } else {
+                    return 'bg-grey-dark'
+                }
             },
-            total: function () {
-                return this.image['data']['total']
+            html_link(pr) {
+                return pr['payload']['pull_request']['html_url']
             },
-            comment_width: function () {
-                return 100.0 * this.commented / this.total + '%'
-            },
-            uncommented_width: function () {
-                return 100.0 * (this.total - this.commented) / this.total + '%'
+            pr_name(pr) {
+                return pr['payload']['pull_request']['title']
             }
         }
     }
