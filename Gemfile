@@ -13,6 +13,7 @@ gem 'project_metric_pull_requests', git: 'https://github.com/an-ju/project_metri
 gem 'project_metric_travis_ci', git: 'https://github.com/an-ju/project_metric_travis_ci.git'
 gem 'project_metric_github_files', git: 'https://github.com/an-ju/project_metric_github_files.git'
 gem 'project_metric_github_flow', git: 'https://github.com/an-ju/project_metric_github_flow.git'
+gem 'project_metric_github_use', git: 'https://github.com/an-ju/project_metric_github_use.git'
 gem 'project_metric_point_distribution', git: 'https://github.com/an-ju/project_metric_point_distribution.git'
 gem 'project_metric_smart_story', git: 'https://github.com/an-ju/project_metric_smart_story.git'
 gem 'project_metric_commit_message', git: 'https://github.com/an-ju/project_metric_commit_message.git'

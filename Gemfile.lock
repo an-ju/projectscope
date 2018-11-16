@@ -27,6 +27,13 @@ GIT
       octokit (~> 4.0)
 
 GIT
+  remote: https://github.com/an-ju/project_metric_github_use.git
+  revision: 4afff29b83b233b26434616801564c9b46e03912
+  specs:
+    project_metric_github_use (0.1.0)
+      octokit
+
+GIT
   remote: https://github.com/an-ju/project_metric_heroku_status.git
   revision: e5be0a2b3f1d8f3629dc2119e175b2f95a612891
   specs:
@@ -480,6 +487,7 @@ DEPENDENCIES
   project_metric_commit_message!
   project_metric_github_files!
   project_metric_github_flow!
+  project_metric_github_use!
   project_metric_heroku_status!
   project_metric_point_distribution!
   project_metric_point_estimation!

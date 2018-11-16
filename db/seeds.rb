@@ -153,7 +153,7 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if %w[code_climate test_coverage travis_ci heroku_status point_distribution github_flow pull_requests story_overall].include? metric
+    if %w[code_climate test_coverage travis_ci heroku_status point_distribution github_flow pull_requests story_overall github_use].include? metric
       start_date.upto(end_date) do |date|
         tcreate = date.to_time + 1.hour
         ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|
