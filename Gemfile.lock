@@ -62,13 +62,6 @@ GIT
       octokit
 
 GIT
-  remote: https://github.com/an-ju/project_metric_smart_story.git
-  revision: 33e83cb2a263d556acfd2226e7de6ddabd9fd63c
-  specs:
-    project_metric_smart_story (0.1.0)
-      faraday (~> 0.1, >= 0.1.0.0)
-
-GIT
   remote: https://github.com/an-ju/project_metric_story_overall.git
   revision: f228370cd71935be0aeefda69db875be9fc07493
   specs:
@@ -492,7 +485,6 @@ DEPENDENCIES
   project_metric_point_distribution!
   project_metric_point_estimation!
   project_metric_pull_requests!
-  project_metric_smart_story!
   project_metric_story_overall!
   project_metric_test_coverage!
   project_metric_travis_ci!

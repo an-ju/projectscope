@@ -15,7 +15,6 @@ gem 'project_metric_github_files', git: 'https://github.com/an-ju/project_metric
 gem 'project_metric_github_flow', git: 'https://github.com/an-ju/project_metric_github_flow.git'
 gem 'project_metric_github_use', git: 'https://github.com/an-ju/project_metric_github_use.git'
 gem 'project_metric_point_distribution', git: 'https://github.com/an-ju/project_metric_point_distribution.git'
-gem 'project_metric_smart_story', git: 'https://github.com/an-ju/project_metric_smart_story.git'
 gem 'project_metric_commit_message', git: 'https://github.com/an-ju/project_metric_commit_message.git'
 
 # Securely store secrets, including symmetric encrypt key for attr_encrypted

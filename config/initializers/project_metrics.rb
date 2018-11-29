@@ -8,12 +8,11 @@ ProjectMetrics.configure do
   add_metric :project_metric_github_flow
   add_metric :project_metric_github_use
   add_metric :project_metric_point_distribution
-  add_metric :project_metric_smart_story
   add_metric :project_metric_commit_message
   add_metric :project_metric_heroku_status
 
   add_hierarchy metric: [%I[test_coverage code_climate travis_ci heroku_status point_distribution],
-                         %I[github_flow pull_requests smart_story github_use story_overall]]
+                         %I[github_flow pull_requests github_use story_overall]]
 end
 
 METRIC_NAMES = {
@@ -23,7 +22,6 @@ METRIC_NAMES = {
   github_files: 'Edited Lines',
   github_flow: 'Commit Counting',
   travis_ci: 'Build Status',
-  smart_story: 'Story Relevance',
   story_overall: 'Pivotal Tracker Use',
   point_distribution: 'Finished Stories',
   commit_message: 'Commit Message',
