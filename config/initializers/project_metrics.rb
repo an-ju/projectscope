@@ -13,7 +13,7 @@ ProjectMetrics.configure do
   add_metric :project_metric_heroku_status
 
   add_hierarchy metric: [%I[test_coverage code_climate travis_ci heroku_status point_distribution],
-                         %I[pull_requests github_use github_flow smart_story story_overall]]
+                         %I[github_flow pull_requests smart_story github_use story_overall]]
 end
 
 METRIC_NAMES = {
@@ -24,9 +24,9 @@ METRIC_NAMES = {
   github_flow: 'Commit Counting',
   travis_ci: 'Build Status',
   smart_story: 'Story Relevance',
-  story_overall: 'Story Status',
+  story_overall: 'Pivotal Tracker Use',
   point_distribution: 'Finished Stories',
   commit_message: 'Commit Message',
   heroku_status: 'Heroku Status',
-  github_use: 'GitHub Usage'
+  github_use: 'GitHub Use'
 }.freeze
