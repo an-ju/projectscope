@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown">
-        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle rounded-full w-full float-left" :class="bg_color">{{ issues.length }} issues</div>
+        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle rounded-full w-full float-left text-white" :class="bg_color">{{ issues.length }} issues</div>
         <ul class="dropdown-menu">
             <li class="dropdown-header">Commit Issues</li>
             <li v-for="cmit in image.data.commit_issues">

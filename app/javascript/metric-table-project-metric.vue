@@ -17,6 +17,7 @@
     import StoryOverall from 'metrics/story_overall'
     import HerokuStatus from 'metrics/heroku_status'
     import GithubUse from 'metrics/github_use'
+    import GithubBranch from 'metrics/github_branch'
 
     export default {
         name: "metric-table-project-metric",
@@ -46,7 +47,8 @@
             'smart_story': SmartStory,
             'story_overall': StoryOverall,
             'heroku_status': HerokuStatus,
-            'github_use': GithubUse
+            'github_use': GithubUse,
+            'github_branch': GithubBranch
         }
     }
 </script>
