@@ -1,9 +1,9 @@
 <template>
     <div class="dropdown">
         <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div v-show="scheduled.length > 0" class="float-left bg-grey-light" :style="{ width: 100 * scheduled.length / total.length + '%'}">{{ scheduled.length }}</div>
-            <div v-show="started.length > 0" class="float-left bg-blue-light" :style="{ width: 100 * started.length / total.length + '%' }">{{ started.length }}</div>
-            <div v-show="finished.length > 0" class="float-left bg-green-light" :style="{ width: 100 * finished.length / total.length + '%'}">{{ finished.length }}</div>
+            <div v-show="scheduled.length > 0" class="float-left bg-grey-light text-grey-darkest" :style="{ width: 100 * scheduled.length / total.length + '%'}">{{ scheduled.length }}</div>
+            <div v-show="started.length > 0" class="float-left bg-blue-light text-grey-darkest" :style="{ width: 100 * started.length / total.length + '%' }">{{ started.length }}</div>
+            <div v-show="finished.length > 0" class="float-left bg-green-light text-grey-darkest" :style="{ width: 100 * finished.length / total.length + '%'}">{{ finished.length }}</div>
         </div>
         <ul class="dropdown-menu">
             <li v-for="story in started" :key="story.id" class="shadow">

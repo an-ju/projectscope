@@ -4,6 +4,7 @@ ProjectMetrics.configure do
   add_metric :project_metric_test_coverage
   add_metric :project_metric_pull_requests
   add_metric :project_metric_travis_ci
+  add_metric :project_metric_github_branch
   add_metric :project_metric_github_files
   add_metric :project_metric_github_flow
   add_metric :project_metric_github_use
@@ -12,7 +13,7 @@ ProjectMetrics.configure do
   add_metric :project_metric_heroku_status
 
   add_hierarchy metric: [%I[test_coverage code_climate travis_ci heroku_status point_distribution],
-                         %I[github_flow pull_requests github_use story_overall]]
+                         %I[github_flow pull_requests github_branch github_use story_overall]]
 end
 
 METRIC_NAMES = {
@@ -26,5 +27,6 @@ METRIC_NAMES = {
   point_distribution: 'Finished Stories',
   commit_message: 'Commit Message',
   heroku_status: 'Heroku Status',
-  github_use: 'GitHub Use'
+  github_use: 'GitHub Use',
+  github_branch: 'Github Branch'
 }.freeze
