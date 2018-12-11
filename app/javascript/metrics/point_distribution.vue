@@ -1,19 +1,40 @@
 <template>
-    <div class="dropdown">
-        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div v-show="scheduled.length > 0" class="float-left bg-grey-light text-grey-darkest" :style="{ width: 100 * scheduled.length / total.length + '%'}">{{ scheduled.length }}</div>
-            <div v-show="started.length > 0" class="float-left bg-blue-light text-grey-darkest" :style="{ width: 100 * started.length / total.length + '%' }">{{ started.length }}</div>
-            <div v-show="finished.length > 0" class="float-left bg-green-light text-grey-darkest" :style="{ width: 100 * finished.length / total.length + '%'}">{{ finished.length }}</div>
+    <div>
+        <div class="dropdown">
+            <div v-show="scheduled.length > 0" class="float-left bg-grey-light text-grey-darkest" :style="{ width: 100 * scheduled.length / total.length + '%'}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ scheduled.length }}</div>
+
+            <ul class="dropdown-menu">
+                <li class="dropdown-header">Scheduled Stories</li>
+                <li v-for="story in scheduled" :key="story.id" class="shadow">
+                    <p class="px-3 mt-3 text-grey-darkest">{{ story.name }}</p>
+                    <a class="text-grey" :href="story.url" target="_blank">Updated {{ days_ago(story) }} days ago</a>
+                </li>
+                <li><a :href="image.data.tracker_link" target="_blank"><span class="pin-l text-black px-5">Tracker</span></a></li>
+            </ul>
         </div>
-        <ul class="dropdown-menu">
-            <li v-for="story in started" :key="story.id" class="shadow">
-                <p class="px-3 mt-3 text-grey-darkest">{{ story.name }}</p>
-                <a class="text-grey" :href="story.url" target="_blank">Updated {{ days_ago(story) }} days ago</a>
-            </li>
-            <li><a :href="image.data.tracker_link" target="_blank"><span class="pin-l text-black px-5">Tracker</span></a></li>
-        </ul>
+        <div class="dropdown">
+            <div v-show="started.length > 0" class="float-left bg-blue-light text-grey-darkest" :style="{ width: 100 * started.length / total.length + '%' }" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ started.length }}</div>
+            <ul class="dropdown-menu">
+                <li class="dropdown-header">Started Stories</li>
+                <li v-for="story in started" :key="story.id" class="shadow">
+                    <p class="px-3 mt-3 text-grey-darkest">{{ story.name }}</p>
+                    <a class="text-grey" :href="story.url" target="_blank">Updated {{ days_ago(story) }} days ago</a>
+                </li>
+                <li><a :href="image.data.tracker_link" target="_blank"><span class="pin-l text-black px-5">Tracker</span></a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <div v-show="finished.length > 0" class="float-left bg-green-light text-grey-darkest" :style="{ width: 100 * finished.length / total.length + '%'}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ finished.length }}</div>
+            <ul class="dropdown-menu">
+                <li class="dropdown-header">Finished Stories</li>
+                <li v-for="story in finished" :key="story.id" class="shadow">
+                    <p class="px-3 mt-3 text-grey-darkest">{{ story.name }}</p>
+                    <a class="text-grey" :href="story.url" target="_blank">Updated {{ days_ago(story) }} days ago</a>
+                </li>
+                <li><a :href="image.data.tracker_link" target="_blank"><span class="pin-l text-black px-5">Tracker</span></a></li>
+            </ul>
+        </div>
     </div>
-    
 </template>
 
 <script>
