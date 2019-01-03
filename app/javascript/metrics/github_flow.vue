@@ -1,7 +1,7 @@
 <template>
     <div class="dropdown">
         <div :class="bg_color" class="text-white dropdown-toggle float-left px-3 rounded-full w-full" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           {{ num_commits }} ({{ pushes.length }})
+           {{ num_commits }} commits
         </div>
         <ul class="dropdown-menu">
             <li class="dropdown-header">New Commits</li>

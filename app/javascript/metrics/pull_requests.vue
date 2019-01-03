@@ -1,10 +1,10 @@
 <template>
     <div class="dropdown">
         <div class="w-1/2 px-1 float-left dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="rounded-full w-full text-white" :class="bg_color(open_pr)"> {{ open_pr.length }}</div>
+            <div class="rounded-full w-full text-white" :class="bg_color(open_pr)"> {{ open_pr.length }} open</div>
         </div>
         <div class="w-1/2 px-1 float-left dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="rounded-full w-full text-white" :class="bg_color(closed_pr)"> {{ closed_pr.length }}</div>
+            <div class="rounded-full w-full text-white" :class="bg_color(closed_pr)"> {{ closed_pr.length }} closed</div>
         </div>
         <ul class="dropdown-menu">
             <li class="dropdown-header">Recently opened PR</li>
