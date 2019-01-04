@@ -12,9 +12,11 @@
 class Project < ApplicationRecord
   has_many :configs
   has_many :metric_samples
+  has_many :raw_data, class_name: 'RawData'
   has_and_belongs_to_many :users
   has_many :ownerships
   has_many :owners, class_name: 'User', through: :ownerships, source: :user
+  has_many :project_issues
 
   validates :name, presence: true, uniqueness: true
 
@@ -64,29 +66,33 @@ class Project < ApplicationRecord
   end
 
   def resample_metric(metric_name)
-    credentials_hash = config_for(metric_name).inject(Hash.new) do |chash, config|
+    credentials_hash = get_credentials_for(metric_name)
+    return if credentials_hash.empty?
+
+    metric = ProjectMetrics.class_for(metric_name).new(credentials_hash)
+    begin
+      metric.refresh
+      image = metric.image
+      score = metric.score
+    rescue Exception => e
+      logger.fatal "Metric #{metric_name} for project #{name} exception: #{e.message}"
+      puts "Metric #{metric_name} for project #{name} exception: #{e.message}"
+      return
+    rescue Error => err
+      logger.fatal "Metric #{metric_name} for project #{name} error: #{err.message}"
+      puts "Metric #{metric_name} for project #{name} error: #{err.message}"
+      return
+    end
+    metric_samples.create!( metric_name: metric_name,
+                                 score: score,
+                                 image: image )
+    raw_data.register(metric.raw_data)
+  end
+
+  def get_credentials_for(metric_name)
+    config_for(metric_name).inject(Hash.new) do |chash, config|
       return if config.token.empty? or config.nil?
       chash.update config.metrics_params.to_sym => config.token
-    end
-    unless credentials_hash.empty?
-      metric = ProjectMetrics.class_for(metric_name).new(credentials_hash)
-      begin
-        metric.refresh
-        image = metric.image
-        score = metric.score
-      rescue Exception => e
-        logger.fatal "Metric #{metric_name} for project #{name} exception: #{e.message}"
-        puts "Metric #{metric_name} for project #{name} exception: #{e.message}"
-        return
-      rescue Error => err
-        logger.fatal "Metric #{metric_name} for project #{name} error: #{err.message}"
-        puts "Metric #{metric_name} for project #{name} error: #{err.message}"
-        return
-      end
-      self.metric_samples.create!( metric_name: metric_name,
-                                   raw_data: metric.raw_data.to_json,
-                                   score: score,
-                                   image: image )
     end
   end
 

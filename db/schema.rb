@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_04_000952) do
+ActiveRecord::Schema.define(version: 2019_01_04_213621) do
 
   create_table "configs", force: :cascade do |t|
     t.integer "project_id"
@@ -79,6 +79,15 @@ ActiveRecord::Schema.define(version: 2019_01_04_000952) do
     t.integer "user_id"
     t.index ["project_id"], name: "index_projects_users_on_project_id"
     t.index ["user_id"], name: "index_projects_users_on_user_id"
+  end
+
+  create_table "raw_data", force: :cascade do |t|
+    t.string "name"
+    t.json "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "project_id"
+    t.index ["project_id"], name: "index_raw_data_on_project_id"
   end
 
   create_table "tasks", force: :cascade do |t|

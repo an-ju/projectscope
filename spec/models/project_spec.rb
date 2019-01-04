@@ -32,5 +32,9 @@ describe Project do
 			projects = Project.order_by_metric_score "test_metric", "ASC"
 			expect(projects.length).to eq 2
 		end
-	end
+  end
+
+  describe 'resample_metric' do
+
+  end
 end
