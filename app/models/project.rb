@@ -66,10 +66,9 @@ class Project < ApplicationRecord
   end
 
   def resample_metric(metric_name)
-    credentials_hash = get_credentials_for(metric_name)
-    return if credentials_hash.empty?
+    metric = build_metric_for(metric_name)
+    return if metric.nil?
 
-    metric = ProjectMetrics.class_for(metric_name).new(credentials_hash)
     begin
       metric.refresh
       image = metric.image
@@ -84,16 +83,19 @@ class Project < ApplicationRecord
       return
     end
     metric_samples.create!( metric_name: metric_name,
-                                 score: score,
-                                 image: image )
-    raw_data.register(metric.raw_data)
+                            score: score,
+                            image: image )
+    raw_data.register(metric)
   end
 
-  def get_credentials_for(metric_name)
-    config_for(metric_name).inject(Hash.new) do |chash, config|
+  def build_metric_for(metric_name)
+    credentials = config_for(metric_name).inject(Hash.new) do |chash, config|
       return if config.token.empty? or config.nil?
       chash.update config.metrics_params.to_sym => config.token
     end
+    return nil if credentials.empty?
+
+    ProjectMetrics.class_for(metric_name).new(credentials)
   end
 
   def self.latest_metrics_on_date(projects, preferred_metrics, date)
