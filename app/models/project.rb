@@ -62,15 +62,15 @@ class Project < ApplicationRecord
   end
 
   def resample_all_metrics
-    ProjectMetrics.metric_names.each { |metric_name| resample_metric metric_name }
+    next_version = raw_data.maximum(:data_version) + 1
+    ProjectMetrics.metric_names.each { |metric_name| resample_metric(metric_name, next_version) }
   end
 
-  def resample_metric(metric_name)
-    metric = build_metric_for(metric_name)
+  def resample_metric(metric_name, data_version=nil)
+    metric = build_metric_for(metric_name, data_version)
     return if metric.nil?
 
     begin
-      metric.refresh
       image = metric.image
       score = metric.score
     rescue Exception => e
@@ -85,17 +85,22 @@ class Project < ApplicationRecord
     metric_samples.create!( metric_name: metric_name,
                             score: score,
                             image: image )
-    raw_data.register(metric)
+    RawData.register(self, metric, data_version)
   end
 
-  def build_metric_for(metric_name)
-    credentials = config_for(metric_name).inject(Hash.new) do |chash, config|
-      return if config.token.empty? or config.nil?
+  def build_metric_for(metric_name, data_version)
+    raw_data_record = raw_data.get_data_for(metric_name, data_version)
+    credentials = get_credentials_for(metric_name)
+    return nil if credentials.nil?
+
+    ProjectMetrics.class_for(metric_name).new(credentials, raw_data_record)
+  end
+
+  def get_credentials_for(metric_name)
+    config_for(metric_name).inject(Hash.new) do |chash, config|
+      return nil if config.token.empty? or config.nil?
       chash.update config.metrics_params.to_sym => config.token
     end
-    return nil if credentials.empty?
-
-    ProjectMetrics.class_for(metric_name).new(credentials)
   end
 
   def self.latest_metrics_on_date(projects, preferred_metrics, date)

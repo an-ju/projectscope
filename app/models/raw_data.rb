@@ -4,9 +4,10 @@ class RawData < ApplicationRecord
   validates :content, presence: true
   validates :project, presence: true
 
-  def self.register(metric)
+  def self.register(project, metric, data_version=nil)
     metric.raw_data.each do |key, value|
-      create(name: key, content: value)
+      record = project.raw_data.where(name: key, data_version: data_version)
+      create(name: key, content: value, project: project, data_version: data_version) if record.empty?
     end
   end
 

@@ -39,19 +39,31 @@ describe Project do
 		end
   end
 
+  describe 'resample_all_metrics' do
+    before :each do
+      @project = create(:project)
+    end
+
+    it 'uses the right data version' do
+      metric_names = ProjectMetrics.metric_names
+      create(:raw_data, project: @project, data_version: 1)
+      expect(@project).to receive(:resample_metric).with(anything, 2).exactly(metric_names.length).times
+      @project.resample_all_metrics
+    end
+  end
+
   describe 'resample_metric' do
     before :each do
       @project = create(:project)
-      expect(@project).to receive(:build_metric_for).with(:test).and_return(generic_metric)
+      expect(@project).to receive(:build_metric_for).with(:test, 0).and_return(generic_metric)
     end
 
     it 'creates a metric_sample' do
-      expect { @project.resample_metric(:test) }.to change { @project.metric_samples.count }.by(1)
+      expect { @project.resample_metric(:test, 0) }.to change { @project.metric_samples.count }.by(1)
     end
 
     it 'creates a raw_data' do
-      expect { @project.resample_metric(:test) }.to change { @project.raw_data.count }.by(1)
+      expect { @project.resample_metric(:test, 0) }.to change { @project.raw_data.count }.by(1)
     end
-
   end
 end
