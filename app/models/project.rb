@@ -62,8 +62,10 @@ class Project < ApplicationRecord
   end
 
   def resample_all_metrics
-    next_version = raw_data.maximum(:data_version) + 1
-    ProjectMetrics.metric_names.each { |metric_name| resample_metric(metric_name, next_version) }
+    version_number = next_version_number
+    ProjectMetrics.metric_names.each do |metric_name|
+      resample_metric(metric_name, version_number)
+    end
   end
 
   def resample_metric(metric_name, data_version=nil)
@@ -109,6 +111,11 @@ class Project < ApplicationRecord
           .where(created_at: (date.beginning_of_day..date.end_of_day), metric_name: preferred_metrics)
           .map { |m| p.attributes.merge(m.attributes) }
     end
+  end
+
+  def next_version_number
+    curr_version = raw_data.maximum(:data_version)
+    curr_version.nil? ? 0 : curr_version + 1
   end
 
   # def comments
