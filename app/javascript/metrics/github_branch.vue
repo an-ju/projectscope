@@ -28,12 +28,9 @@
     export default {
         name: "github_branch",
         props: {
-            i: String
+            image: Object
         },
         computed: {
-            image() {
-                return JSON.parse(this.i)
-            },
             standing() {
                 return this.image.data.standing_branches
             },

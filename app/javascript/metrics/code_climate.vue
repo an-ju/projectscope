@@ -13,12 +13,9 @@
     export default {
         name: "code_climate",
         props: {
-            i: String,
+            image: Object,
         },
         computed: {
-            image: function () {
-                return JSON.parse(this.i)
-            },
             maintainability: function () {
                 let ratings = this.image['data']['ratings']
                 return ratings.find(function (elem) {
