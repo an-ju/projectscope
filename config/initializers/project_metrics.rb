@@ -11,8 +11,8 @@ ProjectMetrics.configure do
   add_metric :project_metric_github_use
   add_metric :project_metric_story_overall
 
-  add_metric :project_metric_github_files
-  add_metric :project_metric_commit_message
+  # add_metric :project_metric_github_files
+  # add_metric :project_metric_commit_message
 
   add_hierarchy metric: [%I[test_coverage code_climate travis_ci heroku_status point_distribution],
                          %I[github_flow pull_requests github_branch github_use story_overall]]
@@ -22,12 +22,12 @@ METRIC_NAMES = {
   code_climate: 'Code Climate',
   test_coverage: 'Test Coverage',
   pull_requests: 'PR Status',
-  github_files: 'Edited Lines',
+  # github_files: 'Edited Lines',
   github_flow: 'Commit Counting',
   travis_ci: 'Build Status',
   story_overall: 'Pivotal Tracker Use',
   point_distribution: 'Finished Stories',
-  commit_message: 'Commit Message',
+  # commit_message: 'Commit Message',
   heroku_status: 'Heroku Status',
   github_use: 'GitHub Use',
   github_branch: 'Github Branch'
