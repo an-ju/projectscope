@@ -17,12 +17,9 @@
     export default {
         name: "heroku_status",
         props: {
-            i: String
+            image: Object
         },
         computed: {
-            image() {
-                return JSON.parse(this.i)
-            },
             bar_color() {
                 if (this.image['data']['web_status'] < 400) {
                     return 'bg-green-dark'

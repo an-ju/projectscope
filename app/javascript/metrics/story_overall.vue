@@ -20,12 +20,9 @@
     export default {
         name: "story_overall",
         props: {
-            i: String
+            image: Object
         },
         computed: {
-            image() {
-                return JSON.parse(this.i)
-            },
             story_issues() {
                 return this.image.data.story_issues
             },

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_04_225707) do
+ActiveRecord::Schema.define(version: 2019_01_09_020625) do
 
   create_table "configs", force: :cascade do |t|
     t.integer "project_id"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2019_01_04_225707) do
     t.datetime "updated_at", null: false
     t.string "encrypted_raw_data_iv"
     t.float "score"
-    t.text "image"
+    t.json "image"
     t.index ["project_id", "metric_name"], name: "index_metric_samples_on_project_id_and_metric_name"
     t.index ["project_id"], name: "index_metric_samples_on_project_id"
   end

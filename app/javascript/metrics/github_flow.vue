@@ -24,12 +24,9 @@
     export default {
         name: "github_flow",
         props: {
-            i: String,
+            image: Object,
         },
         computed: {
-            image() {
-                return JSON.parse(this.i)
-            },
             pushes() {
                 return this.image.data['pushes']
             },

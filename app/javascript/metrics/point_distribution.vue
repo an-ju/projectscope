@@ -41,12 +41,9 @@
     export default {
         name: "point_distribution",
         props: {
-            i: String
+            image: Object
         },
         computed: {
-            image() {
-                return JSON.parse(this.i)
-            },
             scheduled() {
                 return this.image['data']['unstarted'].concat(this.image['data']['planned'])
             },

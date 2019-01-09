@@ -22,5 +22,5 @@ Feature: add project and its config/credentials info
     Then there should be a project "Test Project" with config values:
       | metric_name        | key             | value |
       | pull_requests      | github_project  | a.com |
-      | github_files       | github_project  | a.com |
+      | github_use         | github_project  | a.com |
       | point_distribution | tracker_project | b.com |

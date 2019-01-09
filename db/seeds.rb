@@ -15,63 +15,6 @@ Project.delete_all
 MetricSample.delete_all
 Task.delete_all
 
-
-# dummy1_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/WebsiteOne'
-# dummy2_code_climate = ProjectMetrics.class_for('code_climate').new url: 'http://github.com/AgileVentures/project_metric_slack'
-
-
-story_1 = open('./db/fake_data/p1.json', 'r') { |f| f.read }
-story_2 = open('./db/fake_data/p2.json', 'r') { |f| f.read }
-story_3 = open('./db/fake_data/p3.json', 'r') { |f| f.read }
-
-point_est1 = open('./db/fake_data/point_est1.json', 'r') { |f| f.read }
-point_est2 = open('./db/fake_data/point_est2.json', 'r') { |f| f.read }
-point_est3 = open('./db/fake_data/point_est3.json', 'r') { |f| f.read }
-
-pivot1 = File.read './db/fake_data/stories1.json'
-pivot2 = File.read './db/fake_data/stories2.json'
-pivot3 = File.read './db/fake_data/stories3.json'
-
-github1 = File.read './db/fake_data/spline1.json'
-github2 = File.read './db/fake_data/spline2.json'
-github3 = File.read './db/fake_data/spline3.json'
-
-github_files1 = File.read './db/fake_data/github_files1.json'
-github_files2 = File.read './db/fake_data/github_files2.json'
-github_files3 = File.read './db/fake_data/github_files3.json'
-
-tracker_velocity1 = File.read './db/fake_data/tracker_velocity1.json'
-tracker_velocity2 = File.read './db/fake_data/tracker_velocity2.json'
-tracker_velocity3 = File.read './db/fake_data/tracker_velocity3.json'
-
-# point_distribution1 = File.read './db/fake_data/tracker_distribution1.json'
-# point_distribution2 = File.read './db/fake_data/tracker_distribution2.json'
-# point_distribution3 = File.read './db/fake_data/tracker_distribution3.json'
-
-slack1 = File.read './db/fake_data/slack1.json'
-slack2 = File.read './db/fake_data/slack2.json'
-slack3 = File.read './db/fake_data/slack3.json'
-
-smart_story1 = File.read './db/fake_data/smart_story1.json'
-smart_story2 = File.read './db/fake_data/smart_story2.json'
-smart_story3 = File.read './db/fake_data/smart_story3.json'
-
-commit_message1 = File.read './db/fake_data/commit_message1.json'
-commit_message2 = File.read './db/fake_data/commit_message2.json'
-commit_message3 = File.read './db/fake_data/commit_message3.json'
-
-dummies = Hash.new
-dummies["github"] = [github1, github2, github3]
-dummies["slack"] = [slack1, slack2,	slack3]
-dummies["pivotal_tracker"] = [pivot1, pivot2, pivot3]
-# dummies["slack_trends"] = [slack_trends1, slack_trends2, slack_trends3]
-dummies["story_transition"] = [story_1, story_2, story_3]
-dummies["point_estimation"] = [point_est1, point_est2, point_est3]
-dummies["github_files"] = [github_files1, github_files2, github_files3]
-dummies["tracker_velocity"] = [tracker_velocity1, tracker_velocity2, tracker_velocity3]
-dummies["smart_story"] = [smart_story1, smart_story2, smart_story3]
-dummies["commit_message"] = [commit_message1, commit_message2, commit_message3]
-
 projects_list = []
 0.upto(10).each do |num|
   projects_list << Project.create!(name: "Project #{num}")
@@ -153,37 +96,23 @@ Config.delete_all
 
 projects_list.each do |project|
   ProjectMetrics.metric_names.each do |metric|
-    if %w[code_climate test_coverage travis_ci heroku_status point_distribution github_flow pull_requests story_overall github_use github_branch].include? metric
-      start_date.upto(end_date) do |date|
-        tcreate = date.to_time + 1.hour
-        ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|
-          MetricSample.create!( metric_name: metric,
-                                project_id: project.id,
-                                score: d[:score],
-                                image: d[:image],
-                                created_at: tcreate )
-          tcreate += 4.hours
-        end
+    start_date.upto(end_date) do |date|
+      tcreate = date.to_time + 1.hour
+      ProjectMetrics.class_for(metric).fake_data.shuffle.each do |d|
+        MetricSample.create!( metric_name: metric,
+                              project_id: project.id,
+                              score: d[:score],
+                              image: d[:image],
+                              created_at: tcreate )
+        tcreate += 4.hours
       end
-    else
-      start_date.upto(end_date) do |date|
-        tcreate = date.to_time + 1.hour
-        3.times do
-          m = MetricSample.create!(:metric_name => metric,
-                                   :project_id => project.id,
-                                   :score => rand(0.0..4.0).round(2),
-                                   :image => dummies[metric].sample,
-                                   :created_at => tcreate)
-          tcreate += 4.hours
-        end
-      end
-      ProjectMetrics.class_for(metric).credentials.each do |param|
-        next unless rand > 0.5
-        Config.create(metric_name: metric,
-                      project_id: project.id,
-                      token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join,
-                      metrics_params: param)
-      end
+    end
+    ProjectMetrics.class_for(metric).credentials.each do |param|
+      next unless rand > 0.5
+      Config.create(metric_name: metric,
+                    project_id: project.id,
+                    token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join,
+                    metrics_params: param)
     end
   end
 end

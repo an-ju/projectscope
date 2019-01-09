@@ -28,12 +28,9 @@
     export default {
         name: "pull_requests",
         props: {
-            i: String
+            image: Object
         },
         computed: {
-            image: function () {
-                return JSON.parse(this.i)
-            },
             open_pr() {
                 return this.image['data']['new_pr']
             },

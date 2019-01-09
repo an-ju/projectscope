@@ -13,12 +13,9 @@
     export default {
         name: "travis_ci",
         props: {
-            i: String,
+            image: Object,
         },
         computed: {
-            image: function () {
-                return JSON.parse(this.i)
-            },
             builds: function () {
                 return this.image.data.builds
             },

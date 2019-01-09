@@ -23,12 +23,9 @@
     export default {
         name: "test_coverage",
         props: {
-            i: String,
+            image: Object,
         },
         computed: {
-            image: function () {
-                return JSON.parse(this.i)
-            },
             report_attributes: function () {
                 return this.image['data']['report']['attributes']
             },

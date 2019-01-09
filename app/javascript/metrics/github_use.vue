@@ -18,12 +18,9 @@
     export default {
         name: "github_use",
         props: {
-            i: String
+            image: Object
         },
         computed: {
-            image() {
-                return JSON.parse(this.i)
-            },
             issues() {
                 return this.image.data.branch_issues.concat(this.image.data.commit_issues)
             },
