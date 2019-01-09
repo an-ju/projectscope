@@ -4,6 +4,7 @@ ruby '2.3.8'
 
 # Gems for metrics to use
 gem 'project_metrics', git: 'https://github.com/an-ju/project_metrics.git'
+gem 'project_metric_base', git: 'https://github.com/an-ju/project_metric_base'
 gem 'project_metric_code_climate', git: 'https://github.com/an-ju/project_metric_code_climate.git'
 gem 'project_metric_heroku_status', git: 'https://github.com/an-ju/project_metric_heroku_status.git'
 gem 'project_metric_point_estimation', git: 'https://github.com/an-ju/project_metric_point_estimation.git'

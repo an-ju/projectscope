@@ -12,9 +12,11 @@
 class Project < ApplicationRecord
   has_many :configs
   has_many :metric_samples
+  has_many :raw_data, class_name: 'RawData'
   has_and_belongs_to_many :users
   has_many :ownerships
   has_many :owners, class_name: 'User', through: :ownerships, source: :user
+  has_many :project_issues
 
   validates :name, presence: true, uniqueness: true
 
@@ -60,33 +62,46 @@ class Project < ApplicationRecord
   end
 
   def resample_all_metrics
-    ProjectMetrics.metric_names.each { |metric_name| resample_metric metric_name }
+    version_number = next_version_number
+    ProjectMetrics.metric_names.each do |metric_name|
+      resample_metric(metric_name, version_number)
+    end
   end
 
-  def resample_metric(metric_name)
-    credentials_hash = config_for(metric_name).inject(Hash.new) do |chash, config|
-      return if config.token.empty? or config.nil?
-      chash.update config.metrics_params.to_sym => config.token
+  def resample_metric(metric_name, data_version=nil)
+    metric = build_metric_for(metric_name, data_version)
+    return if metric.nil?
+
+    begin
+      image = metric.image
+      score = metric.score
+    rescue Exception => e
+      logger.fatal "Metric #{metric_name} for project #{name} exception: #{e.message}"
+      puts "Metric #{metric_name} for project #{name} exception: #{e.message}"
+      return
+    rescue Error => err
+      logger.fatal "Metric #{metric_name} for project #{name} error: #{err.message}"
+      puts "Metric #{metric_name} for project #{name} error: #{err.message}"
+      return
     end
-    unless credentials_hash.empty?
-      metric = ProjectMetrics.class_for(metric_name).new(credentials_hash)
-      begin
-        metric.refresh
-        image = metric.image
-        score = metric.score
-      rescue Exception => e
-        logger.fatal "Metric #{metric_name} for project #{name} exception: #{e.message}"
-        puts "Metric #{metric_name} for project #{name} exception: #{e.message}"
-        return
-      rescue Error => err
-        logger.fatal "Metric #{metric_name} for project #{name} error: #{err.message}"
-        puts "Metric #{metric_name} for project #{name} error: #{err.message}"
-        return
-      end
-      self.metric_samples.create!( metric_name: metric_name,
-                                   raw_data: metric.raw_data.to_json,
-                                   score: score,
-                                   image: image )
+    metric_samples.create!( metric_name: metric_name,
+                            score: score,
+                            image: image )
+    RawData.register(self, metric, data_version)
+  end
+
+  def build_metric_for(metric_name, data_version)
+    raw_data_record = raw_data.get_data_for(metric_name, data_version)
+    credentials = get_credentials_for(metric_name)
+    return nil if credentials.nil?
+
+    ProjectMetrics.class_for(metric_name).new(credentials, raw_data_record)
+  end
+
+  def get_credentials_for(metric_name)
+    config_for(metric_name).inject(Hash.new) do |chash, config|
+      return nil if config.token.empty? or config.nil?
+      chash.update config.metrics_params.to_sym => config.token
     end
   end
 
@@ -96,6 +111,11 @@ class Project < ApplicationRecord
           .where(created_at: (date.beginning_of_day..date.end_of_day), metric_name: preferred_metrics)
           .map { |m| p.attributes.merge(m.attributes) }
     end
+  end
+
+  def next_version_number
+    curr_version = raw_data.maximum(:data_version)
+    curr_version.nil? ? 0 : curr_version + 1
   end
 
   # def comments

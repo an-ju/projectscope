@@ -18,4 +18,10 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :raw_data do
+    name { 'test' }
+    content { { value: 'test value'} }
+    association :project, factory: :project
+  end
 end
