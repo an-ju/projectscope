@@ -20,9 +20,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_branch.git
-  revision: 9f0c1646b5449534a476042bb30ea1678c86486e
+  revision: f976384de120a85690c2f66b9d162e16fd20d0f3
   specs:
-    project_metric_github_branch (0.1.0)
+    project_metric_github_branch (0.2.0)
       octokit
 
 GIT
@@ -34,30 +34,30 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: 8e0f4f764857dc93b95159d10eb10410dee4cdcf
+  revision: 62789210f5c6f780152e5de33b448c1f6d6e481f
   specs:
-    project_metric_github_flow (0.3.0)
+    project_metric_github_flow (0.4.0)
       octokit (~> 4.0)
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_use.git
-  revision: 4afff29b83b233b26434616801564c9b46e03912
+  revision: 6e2589e57a8b554a0589b9b3b95264f3b99cac3b
   specs:
-    project_metric_github_use (0.1.0)
+    project_metric_github_use (0.2.0)
       octokit
 
 GIT
   remote: https://github.com/an-ju/project_metric_heroku_status.git
-  revision: e5be0a2b3f1d8f3629dc2119e175b2f95a612891
+  revision: 72a4a4066ce122861ad1484291705f021a03c032
   specs:
-    project_metric_heroku_status (0.1.0)
+    project_metric_heroku_status (0.2.0)
       faraday
 
 GIT
   remote: https://github.com/an-ju/project_metric_point_distribution.git
-  revision: c7db1a6200a35744516b733275f696f648d745e4
+  revision: 3459fa2b63f51a2a92274849ab7b3f1722c664b5
   specs:
-    project_metric_point_distribution (0.2.0)
+    project_metric_point_distribution (0.3.0)
       faraday (~> 0.12.0)
 
 GIT
@@ -69,16 +69,16 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_pull_requests.git
-  revision: a833420a489e906fb14291ad3664981f438d5e33
+  revision: 8f89f2253585e0e335ed3d5c1875778af0bae05a
   specs:
-    project_metric_pull_requests (0.1.0)
+    project_metric_pull_requests (0.2.0)
       octokit
 
 GIT
   remote: https://github.com/an-ju/project_metric_story_overall.git
-  revision: f228370cd71935be0aeefda69db875be9fc07493
+  revision: 26e677b7899f25eeb54b3841bb21f15fcd7b66bc
   specs:
-    project_metric_story_overall (0.3.1)
+    project_metric_story_overall (0.5.0)
       faraday (~> 0.1, >= 0.1.0.0)
 
 GIT
@@ -90,9 +90,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_travis_ci.git
-  revision: 45715925e76ced57fea698e91eba4841de0dd3d7
+  revision: b022337890168cd6c0d84a3154fabc457f613416
   specs:
-    project_metric_travis_ci (0.2.1)
+    project_metric_travis_ci (0.3.0)
       faraday (~> 0.1, >= 0.1.0.0)
 
 GIT
@@ -291,7 +291,7 @@ GEM
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
-    msgpack (1.2.4)
+    msgpack (1.2.6)
     multi_json (1.13.1)
     multi_test (0.1.2)
     multi_xml (0.6.0)
