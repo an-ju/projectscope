@@ -118,6 +118,14 @@ class Project < ApplicationRecord
     curr_version.nil? ? 0 : curr_version + 1
   end
 
+  def data_at(name, version)
+    raw_data.where(name: name, data_version: version).first
+  end
+
+  def data_before(name, version)
+    raw_data.where("name = '#{name}' AND data_version < #{version}").order(created_at: :desc).first
+  end
+
   # def comments
   #   metric_samples.flat_map { |ms| ms.comments.where(ctype: 'general_comment') }.sort_by { |cmnt| Time.now - cmnt.created_at }
   # end
