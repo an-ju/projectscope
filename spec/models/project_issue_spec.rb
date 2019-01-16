@@ -22,4 +22,19 @@ RSpec.describe ProjectIssue, type: :model do
       end
     end
   end
+
+  context 'codeclimate_snapshot' do
+    before :each do
+      @project = create(:project)
+      @m1 = create(:codeclimate_snapshot, project: @project)
+      @m2 = create(:codeclimate_snapshot, project: @project)
+    end
+
+    describe 'maintainability_drop' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create)
+        described_class.maintainability_drop(@project, @m2.data_version)
+      end
+    end
+  end
 end
