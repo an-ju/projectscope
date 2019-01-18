@@ -20,4 +20,18 @@ class RawData < ApplicationRecord
     end
   end
 
+  # Get test coverage from code climate reports
+  def test_coverage
+    return nil unless name.eql? 'codeclimate_report'
+
+    content['attributes']['covered_percent']
+  end
+
+  # Get tech debt from code climate snapshot
+  def tech_debt
+    return nil unless name.eql? 'codeclimate_snapshot'
+
+    content['data']['meta']['measures']['technical_debt_ratio']['value']
+  end
+
 end

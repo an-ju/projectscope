@@ -9,8 +9,8 @@ class ProjectIssue < ApplicationRecord
 
     return if report_curr.nil? or report_prev.nil?
 
-    v1 = report_curr.content['attributes']['covered_percent']
-    v2 = report_prev.content['attributes']['covered_percent']
+    v1 = report_curr.test_coverage
+    v2 = report_prev.test_coverage
     if v2 - v1 > 0
       create( project: project,
               name: 'test_coverage_drop',
@@ -23,7 +23,7 @@ class ProjectIssue < ApplicationRecord
     report_curr = project.data_at('codeclimate_report', version)
     return if report_curr.nil?
 
-    v_curr = report_curr.content['attributes']['covered_percent']
+    v_curr = report_curr.test_coverage
     if v_curr < 80
       create( project: project,
               name: 'low_test_coverage',
@@ -38,8 +38,8 @@ class ProjectIssue < ApplicationRecord
 
     return if snapshot_curr.nil? or snapshot_prev.nil?
 
-    v1 = snapshot_curr.content['data']['meta']['measures']['technical_debt_ratio']['value']
-    v2 = snapshot_prev.content['data']['meta']['measures']['technical_debt_ratio']['value']
+    v1 = snapshot_curr.tech_debt
+    v2 = snapshot_prev.tech_debt
 
     if v2 - v1 < 0
       create( project: project,
