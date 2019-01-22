@@ -7,14 +7,12 @@ class IterationsController < ApplicationController
   # GET /iterations.json
   def index
     @iterations = Iteration.all
-    redirect_to init_user_path current_user if current_user.is_student?
-    @current_page = params.key?(:page) ? (params[:page].to_i - 1) : 0
-    @display_type = params.key?(:type) ? params[:type] : 'metric'
-    # @projects = current_user.preferred_projects.empty? ? Project.all : current_user.preferred_projects
-    @projects = Project.all
-    @template_iterations = Iteration.where(template: true)
-    # metric_min_date = MetricSample.min_date || Date.today
-    # @num_days_from_today = (Date.today - metric_min_date).to_i
+  end
+
+  # GET /iterations/new
+  # GET /iterations/new.json
+  def new
+    @iteration = Iteration.new
   end
 
   # GET /iterations/1
@@ -35,8 +33,21 @@ class IterationsController < ApplicationController
   # POST /iterations
   # POST /iterations.json
   def create
-    @iteration = Iteration.create(name: params[:template], template: true)
-    redirect_to '/iterations'
+    iteration_params = params[:iteration]
+    if iteration_params[:apply_to_all]
+      project_list = Project.all.map(&:id)
+    else
+      project_list = [iteration_params[:project]]
+    end
+
+    project_list.each do |pid|
+      Iteration.create( project_id: pid,
+                        start_time: iteration_params[:start_time],
+                        end_time: iteration_params[:end_time],
+                        name: iteration_params[:name] )
+    end
+
+    redirect_to iterations_path
   end
 
   # Function be call when Event is ready and send update request to Event
@@ -161,8 +172,4 @@ class IterationsController < ApplicationController
     @iteration = Iteration.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def iteration_params
-    params.fetch(:iteration, {})
-  end
 end

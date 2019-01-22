@@ -17,6 +17,7 @@ class Project < ApplicationRecord
   has_many :ownerships
   has_many :owners, class_name: 'User', through: :ownerships, source: :user
   has_many :project_issues
+  has_many :iterations
 
   validates :name, presence: true, uniqueness: true
 
@@ -124,6 +125,10 @@ class Project < ApplicationRecord
 
   def data_before(name, version)
     raw_data.where("name = '#{name}' AND data_version < #{version}").order(created_at: :desc).first
+  end
+
+  def current_iteration
+    iterations.select { |iter| iter.start_time < Date.today && iter.end_time > Date.today }.first
   end
 
   # def comments

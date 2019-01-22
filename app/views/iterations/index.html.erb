@@ -1,10 +1,24 @@
-<body>
-<%= render partial: 'dashboard_sidebar' %>
-<div class="container-fluid">
-  <div class="row">
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <%= render partial: 'index_iteration'%>
-    </main>
-  </div>
-</div>
-</body>
+<table class="table" id="iteration_table" %>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Project</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @iterations.each do |iter| %>
+      <tr>
+        <td><%= iter.name %></td>
+        <td><%= iter.project.name %></td>
+        <td><%= format_date(iter.start_time) %></td>
+        <td><%= format_date(iter.end_time) %></td>
+        <td><%= link_to 'Edit', edit_iteration_path(iter) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Iteration', new_iteration_path %>

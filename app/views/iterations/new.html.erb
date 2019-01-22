@@ -1,0 +1,27 @@
+<%=form_for @iteration do |f| %>
+  <div class="form-group">
+    <label for="name">Iteration Name</label>
+    <input name="iteration[name]" type="text" class="form-control" id="name" placeholder="Iteration Name">
+  </div>
+  <div class="form-group">
+    <label for="start_time">Start Time</label>
+    <input name="iteration[start_time]" type="date" class="form-control" id="start_time">
+  </div>
+  <div class="form-group">
+    <label for="end_time">End Time</label>
+    <input name="iteration[end_time]" type="date" class="form-control" id="end_time">
+  </div>
+  <div class="form-check">
+    <input name="iteration[apply_to_all]" type="checkbox" class="form-check-input" id="apply_to_all">
+    <label class="form-check-label" for="apply_to_all">Apply to all projects.</label>
+  </div>
+  <div class="form-group">
+    <label for="project">Select project to apply</label>
+    <select name="iteration[project]" class="form-control" id="project">
+      <%= Project.all.each do |proj| %>
+        <option value="<%= proj.id %>"><%= proj.name %></option>
+      <% end %>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+<% end %>
