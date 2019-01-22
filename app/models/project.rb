@@ -17,6 +17,7 @@ class Project < ApplicationRecord
   has_many :ownerships
   has_many :owners, class_name: 'User', through: :ownerships, source: :user
   has_many :project_issues
+  has_many :iterations
 
   validates :name, presence: true, uniqueness: true
 

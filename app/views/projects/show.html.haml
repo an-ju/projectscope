@@ -4,3 +4,14 @@
 %div.col-md-6{style: 'text-align:right'}
   %div.btn-group{role: 'group'}
     = link_to 'Config', edit_project_path(@project), class: 'btn btn-default', role: 'button'
+
+
+%div.col-md-1
+%div.col-md-10
+  %table.table
+    %thead
+      %th{scope: 'col'}
+        Metric
+      %th{score: 'col'}
+        Value
+%div.col-md-1
