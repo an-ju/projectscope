@@ -11,7 +11,7 @@ RSpec.describe ProjectIssue, type: :model do
     describe 'test_coverage_drop' do
       it 'detects the issue' do
         expect(described_class).to receive(:create)
-        described_class.test_coverage_drop(@project, @m2.data_version)
+        described_class.test_coverage_drop(@project, @m2.data_version, @m1.data_version)
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe ProjectIssue, type: :model do
     describe 'maintainability_drop' do
       it 'detects the issue' do
         expect(described_class).to receive(:create)
-        described_class.maintainability_drop(@project, @m2.data_version)
+        described_class.maintainability_drop(@project, @m2.data_version, @m1.data_version)
       end
     end
   end

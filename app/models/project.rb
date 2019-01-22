@@ -131,6 +131,15 @@ class Project < ApplicationRecord
     iterations.select { |iter| iter.start_time < Date.today && iter.end_time > Date.today }.first
   end
 
+  def compute_issues
+    curr_data_version = raw_data.maximum(:data_version)
+    init_data_version = raw_data.where("created_at > ?", current_iteration.start_time).minimum(:data_version)
+
+    ProjectIssue::ISSUES.each do |issue|
+      ProjectIssue.send(issue, self, curr_data_version, init_data_version)
+    end
+  end
+
   # def comments
   #   metric_samples.flat_map { |ms| ms.comments.where(ctype: 'general_comment') }.sort_by { |cmnt| Time.now - cmnt.created_at }
   # end

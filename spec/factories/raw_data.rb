@@ -1,5 +1,11 @@
 FactoryBot.define do
 
+  factory :raw_data do
+    name { 'test' }
+    sequence(:data_version) { |n| n }
+    content { { value: 'test' } }
+  end
+
   factory :codeclimate_report, class: RawData do
     name { 'codeclimate_report' }
     sequence(:content) do |n|
