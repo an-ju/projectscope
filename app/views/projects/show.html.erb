@@ -5,5 +5,6 @@
   <%= link_to 'Config', edit_project_path(@project), class: 'btn btn-default' %>
 </div>
 
-<p><%= "You are at #{@project.current_iteration.name}" %></p>
-
+<%- if @project.current_iteration %>
+  <p><%= "You are at #{@project.current_iteration.name}" %></p>
+<% end %>

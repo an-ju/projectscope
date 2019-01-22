@@ -13,7 +13,7 @@ RSpec.feature "Student Pages", type: :feature do
   scenario 'shows a project' do
     sign_in_admin
     visit project_path(@p)
-    expect(page).to have_css 'a', text: 'Config'
+    expect(page).to have_content'Config'
     expect(page).to have_content @p.name
   end
 
