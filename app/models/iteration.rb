@@ -2,6 +2,11 @@ class Iteration < ApplicationRecord
   belongs_to :project
   has_many :tasks
 
+  def final_project_issues
+    max_version = project.project_issues.where('created_at > ? AND created_at < ?', start_time, end_time).maximum(:data_version)
+    project.project_issues.where("data_version = ?", max_version)
+  end
+
   # calculate the percentage of accomplish of each task graph
   def self.percentage_progress multitasks
     percentage = Hash.new

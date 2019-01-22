@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_15_232124) do
+ActiveRecord::Schema.define(version: 2019_01_22_194102) do
 
   create_table "configs", force: :cascade do |t|
     t.integer "project_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2019_01_15_232124) do
     t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "data_version"
     t.index ["project_id"], name: "index_project_issues_on_project_id"
   end
 

@@ -113,4 +113,18 @@ describe Project do
     end
   end
 
+  describe 'compute_issues' do
+    before :each do
+      @project = create(:project)
+      3.times { create(:raw_data, project: @project) }
+      create(:iteration, project: @project, start_time: Date.today-3.days, end_time: Date.today+3.days)
+    end
+
+    it 'computes all issues' do
+      expect(ProjectIssue).to receive(:test_coverage_drop).with(@project, 3, 1)
+      expect(ProjectIssue).to receive(:maintainability_drop).with(@project, 3, 1)
+      @project.compute_issues
+    end
+  end
+
 end
