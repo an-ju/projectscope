@@ -127,6 +127,10 @@ class Project < ApplicationRecord
     raw_data.where("name = '#{name}' AND data_version < #{version}").order(created_at: :desc).first
   end
 
+  def current_iteration
+    iterations.select { |iter| iter.start_time < Date.today && iter.end_time > Date.today }.first
+  end
+
   # def comments
   #   metric_samples.flat_map { |ms| ms.comments.where(ctype: 'general_comment') }.sort_by { |cmnt| Time.now - cmnt.created_at }
   # end
