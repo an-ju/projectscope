@@ -15,6 +15,7 @@ class ProjectIssue < ApplicationRecord
       create( project: project,
               name: 'test_coverage_drop',
               content: "Test coverage drops from #{v2} to #{v1}.",
+              data_version: version1,
               evidence: { curr: report_curr.id, prev: report_prev.id })
     end
   end
@@ -28,6 +29,7 @@ class ProjectIssue < ApplicationRecord
       create( project: project,
               name: 'low_test_coverage',
               content: "Test coverage is at #{v_curr}.",
+              data_version: version,
               evidence: { curr: v_curr })
     end
   end
@@ -45,6 +47,7 @@ class ProjectIssue < ApplicationRecord
       create( project: project,
               name: 'maintainability_drop',
               content: "Technical debt grows from #{v2}% to #{v1}%.",
+              data_version: version1,
               evidence: { curr: snapshot_curr.id, prev: snapshot_prev.id })
     end
   end
