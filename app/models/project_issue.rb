@@ -20,7 +20,7 @@ class ProjectIssue < ApplicationRecord
     end
   end
 
-  def self.low_test_coverage(project, version)
+  def self.low_test_coverage(project, version, _)
     report_curr = project.data_at('codeclimate_report', version)
     return if report_curr.nil?
 
@@ -49,6 +49,62 @@ class ProjectIssue < ApplicationRecord
               content: "Technical debt grows from #{v2}% to #{v1}%.",
               data_version: version1,
               evidence: { curr: snapshot_curr.id, prev: snapshot_prev.id })
+    end
+  end
+
+  def self.breaking_travis(project, version, _)
+    curr = project.metric_samples.find_by(metric_name: 'travis_ci', data_version: version)
+
+    return if curr.nil?
+
+    curr_status = curr.image['data']['builds'].first['state']
+    unless curr_status.eql? 'passed'
+      create( project: project,
+              name: 'breaking_travis',
+              content: "Travis CI status: #{curr_status}",
+              data_version: version,
+              evidence: { curr: curr.id } )
+    end
+  end
+
+  def self.no_new_deployment(project, version, _)
+    curr = project.metric_samples.find_by(metric_name: 'heroku_status', data_version: version)
+
+    return if curr.nil?
+
+    latest_release = curr.image['data']['release'].first
+    is_new = Date.parse(latest_release['created_at']) > project.current_iteration.start_time
+    curr_status = latest_release['status']
+
+    if is_new
+      unless curr_status.eql? 'succeeded'
+        create( project: project,
+                name: 'failed_heroku',
+                content: "Latest Heroku release status: #{curr_status}",
+                data_version: version,
+                evidence: { curr: curr.id })
+      end
+    else
+      create( project: project,
+              name: 'no_heroku_release',
+              content: "Could not find new Heroku release.",
+              data_version: version,
+              evidence: { curr: curr.id })
+    end
+  end
+
+  def self.heroku_not_accessible(project, version, _)
+    curr = project.metric_samples.find_by(metric_name: 'heroku_status', data_version: version)
+
+    return if curr.nil?
+
+    web_status = curr.image['data']['web_status']
+    if web_status >= 400
+      create( project: project,
+              name: 'webpage_not_accessible',
+              content: "Access to Heroku app has status: #{web_status}",
+              data_version: version,
+              evidence: { curr: curr.id })
     end
   end
 
