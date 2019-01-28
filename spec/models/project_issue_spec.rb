@@ -112,4 +112,34 @@ RSpec.describe ProjectIssue, type: :model do
       end
     end
   end
+
+  context 'tracker activities' do
+    before :each do
+      @p = create(:project)
+      @m1 = create( :project_metric_tracker_activities,
+                    project: @p,
+                    image: { data: { activities: [
+                        { changes: [{ new_values: { before_id: 1, after_id: 3 }}]},
+                        { changes: [{ new_values: { before_id: 3 }}]},
+                        { changes: [{ new_values: { after_id: 2 }}]}
+                    ]}})
+      @m2 = create( :project_metric_tracker_activities,
+                    project: @p,
+                    image: { data: { activities: [
+                        { changes: [{ new_values: { }}]}
+                    ]}})
+    end
+
+    describe 'backlog_change_activities' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create)
+        described_class.backlog_change_activities(@p, @m1.data_version, nil)
+      end
+
+      it 'does not make false positive' do
+        expect(described_class).not_to receive(:create)
+        described_class.backlog_change_activities(@p, @m2.data_version, nil)
+      end
+    end
+  end
 end

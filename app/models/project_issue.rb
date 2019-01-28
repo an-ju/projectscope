@@ -139,4 +139,21 @@ class ProjectIssue < ApplicationRecord
     end
   end
 
+  def self.backlog_change_activities(project, version, _)
+    curr = project.metric_samples.find_by(metric_name: 'tracker_activities', data_version: version)
+    return if curr.nil?
+
+    backlog_change = curr.image['data']['activities']
+    backlog_change = backlog_change.select do |el|
+      el['changes'].any? { |ch| (ch['new_values'].key? 'before_id') || (ch['new_values'].key? 'after_id')}
+    end
+    if backlog_change.length > 0
+      create( project: project,
+              name: 'backlog_change',
+              content: "The backlog is changed #{backlog_change.length} times in the past three days.",
+              data_version: version,
+              evidence: { curr: curr.id })
+    end
+  end
+
 end

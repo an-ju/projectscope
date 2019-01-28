@@ -13,4 +13,9 @@ FactoryBot.define do
     metric_name { 'point_distribution' }
     sequence(:data_version) { |n| n }
   end
+
+  factory :project_metric_tracker_activities, class: MetricSample do
+    metric_name { 'tracker_activities' }
+    sequence(:data_version) { |n| n }
+  end
 end
