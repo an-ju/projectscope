@@ -14,6 +14,7 @@
     import HerokuStatus from 'metrics/heroku_status'
     import GithubUse from 'metrics/github_use'
     import GithubBranch from 'metrics/github_branch'
+    import TrackerActivities from 'metrics/tracker_activities'
 
     export default {
         name: "metric-table-project-metric",
@@ -40,7 +41,8 @@
             'story_overall': StoryOverall,
             'heroku_status': HerokuStatus,
             'github_use': GithubUse,
-            'github_branch': GithubBranch
+            'github_branch': GithubBranch,
+            'tracker_activities': TrackerActivities
         }
     }
 </script>

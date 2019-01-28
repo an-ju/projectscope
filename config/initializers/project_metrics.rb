@@ -8,6 +8,7 @@ ProjectMetrics.configure do
   add_metric :project_metric_github_flow
   add_metric :project_metric_pull_requests
   add_metric :project_metric_github_branch
+  add_metric :project_metric_tracker_activities
   add_metric :project_metric_github_use
   add_metric :project_metric_story_overall
 
@@ -15,7 +16,7 @@ ProjectMetrics.configure do
   # add_metric :project_metric_commit_message
 
   add_hierarchy metric: [%I[test_coverage code_climate travis_ci heroku_status point_distribution],
-                         %I[github_flow pull_requests github_branch github_use story_overall]]
+                         %I[github_flow pull_requests github_branch tracker_activities github_use story_overall]]
 end
 
 METRIC_NAMES = {
@@ -30,5 +31,6 @@ METRIC_NAMES = {
   # commit_message: 'Commit Message',
   heroku_status: 'Heroku Status',
   github_use: 'GitHub Use',
-  github_branch: 'Github Branch'
+  github_branch: 'Github Branch',
+  tracker_activities: 'Tracker Activities'
 }.freeze

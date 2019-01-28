@@ -11,6 +11,7 @@ gem 'project_metric_point_estimation', git: 'https://github.com/an-ju/project_me
 gem 'project_metric_story_overall', git: 'https://github.com/an-ju/project_metric_story_overall.git'
 gem 'project_metric_test_coverage', git: 'https://github.com/an-ju/project_metric_test_coverage.git'
 gem 'project_metric_pull_requests', git: 'https://github.com/an-ju/project_metric_pull_requests.git'
+gem 'project_metric_tracker_activities', git: 'https://github.com/an-ju/project_metric_tracker_activities'
 gem 'project_metric_travis_ci', git: 'https://github.com/an-ju/project_metric_travis_ci.git'
 gem 'project_metric_github_branch', git: 'https://github.com/an-ju/project_metric_github_branch.git'
 gem 'project_metric_github_files', git: 'https://github.com/an-ju/project_metric_github_files.git'
