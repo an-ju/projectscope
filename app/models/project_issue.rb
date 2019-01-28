@@ -95,7 +95,6 @@ class ProjectIssue < ApplicationRecord
 
   def self.heroku_not_accessible(project, version, _)
     curr = project.metric_samples.find_by(metric_name: 'heroku_status', data_version: version)
-
     return if curr.nil?
 
     web_status = curr.image['data']['web_status']
@@ -103,6 +102,38 @@ class ProjectIssue < ApplicationRecord
       create( project: project,
               name: 'webpage_not_accessible',
               content: "Access to Heroku app has status: #{web_status}",
+              data_version: version,
+              evidence: { curr: curr.id })
+    end
+  end
+
+  def self.unfinished_backlog(project, version, _)
+    curr = project.metric_samples.find_by(metric_name: 'point_distribution', data_version: version)
+    return if curr.nil?
+
+    planned = curr.image['data']['planned']
+    started = curr.image['data']['started']
+    finished = curr.image['data']['finished']
+    if planned.length > 0
+      create( project: project,
+              name: 'unfinished_backlog',
+              content: "Story planned but not finished: #{planned.length}",
+              data_version: version,
+              evidence: { curr: curr.id })
+    end
+
+    if started.length > 0
+      create( project: project,
+              name: 'unfinished_backlog',
+              content: "Story started but not finished: #{started.length}",
+              data_version: version,
+              evidence: { curr: curr.id })
+    end
+
+    if finished.length > 0
+      create( project: project,
+              name: 'unfinished_backlog',
+              content: "Story finished but not delivered: #{finished.length}",
               data_version: version,
               evidence: { curr: curr.id })
     end

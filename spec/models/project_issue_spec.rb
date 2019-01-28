@@ -94,4 +94,22 @@ RSpec.describe ProjectIssue, type: :model do
     end
 
   end
+
+  context 'pivotal tracker' do
+    before :each do
+      @p = create(:project)
+      @m1 = create( :project_metric_point_distribution,
+                    project: @p,
+                    image: { data: { planned: [nil, nil, nil],
+                                     started: [nil, nil],
+                                     finished: [nil] }})
+    end
+
+    describe 'unfinished_backlog' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).exactly(3).times
+        described_class.unfinished_backlog(@p, @m1.data_version, nil)
+      end
+    end
+  end
 end
