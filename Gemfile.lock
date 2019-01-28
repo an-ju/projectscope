@@ -89,6 +89,13 @@ GIT
       faraday (~> 0.12.0)
 
 GIT
+  remote: https://github.com/an-ju/project_metric_tracker_activities
+  revision: c24d8f6b11e2f8a359a1f476ef1a97027576b3d5
+  specs:
+    project_metric_tracker_activities (0.1.0)
+      faraday
+
+GIT
   remote: https://github.com/an-ju/project_metric_travis_ci.git
   revision: b022337890168cd6c0d84a3154fabc457f613416
   specs:
@@ -502,6 +509,7 @@ DEPENDENCIES
   project_metric_pull_requests!
   project_metric_story_overall!
   project_metric_test_coverage!
+  project_metric_tracker_activities!
   project_metric_travis_ci!
   project_metrics!
   puma (~> 3.11)
