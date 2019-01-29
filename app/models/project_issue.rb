@@ -181,4 +181,36 @@ class ProjectIssue < ApplicationRecord
     end
   end
 
+  def self.branch_name(project, v1, v2)
+    metrics = project.raw_data.where("name=? AND data_version >= ? AND data_version <= ?",
+                                     'github_branches', v2, v1)
+    story_data = project.raw_data.find_by(name: 'tracker_stories', data_version: v1)
+    sids = story_data.content.map { |s| s['id'].to_i }
+
+    commit_shas = {}
+    all_branches = metrics.flat_map do |m|
+      m.content.select do |br|
+        if commit_shas.key? br['commit']['sha']
+          false
+        else
+          commit_shas[br['commit']['sha']] = br['name']
+          true
+        end
+      end
+    end
+    name_pattern = /^(\d+).*$/
+    bad_branches = all_branches.reject do |br|
+      match =  name_pattern.match(br['name'])
+      match.nil? ? false : (sids.include? match[0].to_i)
+    end
+
+    bad_branches.each do |br|
+      create( project: project,
+              name: 'branch_name',
+              content: "Branch name does not specify a story: #{br['name']}",
+              data_version: v1,
+              evidence: { curr: br, story_ids: sids })
+    end
+  end
+
 end

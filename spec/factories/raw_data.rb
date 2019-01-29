@@ -28,4 +28,14 @@ FactoryBot.define do
     name { 'tracker_memberships' }
     sequence(:data_version) { |n| n }
   end
+
+  factory :tracker_stories, class: RawData do
+    name { 'tracker_stories' }
+    sequence(:data_version) { |n| n }
+  end
+
+  factory :github_branches, class: RawData do
+    name { 'github_branches' }
+    sequence(:data_version) { |n| n }
+  end
 end

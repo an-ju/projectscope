@@ -159,4 +159,27 @@ RSpec.describe ProjectIssue, type: :model do
       end
     end
   end
+
+  context 'github branches' do
+    before :each do
+      @p = create(:project)
+      @m1 = create( :github_branches, project: @p,
+                    content: [{name: 'b1', commit: {sha: 'sha1'}},
+                              {name: '1b2', commit: {sha: 'sha2'}}])
+      @m2 = create( :github_branches, project: @p,
+                    content: [{name: 'b1', commit: {sha: 'sha1'}},
+                              {name: '2b3', commit: {sha: 'sha3'}}])
+      @m3 = create( :github_branches, project: @p,
+                    content: [{name: '4b4', commit: {sha: 'sha4'}}])
+      create( :tracker_stories, project: @p, data_version: @m3.data_version,
+              content: [{id: 1}, {id: 2}, {id: 3}])
+    end
+
+    describe 'branch_name' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).exactly(2).times
+        described_class.branch_name(@p, @m3.data_version, @m1.data_version)
+      end
+    end
+  end
 end
