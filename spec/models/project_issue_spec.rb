@@ -102,13 +102,30 @@ RSpec.describe ProjectIssue, type: :model do
                     project: @p,
                     image: { data: { planned: [nil, nil, nil],
                                      started: [nil, nil],
-                                     finished: [nil] }})
+                                     finished: [nil],
+                                     delivered: [{ id: 1, owner_ids: [1, 2] }] }})
+      @m2 = create( :project_metric_point_distribution,
+                    project: @p,
+                    image: { data: { delivered: [{ id: 1, owner_ids: [1, 2]},
+                                                 { id: 2, owner_ids: [1] }]}})
+      create(:tracker_memberships,
+             project: @p,
+             data_version: @m2.data_version,
+             content: [ { id: 1, person: { name: 'test A' } },
+                        { id: 2, person: { name: 'test B' } } ])
     end
 
     describe 'unfinished_backlog' do
       it 'detects the issue' do
         expect(described_class).to receive(:create).exactly(3).times
         described_class.unfinished_backlog(@p, @m1.data_version, nil)
+      end
+    end
+
+    describe 'no_slacking_tracker' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).once
+        described_class.no_slacking_tracker(@p, @m2.data_version, @m1.data_version)
       end
     end
   end

@@ -23,4 +23,9 @@ FactoryBot.define do
     end
     sequence(:data_version) { |n| n }
   end
+
+  factory :tracker_memberships, class: RawData do
+    name { 'tracker_memberships' }
+    sequence(:data_version) { |n| n }
+  end
 end

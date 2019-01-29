@@ -156,4 +156,29 @@ class ProjectIssue < ApplicationRecord
     end
   end
 
+  def self.no_slacking_tracker(project, v1, v2)
+    curr = project.metric_samples.find_by(metric_name: 'point_distribution', data_version: v1)
+    prev = project.metric_samples.find_by(metric_name: 'point_distribution', data_version: v2)
+    memb = project.raw_data.find_by(name: 'tracker_memberships', data_version: v1)
+    memberships = memb.content
+    uids = memberships.map { |usr| usr['id'] }
+    return if curr.nil? or prev.nil?
+
+    curr_stories = curr.image['data']['delivered']
+    prev_sids = prev.image['data']['delivered'].map { |el| el['id'] }
+    new_stories = curr_stories.reject { |el| prev_sids.include? el['id'] }
+
+    authors = new_stories.flat_map { |el| el['owner_ids'] }
+
+    uids = uids.reject { |uid| authors.include? uid }
+    uids.each do |uid|
+      uname = memberships.find { |usr| usr['id'].eql? uid }['person']['name']
+      create( project: project,
+              name: 'slacking',
+              content: "No delivered stories found from user #{uname}.",
+              data_version: v1,
+              evidence: { curr: curr.id, prev: prev.id, members: memb.id })
+    end
+  end
+
 end
