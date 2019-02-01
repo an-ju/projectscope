@@ -15,6 +15,7 @@
     import GithubUse from 'metrics/github_use'
     import GithubBranch from 'metrics/github_branch'
     import TrackerActivities from 'metrics/tracker_activities'
+    import CycleTime from 'metrics/cycle_time'
 
     export default {
         name: "metric-table-project-metric",
@@ -42,7 +43,8 @@
             'heroku_status': HerokuStatus,
             'github_use': GithubUse,
             'github_branch': GithubBranch,
-            'tracker_activities': TrackerActivities
+            'tracker_activities': TrackerActivities,
+            'cycle_time': CycleTime
         }
     }
 </script>

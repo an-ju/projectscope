@@ -156,6 +156,18 @@ class ProjectIssue < ApplicationRecord
     end
   end
 
+  def self.fast_story_transition(project, v1, v2)
+    raw_data = project.raw_data.where("name=? AND data_version >= ? AND data_version <= ?",
+                                      'tracker_activities', v2, v1)
+    update_activities = raw_data.flat_map { |el| el.content }
+                            .uniq { |el| el['guid'] }
+                            .select { |el| el['kind'].eql? 'story_update_activity' }
+    stories_activities = update_activities.group_by { |act| act['primary_resources'].first['id'] }
+    stories_dev_time = stories_activities.each do |s, events|
+
+    end
+  end
+
   def self.no_slacking_tracker(project, v1, v2)
     curr = project.metric_samples.find_by(metric_name: 'point_distribution', data_version: v1)
     prev = project.metric_samples.find_by(metric_name: 'point_distribution', data_version: v2)

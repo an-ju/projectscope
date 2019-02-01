@@ -19,6 +19,13 @@ GIT
       octokit (~> 4.0)
 
 GIT
+  remote: https://github.com/an-ju/project_metric_cycle_time.git
+  revision: ab7053c765f1f9e078089c12c92b261619fbd68a
+  specs:
+    project_metric_cycle_time (0.1.0)
+      faraday
+
+GIT
   remote: https://github.com/an-ju/project_metric_github_branch.git
   revision: f976384de120a85690c2f66b9d162e16fd20d0f3
   specs:
@@ -499,6 +506,7 @@ DEPENDENCIES
   project_metric_base!
   project_metric_code_climate!
   project_metric_commit_message!
+  project_metric_cycle_time!
   project_metric_github_branch!
   project_metric_github_files!
   project_metric_github_flow!
