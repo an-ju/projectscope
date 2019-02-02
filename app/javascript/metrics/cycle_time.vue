@@ -8,7 +8,7 @@
             <li v-for="story in image.data.all_stories">
                 <div class="px-2" :class="text_color(story)">
                     <p>{{ story.name }}</p>
-                    <p class="text-base">{{ cycle_time_display(story.cycle_time_details.total_cycle_time )}}</p>
+                    <p class="text-base">{{ cycle_time_display(cycle_time(story)) }}</p>
                 </div>
             </li>
         </ul>
@@ -45,6 +45,9 @@
                 } else {
                     return 'text-orange-dark'
                 }
+            },
+            cycle_time(s) {
+                return s.cycle_time_details.total_cycle_time - s.cycle_time_details.delivered_time
             }
         }
     }

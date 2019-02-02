@@ -20,9 +20,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_cycle_time.git
-  revision: d82a12953872ba47cb5ee127c9e0f6a06c9ddadd
+  revision: d2fb9155b4b3e21381f6050f443c19549785ce4e
   specs:
-    project_metric_cycle_time (0.1.3)
+    project_metric_cycle_time (0.1.4)
       faraday
 
 GIT
