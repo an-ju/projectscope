@@ -18,4 +18,9 @@ FactoryBot.define do
     metric_name { 'tracker_activities' }
     sequence(:data_version) { |n| n }
   end
+
+  factory :project_metric_cycle_time, class: MetricSample do
+    metric_name { 'cycle_time' }
+    sequence(:data_version) { |n| n }
+  end
 end

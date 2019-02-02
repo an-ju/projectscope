@@ -225,4 +225,31 @@ class ProjectIssue < ApplicationRecord
     end
   end
 
+  def self.story_cycle_time(project, v1, v2)
+    metric = project.metric_samples.find_by(metric_name: 'cycle_time', data_version: v1)
+    prev_metric = project.metric_samples.find_by(metric_name: 'cycle_time', data_version: v2)
+    return if metric.nil? or prev_metric.nil?
+
+    prev_stories = prev_metric.image['data']['delivered_stories'].map { |el| el['id'] }
+    stories = metric.image['data']['delivered_stories']
+    stories.reject { |el| prev_stories.include? el['id'] }.each do |s|
+      cycle_time = s['cycle_time_details']['total_cycle_time'] - s['cycle_time_details']['delivered_time']
+      if cycle_time < 3600 * 1000
+        create( project: project,
+                name: 'short_cycle_time',
+                content: "Cycle time of story #{s['name']}(#{s['id']}) is less than 1 hour.",
+                data_version: v1,
+                evidence: { curr: metric.id } )
+      end
+
+      if cycle_time > 5 * 24 * 3600 * 1000
+        create( project: project,
+                name: 'long_cycle_time',
+                content: "Cycle time of story #{s['name']}(#{s['id']}) is longer than 5 days.",
+                data_version: v1,
+                evidence: { curr: metric.id })
+      end
+    end
+  end
+
 end

@@ -182,4 +182,36 @@ RSpec.describe ProjectIssue, type: :model do
       end
     end
   end
+
+  context 'cycle time' do
+    before :each do
+      @p = create(:project)
+      @m1 = create( :project_metric_cycle_time, project: @p,
+                    image: { data: { delivered_stories:[
+                        {id: 1}, {id: 2}
+                    ]}})
+      @m2 = create( :project_metric_cycle_time, project: @p,
+                    image: { data: { delivered_stories: [
+                        {id: 1},
+                        {id: 2},
+                        {id: 3, name: 's3',
+                         cycle_time_details: { total_cycle_time: 5 * 1000 * 3600,
+                                               delivered_time: 0 }},
+                        {id: 4, name: 's4',
+                         cycle_time_details: { total_cycle_time: 1000 * 10,
+                                               delivered_time: 1 }},
+                        {id: 5, name: 's5',
+                         cycle_time_details: { total_cycle_time: 10 * 24 * 3600 * 1000,
+                                               delivered_time: 0 }}
+                    ]}})
+    end
+
+    describe 'story_cycle_time' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).with(hash_including(name: 'short_cycle_time')).once
+        expect(described_class).to receive(:create).with(hash_including(name: 'long_cycle_time')).once
+        described_class.story_cycle_time(@p, @m2.data_version, @m1.data_version)
+      end
+    end
+  end
 end
