@@ -214,4 +214,37 @@ RSpec.describe ProjectIssue, type: :model do
       end
     end
   end
+
+  context 'github pull request events' do
+    before :each do
+      @p = create(:project)
+      @m1 = create( :github_events, project: @p,
+                    content: [{ type: 'PullRequestEvent',
+                               id: 1,
+                               payload: { action: 'closed',
+                                          pull_request: { comments: 0 }}},
+                              { type: 'PullRequestEvent',
+                                id: 2,
+                                payload: { action: 'closed',
+                                           pull_request: { comments: 1}}},
+                              { type: 'OtherEvent' } ])
+      @m2 = create( :github_events, project: @p,
+                    content: [{ type: 'PullRequestEvent',
+                                id: 1,
+                                payload: { action: 'closed',
+                                           pull_request: { comments: 0}}},
+                              { type: 'PullRequestEvent',
+                                id: 3,
+                                payload: { action: 'closed',
+                                           pull_request: { comments: 0}}},
+                              { type: 'OtherEvent'}])
+    end
+
+    describe 'pr_comments' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).exactly(2).times
+        described_class.pr_comments(@p, @m2.data_version, @m1.data_version)
+      end
+    end
+  end
 end

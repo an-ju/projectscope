@@ -200,16 +200,7 @@ class ProjectIssue < ApplicationRecord
     sids = story_data.content.map { |s| s['id'].to_i }
 
     commit_shas = {}
-    all_branches = metrics.flat_map do |m|
-      m.content.select do |br|
-        if commit_shas.key? br['commit']['sha']
-          false
-        else
-          commit_shas[br['commit']['sha']] = br['name']
-          true
-        end
-      end
-    end
+    all_branches = metrics.flat_map(&:content).uniq { |br| br['commit']['sha'] }
     name_pattern = /^(\d+).*$/
     bad_branches = all_branches.reject do |br|
       match =  name_pattern.match(br['name'])
@@ -250,6 +241,24 @@ class ProjectIssue < ApplicationRecord
                 evidence: { curr: metric.id })
       end
     end
+  end
+
+  def self.pr_comments(project, v1, v2)
+    raw_data = project.raw_data.where('name=? AND data_version >= ? AND data_version <= ?',
+                                      'github_events', v2, v1)
+    pr_events = raw_data.flat_map(&:content)
+                  .select { |event| event['type'].eql? 'PullRequestEvent' }
+                  .uniq { |event| event['id'] }
+    pr_events.select { |event| event['payload']['action'].eql? 'closed' }.each do |event|
+      if event['payload']['pull_request']['comments'] < 1
+        create( project: project,
+                name: 'pr_comments',
+                content: "Pull request #{event['payload']['number']} is closed without a comment.",
+                data_version: v1,
+                evidence: { pr_events: pr_events })
+      end
+    end
+
   end
 
 end
