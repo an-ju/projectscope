@@ -1,6 +1,6 @@
 <template>
     <p v-if="null_data"> No Data </p>
-   <component v-else :is="this.metric_name" :d="this.d" :s="this.s" :image="image"></component>
+   <component v-else :is="this.metric_name" :image="image" :metric="metric"></component>
 </template>
 
 <script>
@@ -15,6 +15,7 @@
     import GithubUse from 'metrics/github_use'
     import GithubBranch from 'metrics/github_branch'
     import TrackerActivities from 'metrics/tracker_activities'
+    import CycleTime from 'metrics/cycle_time'
 
     export default {
         name: "metric-table-project-metric",
@@ -28,7 +29,10 @@
                 return this.d === 'null'
             },
             image: function () {
-                return JSON.parse(this.d)['image']
+                return this.metric.image
+            },
+            metric: function() {
+                return JSON.parse(this.d)
             }
         },
         components: {
@@ -42,7 +46,8 @@
             'heroku_status': HerokuStatus,
             'github_use': GithubUse,
             'github_branch': GithubBranch,
-            'tracker_activities': TrackerActivities
+            'tracker_activities': TrackerActivities,
+            'cycle_time': CycleTime
         }
     }
 </script>

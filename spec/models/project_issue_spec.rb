@@ -182,4 +182,87 @@ RSpec.describe ProjectIssue, type: :model do
       end
     end
   end
+
+  context 'cycle time' do
+    before :each do
+      @p = create(:project)
+      @m1 = create( :project_metric_cycle_time, project: @p,
+                    image: { data: { delivered_stories:[
+                        {id: 1}, {id: 2}
+                    ]}})
+      @m2 = create( :project_metric_cycle_time, project: @p,
+                    image: { data: { delivered_stories: [
+                        {id: 1},
+                        {id: 2},
+                        {id: 3, name: 's3',
+                         cycle_time_details: { total_cycle_time: 5 * 1000 * 3600,
+                                               delivered_time: 0 }},
+                        {id: 4, name: 's4',
+                         cycle_time_details: { total_cycle_time: 1000 * 10,
+                                               delivered_time: 1 }},
+                        {id: 5, name: 's5',
+                         cycle_time_details: { total_cycle_time: 10 * 24 * 3600 * 1000,
+                                               delivered_time: 0 }}
+                    ]}})
+    end
+
+    describe 'story_cycle_time' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).with(hash_including(name: 'short_cycle_time')).once
+        expect(described_class).to receive(:create).with(hash_including(name: 'long_cycle_time')).once
+        described_class.story_cycle_time(@p, @m2.data_version, @m1.data_version)
+      end
+    end
+  end
+
+  context 'github pull request events' do
+    before :each do
+      @p = create(:project)
+      @m1 = create( :github_events, project: @p,
+                    content: [{ type: 'PullRequestEvent', id: 1,
+                                payload: { action: 'opened', pull_request: {number: 1 }},
+                                created_at: '2011-09-06T17:26:27Z'},
+                              { type: 'PullRequestEvent', id: 2,
+                                payload: { action: 'opened', pull_request: {number: 2}},
+                                created_at: '2011-09-06T17:26:27Z' },
+                              { type: 'PullRequestReviewEvent', id: 3,
+                                payload: { action: 'submitted', pull_request: {number: 1}},
+                                created_at: '2011-09-19T17:26:27Z' },
+                              { type: 'PullRequestEvent',  id: 4,
+                               payload: { action: 'closed', number: 1,
+                                          pull_request: { comments: 0, number: 1 }}},
+                              { type: 'PullRequestEvent', id: 5,
+                                payload: { action: 'closed', number: 2,
+                                           pull_request: { comments: 1}}},
+                              { type: 'OtherEvent' } ])
+      @m2 = create( :github_events, project: @p,
+                    content: [{ type: 'PullRequestReviewEvent', id: 3,
+                                payload: { action: 'submitted', pull_request: {number: 1}},
+                                created_at: '2011-09-19T17:26:27Z' },
+                              { type: 'PullRequestEvent', id: 4,
+                                payload: { action: 'closed', number: 1,
+                                           pull_request: { comments: 0, number: 1}}},
+                              { type: 'PullRequestEvent', id: 6,
+                                payload: { action: 'closed', number: 3,
+                                           pull_request: { comments: 0, number: 3}}},
+                              { type: 'PullRequestReviewEvent', id: 6,
+                                payload: { action: 'submitted', pull_request: {number: 2}},
+                                created_at: '2011-09-07T17:26:27Z' },
+                              { type: 'OtherEvent'}])
+    end
+
+    describe 'pr_comments' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).exactly(2).times
+        described_class.pr_comments(@p, @m2.data_version, @m1.data_version)
+      end
+    end
+
+    describe 'pr_response_time' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).exactly(1).times
+        described_class.pr_response_time(@p, @m2.data_version, @m1.data_version)
+      end
+    end
+  end
 end

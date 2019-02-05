@@ -156,6 +156,18 @@ class ProjectIssue < ApplicationRecord
     end
   end
 
+  def self.fast_story_transition(project, v1, v2)
+    raw_data = project.raw_data.where("name=? AND data_version >= ? AND data_version <= ?",
+                                      'tracker_activities', v2, v1)
+    update_activities = raw_data.flat_map { |el| el.content }
+                            .uniq { |el| el['guid'] }
+                            .select { |el| el['kind'].eql? 'story_update_activity' }
+    stories_activities = update_activities.group_by { |act| act['primary_resources'].first['id'] }
+    stories_dev_time = stories_activities.each do |s, events|
+
+    end
+  end
+
   def self.no_slacking_tracker(project, v1, v2)
     curr = project.metric_samples.find_by(metric_name: 'point_distribution', data_version: v1)
     prev = project.metric_samples.find_by(metric_name: 'point_distribution', data_version: v2)
@@ -188,16 +200,7 @@ class ProjectIssue < ApplicationRecord
     sids = story_data.content.map { |s| s['id'].to_i }
 
     commit_shas = {}
-    all_branches = metrics.flat_map do |m|
-      m.content.select do |br|
-        if commit_shas.key? br['commit']['sha']
-          false
-        else
-          commit_shas[br['commit']['sha']] = br['name']
-          true
-        end
-      end
-    end
+    all_branches = metrics.flat_map(&:content).uniq { |br| br['commit']['sha'] }
     name_pattern = /^(\d+).*$/
     bad_branches = all_branches.reject do |br|
       match =  name_pattern.match(br['name'])
@@ -210,6 +213,74 @@ class ProjectIssue < ApplicationRecord
               content: "Branch name does not specify a story: #{br['name']}",
               data_version: v1,
               evidence: { curr: br, story_ids: sids })
+    end
+  end
+
+  def self.story_cycle_time(project, v1, v2)
+    metric = project.metric_samples.find_by(metric_name: 'cycle_time', data_version: v1)
+    prev_metric = project.metric_samples.find_by(metric_name: 'cycle_time', data_version: v2)
+    return if metric.nil? or prev_metric.nil?
+
+    prev_stories = prev_metric.image['data']['delivered_stories'].map { |el| el['id'] }
+    stories = metric.image['data']['delivered_stories']
+    stories.reject { |el| prev_stories.include? el['id'] }.each do |s|
+      cycle_time = s['cycle_time_details']['total_cycle_time'] - s['cycle_time_details']['delivered_time']
+      if cycle_time < 3600 * 1000
+        create( project: project,
+                name: 'short_cycle_time',
+                content: "Cycle time of story #{s['name']}(#{s['id']}) is less than 1 hour.",
+                data_version: v1,
+                evidence: { curr: metric.id } )
+      end
+
+      if cycle_time > 5 * 24 * 3600 * 1000
+        create( project: project,
+                name: 'long_cycle_time',
+                content: "Cycle time of story #{s['name']}(#{s['id']}) is longer than 5 days.",
+                data_version: v1,
+                evidence: { curr: metric.id })
+      end
+    end
+  end
+
+  def self.pr_comments(project, v1, v2)
+    raw_data = project.raw_data.where('name=? AND data_version >= ? AND data_version <= ?',
+                                      'github_events', v2, v1)
+    pr_events = raw_data.flat_map(&:content)
+                  .select { |event| event['type'].eql? 'PullRequestEvent' }
+                  .uniq { |event| event['id'] }
+    pr_events.select { |event| event['payload']['action'].eql? 'closed' }.each do |event|
+      if event['payload']['pull_request']['comments'] < 1
+        create( project: project,
+                name: 'pr_comments',
+                content: "Pull request #{event['payload']['number']} is closed without a comment.",
+                data_version: v1,
+                evidence: { pr_events: pr_events })
+      end
+    end
+  end
+
+  def self.pr_response_time(project, v1, v2)
+    raw_data = project.raw_data.where('name=? AND data_version >= ? AND data_version <= ?',
+                                      'github_events', v2, v1)
+    pr_events = raw_data.flat_map(&:content)
+                    .select { |event| event['type'].eql?('PullRequestEvent') || event['type'].eql?('PullRequestReviewEvent')}
+                    .uniq { |event| event['id'] }
+    pr_numbers = pr_events.group_by { |event| event['payload']['pull_request']['number'] }
+    pr_numbers.each do |pr_num, events|
+      create_evnt = events.find { |e| e['payload']['action'].eql? 'opened' }
+      comment_evnt = events.find { |e| e['payload']['action'].eql? 'submitted' }
+      next if create_evnt.nil? || comment_evnt.nil?
+
+      create_time = Time.iso8601 create_evnt['created_at']
+      comment_time = Time.iso8601 comment_evnt['created_at']
+      if comment_time - create_time > 24 * 3600 * 2
+        create( project: project,
+                name: 'long_response_time',
+                content: "Response time for PR #{pr_num} is longer than two days.",
+                data_version: v1,
+                evidence: { pr_events: events})
+      end
     end
   end
 

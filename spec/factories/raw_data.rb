@@ -38,4 +38,9 @@ FactoryBot.define do
     name { 'github_branches' }
     sequence(:data_version) { |n| n }
   end
+
+  factory :github_events, class: RawData do
+    name { 'github_events' }
+    sequence(:data_version) { |n| n }
+  end
 end
