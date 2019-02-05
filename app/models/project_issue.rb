@@ -258,7 +258,30 @@ class ProjectIssue < ApplicationRecord
                 evidence: { pr_events: pr_events })
       end
     end
+  end
 
+  def self.pr_response_time(project, v1, v2)
+    raw_data = project.raw_data.where('name=? AND data_version >= ? AND data_version <= ?',
+                                      'github_events', v2, v1)
+    pr_events = raw_data.flat_map(&:content)
+                    .select { |event| event['type'].eql?('PullRequestEvent') || event['type'].eql?('PullRequestReviewEvent')}
+                    .uniq { |event| event['id'] }
+    pr_numbers = pr_events.group_by { |event| event['payload']['pull_request']['number'] }
+    pr_numbers.each do |pr_num, events|
+      create_evnt = events.find { |e| e['payload']['action'].eql? 'opened' }
+      comment_evnt = events.find { |e| e['payload']['action'].eql? 'submitted' }
+      next if create_evnt.nil? || comment_evnt.nil?
+
+      create_time = Time.iso8601 create_evnt['created_at']
+      comment_time = Time.iso8601 comment_evnt['created_at']
+      if comment_time - create_time > 24 * 3600 * 2
+        create( project: project,
+                name: 'long_response_time',
+                content: "Response time for PR #{pr_num} is longer than two days.",
+                data_version: v1,
+                evidence: { pr_events: events})
+      end
+    end
   end
 
 end

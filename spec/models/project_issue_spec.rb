@@ -219,24 +219,35 @@ RSpec.describe ProjectIssue, type: :model do
     before :each do
       @p = create(:project)
       @m1 = create( :github_events, project: @p,
-                    content: [{ type: 'PullRequestEvent',
-                               id: 1,
-                               payload: { action: 'closed',
-                                          pull_request: { comments: 0 }}},
-                              { type: 'PullRequestEvent',
-                                id: 2,
-                                payload: { action: 'closed',
+                    content: [{ type: 'PullRequestEvent', id: 1,
+                                payload: { action: 'opened', pull_request: {number: 1 }},
+                                created_at: '2011-09-06T17:26:27Z'},
+                              { type: 'PullRequestEvent', id: 2,
+                                payload: { action: 'opened', pull_request: {number: 2}},
+                                created_at: '2011-09-06T17:26:27Z' },
+                              { type: 'PullRequestReviewEvent', id: 3,
+                                payload: { action: 'submitted', pull_request: {number: 1}},
+                                created_at: '2011-09-19T17:26:27Z' },
+                              { type: 'PullRequestEvent',  id: 4,
+                               payload: { action: 'closed', number: 1,
+                                          pull_request: { comments: 0, number: 1 }}},
+                              { type: 'PullRequestEvent', id: 5,
+                                payload: { action: 'closed', number: 2,
                                            pull_request: { comments: 1}}},
                               { type: 'OtherEvent' } ])
       @m2 = create( :github_events, project: @p,
-                    content: [{ type: 'PullRequestEvent',
-                                id: 1,
-                                payload: { action: 'closed',
-                                           pull_request: { comments: 0}}},
-                              { type: 'PullRequestEvent',
-                                id: 3,
-                                payload: { action: 'closed',
-                                           pull_request: { comments: 0}}},
+                    content: [{ type: 'PullRequestReviewEvent', id: 3,
+                                payload: { action: 'submitted', pull_request: {number: 1}},
+                                created_at: '2011-09-19T17:26:27Z' },
+                              { type: 'PullRequestEvent', id: 4,
+                                payload: { action: 'closed', number: 1,
+                                           pull_request: { comments: 0, number: 1}}},
+                              { type: 'PullRequestEvent', id: 6,
+                                payload: { action: 'closed', number: 3,
+                                           pull_request: { comments: 0, number: 3}}},
+                              { type: 'PullRequestReviewEvent', id: 6,
+                                payload: { action: 'submitted', pull_request: {number: 2}},
+                                created_at: '2011-09-07T17:26:27Z' },
                               { type: 'OtherEvent'}])
     end
 
@@ -244,6 +255,13 @@ RSpec.describe ProjectIssue, type: :model do
       it 'detects the issue' do
         expect(described_class).to receive(:create).exactly(2).times
         described_class.pr_comments(@p, @m2.data_version, @m1.data_version)
+      end
+    end
+
+    describe 'pr_response_time' do
+      it 'detects the issue' do
+        expect(described_class).to receive(:create).exactly(1).times
+        described_class.pr_response_time(@p, @m2.data_version, @m1.data_version)
       end
     end
   end
