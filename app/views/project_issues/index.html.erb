@@ -1,0 +1,7 @@
+<%- @project.project_issues.each do |issue| %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <p><%= issue.content %></p>
+    </div>
+  </div>
+<% end %>
