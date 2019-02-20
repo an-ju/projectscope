@@ -26,11 +26,4 @@ RSpec.feature "Student Pages", type: :feature do
     visit project_path(@p)
     expect(page).to have_content @iter.name
   end
-
-  scenario 'shows project issues' do
-    sign_in_admin
-    visit project_path(@p)
-    expect(page).to have_content(@issue_2.name)
-  end
-
 end

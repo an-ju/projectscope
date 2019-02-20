@@ -55,6 +55,9 @@ projects_list.each do |project|
                     metrics_params: param)
     end
   end
+  ProjectIssue.create(name: 'test', content: 'This is test 1.', data_version: 1, project: project)
+  ProjectIssue.create(name: 'test', content: 'This is test 2.', data_version: 1, project: project)
+  ProjectIssue.create(name: 'test', content: 'This is test 3.', data_version: 1, project: project)
 end
 
 @user01 = User.create!(provider_username: "Admin", uid: "uadmin", email: 'uadmin@example.com',

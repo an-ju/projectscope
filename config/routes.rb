@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     end
   end
   resources :projects do
+    resources :project_issues
     member do
       post '/add_owner', to: 'projects#add_owner'
       get '/metrics/:metric/detail', to: 'projects#show_metric'
