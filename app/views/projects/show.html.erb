@@ -1,7 +1,7 @@
 <div class="col-md-6">
-  <h1><%= @project.name %></h1>
+  <div class="text-5xl text-black"><%= @project.name %></div>
 </div>
-<div class="col-md-6">
+<div class="col-md-6 float-right">
   <%= link_to 'Config', edit_project_path(@project), class: 'btn btn-default' %>
 </div>
 
@@ -21,7 +21,10 @@
                    locals: { project: @project, metric_name: metric_name, days_from_now: @days_from_now } %>
       </div>
       <div class="col-md-3">
-        Score: <%= @project.metric_on_date(metric_name, Date.today - @days_from_now.days).last.score %>
+        <%- latest_metric = @project.metric_on_date(metric_name, Date.today - @days_from_now.days).last %>
+        <%- if latest_metric %>
+          Score: <%= @project.metric_on_date(metric_name, Date.today - @days_from_now.days).last.score %>
+        <% end %>
       </div>
 
     </div>
