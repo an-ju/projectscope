@@ -1,4 +1,12 @@
 FactoryBot.define do
+  factory :project_metric_code_climate, class: MetricSample do
+    metric_name { 'code_climate' }
+    sequence(:data_version) { |n| n }
+  end
+  factory :project_metric_test_coverage, class: MetricSample do
+    metric_name { 'test_coverage' }
+    sequence(:data_version) { |n| n }
+  end
   factory :project_metric_travis_ci, class: MetricSample do
     metric_name { 'travis_ci' }
     sequence(:data_version) { |n| n }

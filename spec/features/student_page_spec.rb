@@ -8,9 +8,8 @@ end
 RSpec.feature "Student Pages", type: :feature do
   background do
     @p = create(:project)
+    %I[code_climate test_coverage heroku_status travis_ci point_distribution].each { |m| create("project_metric_#{m.to_s}".to_sym, project: @p, score: 100 )}
     @iter = create(:iteration, project: @p, start_time: Date.today - 3.days, end_time: Date.today + 3.days)
-    @issue_1 = create(:project_issue, project: @p)
-    @issue_2 = create(:project_issue, project: @p)
   end
 
 
