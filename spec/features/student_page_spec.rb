@@ -9,10 +9,7 @@ RSpec.feature "Student Pages", type: :feature do
   background do
     @p = create(:project)
     @iter = create(:iteration, project: @p, start_time: Date.today - 3.days, end_time: Date.today + 3.days)
-    @issue_1 = create(:project_issue, project: @p)
-    @issue_2 = create(:project_issue, project: @p)
   end
-
 
   scenario 'shows a project' do
     sign_in_admin

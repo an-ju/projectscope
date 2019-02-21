@@ -38,4 +38,28 @@ module ProjectsHelper
       'label-danger'
     end
   end
+
+  def get_gpa(metric)
+    if metric > 90
+      'A'
+    elsif metric > 75
+      'B'
+    elsif metric > 60
+      'C'
+    else
+      'D'
+    end
+  end
+
+  def get_gpa_color(metric)
+    if metric > 90
+      'green-dark'
+    elsif metric > 75
+      'orange-dark'
+    elsif metric > 60
+      'yellow-dark'
+    else
+      'red-dark'
+    end
+  end
 end

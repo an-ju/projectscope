@@ -1,0 +1,5 @@
+<%= content_tag('metric-table-project-metric', '',
+                id: "project-#{project.id}-metric-#{metric_name}",
+                metric_name: metric_name,
+                d: project.metric_on_date(metric_name, Date.today - days_from_now.days).last.to_json(only: %I[id project_id metric_name image score created_at]),
+                s: project.metric_series(metric_name, Date.today - days_from_now.days).to_json(only: %I[id project_id metric_name score created_at])) %>
