@@ -91,6 +91,7 @@ group :development, :test do
   gem 'binding_of_caller'
   gem "jasmine"
   gem 'jasmine-jquery-rails'
+  gem 'rb-readline'
 end
 
 group :test do
