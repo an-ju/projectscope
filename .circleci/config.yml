@@ -64,6 +64,7 @@ jobs: # a collection of steps
                             --format RspecJunitFormatter \
                             --out test_results/rspec.xml \
                             --format progress \
+                            --exclude-pattern "spec/need_tokens/*" \
                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
     - run:
