@@ -36,5 +36,11 @@ RSpec.feature 'Read real metrics', type: :feature do
     expect(metric.image).to be_a(Hash)
     expect(metric.score).not_to be_nil
   end
+
+  scenario 'resample heroku_status' do
+    metric = p.build_metric_for('heroku_status', p.next_version_number)
+    expect(metric.image).to be_a(Hash)
+    expect(metric.score).not_to be_nil
+  end
 end
 
