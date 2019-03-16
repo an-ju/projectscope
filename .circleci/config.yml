@@ -65,7 +65,7 @@ jobs: # a collection of steps
                             --out test_results/rspec.xml \
                             --format progress \
                             --exclude-pattern "spec/need_tokens/*" \
-                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+    # $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
     - run:
         name: Run cucumber
