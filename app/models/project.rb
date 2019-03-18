@@ -77,12 +77,12 @@ class Project < ApplicationRecord
       image = metric.image
       score = metric.score
     rescue Exception => e
-      logger.fatal "Metric #{metric_name} for project #{name} exception: #{e.message}"
-      puts "Metric #{metric_name} for project #{name} exception: #{e.message}"
+      logger.fatal "(Compute) Metric #{metric_name} for project #{name} exception: #{e.message}"
+      puts "(Compute) Metric #{metric_name} for project #{name} exception: #{e.message}"
       return
     rescue Error => err
-      logger.fatal "Metric #{metric_name} for project #{name} error: #{err.message}"
-      puts "Metric #{metric_name} for project #{name} error: #{err.message}"
+      logger.fatal "(Compute) Metric #{metric_name} for project #{name} error: #{err.message}"
+      puts "(Compute) Metric #{metric_name} for project #{name} error: #{err.message}"
       return
     end
     metric_samples.create!( metric_name: metric_name,
@@ -96,12 +96,22 @@ class Project < ApplicationRecord
     credentials = get_credentials_for(metric_name)
     return nil if credentials.nil?
 
-    ProjectMetrics.class_for(metric_name).new(credentials, raw_data_record)
+    begin
+      ProjectMetrics.class_for(metric_name).new(credentials, raw_data_record)
+    rescue Exception => e
+      logger.fatal "(Initialize) Metric #{metric_name} for project #{name} exception: #{e.message}."
+      puts "(Initialize) Metric #{metric_name} for project #{name} exception: #{e.message}."
+      return nil
+    rescue Error => err
+      logger.fatal "(Initialize) Metric #{metric_name} for project #{name} error: #{err.message}."
+      puts "(Initialize) Metric #{metric_name} for project #{name} exception: #{e.message}."
+      return nil
+    end
   end
 
   def get_credentials_for(metric_name)
     config_for(metric_name).inject(Hash.new) do |chash, config|
-      return nil if config.token.empty? or config.nil?
+      return nil if config.nil? || config.token.empty?
       chash.update config.metrics_params.to_sym => config.token
     end
   end

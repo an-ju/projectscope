@@ -61,7 +61,7 @@ class ProjectsController < ApplicationController
     ProjectMetrics.metric_names.each do |m|
       ProjectMetrics.class_for(m).credentials.each do |param|
         if config_params.key? param.to_s
-          @project.configs << Config.new(metric_name: m, metrics_params: param, token: config_params[param])
+          @project.configs << Config.new(metric_name: m, metrics_params: param, token: config_params[param.to_s])
         end
       end
     end
