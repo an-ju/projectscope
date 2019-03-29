@@ -16,9 +16,9 @@ ProjectMetrics.configure do
   # add_metric :project_metric_github_files
   # add_metric :project_metric_commit_message
 
-  add_hierarchy metric: [%I[test_coverage code_climate travis_ci heroku_status point_distribution],
-                         %I[github_flow pull_requests github_branch tracker_activities cycle_time],
-                         %I[github_use story_overall]]
+  add_hierarchy metric: [%I[test_coverage code_climate travis_ci heroku_status],
+                         %I[point_distribution cycle_time tracker_activities github_use story_overall],
+                         %I[github_flow pull_requests github_branch]]
 end
 
 METRIC_NAMES = {
