@@ -41,16 +41,16 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: 2bc4717751932ca30372bf7dc0bf2c3a65392ccc
+  revision: 27265350b4e609eb46bd9da35c42458a1b721821
   specs:
-    project_metric_github_flow (0.4.0)
+    project_metric_github_flow (0.4.1)
       octokit (~> 4.0)
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_use.git
-  revision: 74e06c806e4c83e5d2410d5d18aa85c04f2576e5
+  revision: 48b3c92bbf923ddf8af90850fb2ea0554cca88d1
   specs:
-    project_metric_github_use (0.2.0)
+    project_metric_github_use (0.2.1)
       octokit
 
 GIT
@@ -77,9 +77,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_pull_requests.git
-  revision: a4d1c99450f7b6cd20e6f0eb27c3bc7bd7dfb57c
+  revision: 195a957fba432bee63b9ad903514822df916d5c8
   specs:
-    project_metric_pull_requests (0.2.0)
+    project_metric_pull_requests (0.2.1)
       octokit
 
 GIT
@@ -198,8 +198,8 @@ GEM
       regexp_parser (~> 1.2)
       xpath (~> 3.2)
     cliver (0.3.2)
-    codeclimate-test-reporter (1.0.9)
-      simplecov (<= 0.13)
+    codeclimate-test-reporter (1.0.7)
+      simplecov
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crack (0.4.3)
@@ -238,7 +238,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.3)
-    docile (1.1.5)
+    docile (1.3.1)
     dotenv (2.7.2)
     dotenv-rails (2.7.2)
       dotenv (= 2.7.2)
@@ -428,8 +428,8 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    simplecov (0.13.0)
-      docile (~> 1.1.0)
+    simplecov (0.16.1)
+      docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
