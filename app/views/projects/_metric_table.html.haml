@@ -7,7 +7,7 @@
         - metric_names.each do |metric_name|
           %th
             = METRIC_NAMES[metric_name]
-            %span.glyphicon.glyphicon-question-sign{type: 'button', 'data-toggle': 'modal', 'data-target': "##{metric_name}_explanation"}
+            -#%span.glyphicon.glyphicon-question-sign{type: 'button', 'data-toggle': 'modal', 'data-target': "##{metric_name}_explanation"}
 
     %tbody
       - projects.each do |project|

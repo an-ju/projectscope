@@ -9,7 +9,7 @@
 
 <div>
   <div class="text-3xl">Quality Metrics</div>
-  <%- %I[code_climate test_coverage travis_ci heroku_status point_distribution].each do |metric_name| %>
+  <%- %I[code_climate test_coverage travis_ci heroku_status].each do |metric_name| %>
     <%- latest_metric = @project.metric_on_date(metric_name, Date.today - @days_from_now.days).last %>
     <div class="col-md-12 my-2 py-5 border-2 border-blue-light">
       <div class="col-md-11 py-2">
@@ -41,8 +41,40 @@
 
   <% end %>
 
+  <div class="text-3xl">Process Metrics</div>
+  <%- %I[point_distribution cycle_time tracker_activities github_use story_overall].each do |metric_name| %>
+    <%- latest_metric = @project.metric_on_date(metric_name, Date.today - @days_from_now.days).last %>
+    <div class="col-md-12 my-2 py-5 border-2 border-blue-light">
+      <div class="col-md-11 py-2">
+        <div class="col-md-3">
+          <strong><%= ProjectMetrics::METRIC_NAMES[metric_name] %></strong>
+        </div>
+        <div class="col-md-6 text-center">
+          <%= render partial: 'metric',
+                     locals: { project: @project, metric_name: metric_name, days_from_now: @days_from_now } %>
+        </div>
+        <div class="col-md-3">
+          <%- if latest_metric %>
+            Score: <%= latest_metric.score %>
+          <% end %>
+        </div>
+        <div class="col-md-12">
+          <%= render partial: "metric_explanations/#{metric_name}" %>
+        </div>
+      </div>
+      <div class="col-md-1 text-5xl">
+        <%- if latest_metric %>
+          <strong class="<%= "text-#{get_gpa_color(latest_metric.score)}"%>"><%=get_gpa(latest_metric.score) %></strong>
+        <%- else %>
+          <strong class="text-grey-dark">?</strong>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+
   <div class="text-3xl">Progress Metrics</div>
-  <%- %I[github_flow pull_requests github_branch tracker_activities].each do |metric_name| %>
+  <%- %I[github_flow pull_requests github_branch].each do |metric_name| %>
     <%- latest_metric = @project.metric_on_date(metric_name, Date.today - @days_from_now.days).last %>
     <div class="col-md-12 my-2 py-5 border-2 border-blue-light">
       <div class="col-md-11 py-2">
