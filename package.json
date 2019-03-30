@@ -11,9 +11,5 @@
     "tailwindcss": "^0.7.4",
     "webpack-dev-server": "2.11.2"
   },
-  "scripts": {
-    "webpack:deploy": "./bin/webpack -p",
-    "heroku-postbuild": "npm run webpack:deploy"
-  },
   "license": "MIT"
 }
