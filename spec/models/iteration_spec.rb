@@ -46,8 +46,8 @@ describe Iteration do
       @exettask2 = create(:task, :execution, iteration_id: @iteration.id, task_status:'started')
       @detask1 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'danger')
       @detask2 = create(:task, :delivering, iteration_id: @iteration.id, task_status:'started')
-      testproj1 =  create(:project)
-      testproj2 =  create(:project)
+      @testproj1 =  create(:project)
+      @testproj2 =  create(:project)
       @tasks = @iteration.tasks
     end
 
@@ -68,13 +68,13 @@ describe Iteration do
       newt.updater_type = @retask1.updater_type
       newt.description = @retask1.description
       newt.task_status = 'unstarted'
-      newt.iteration_id = 2
+      newt.iteration = @iteration
       expect(newt.save).to be true
     end
 
     it 'should copy over the tasks' do
       newiter = Iteration.new()
-      newiter.project_id = 1
+      newiter.project_id = @iteration
       newiter.save
       expect(newiter.save).not_to be_nil
       tasks = @iteration.tasks
@@ -94,11 +94,11 @@ describe Iteration do
     end
 
     it 'run the copy assignment function' do
-      expect(Iteration.copy_assignment(@iteration.id,2)).not_to be_nil
+      expect(Iteration.copy_assignment(@iteration.id, @testproj2.id)).not_to be_nil
     end
 
     it 'run the copy assignment function successfully' do
-      newiter = Iteration.copy_assignment(@iteration.id,2)
+      newiter = Iteration.copy_assignment(@iteration.id,@testproj2.id)
       tasks = @iteration.tasks
       tasks.each do |task|
         expect(Task.where(iteration_id: newiter.id).where(title: task.title)).not_to be_nil
@@ -107,7 +107,7 @@ describe Iteration do
     end
 
     it 'copy assignment task status should all be unstarted' do
-      newiter = Iteration.copy_assignment(@iteration.id,2)
+      newiter = Iteration.copy_assignment(@iteration.id, @testproj2.id)
       tasks = Task.where(iteration_id: newiter.id)
       tasks.each do |task|
         expect(task.task_status).to eq "unstarted"

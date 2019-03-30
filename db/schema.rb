@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "configs", force: :cascade do |t|
+  create_table "configs", id: :serial, force: :cascade do |t|
     t.integer "project_id"
     t.string "metric_name"
     t.text "encrypted_options"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
     t.index ["project_id"], name: "index_configs_on_project_id"
   end
 
-  create_table "iterations", force: :cascade do |t|
+  create_table "iterations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
     t.index ["project_id"], name: "index_iterations_on_project_id"
   end
 
-  create_table "metric_samples", force: :cascade do |t|
+  create_table "metric_samples", id: :serial, force: :cascade do |t|
     t.integer "project_id"
     t.string "metric_name"
     t.text "encrypted_raw_data"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
     t.datetime "updated_at", null: false
     t.string "encrypted_raw_data_iv"
     t.float "score"
-    t.json "image"
+    t.jsonb "image"
     t.integer "data_version"
     t.index ["project_id", "metric_name"], name: "index_metric_samples_on_project_id_and_metric_name"
     t.index ["project_id"], name: "index_metric_samples_on_project_id"
@@ -62,16 +62,16 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
 
   create_table "project_issues", force: :cascade do |t|
     t.string "name"
-    t.json "evidence"
+    t.jsonb "evidence"
     t.text "content"
-    t.integer "project_id"
+    t.bigint "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "data_version"
     t.index ["project_id"], name: "index_project_issues_on_project_id"
   end
 
-  create_table "projects", force: :cascade do |t|
+  create_table "projects", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -88,15 +88,15 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
 
   create_table "raw_data", force: :cascade do |t|
     t.string "name"
-    t.json "content"
+    t.jsonb "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "project_id"
+    t.bigint "project_id"
     t.integer "data_version"
     t.index ["project_id"], name: "index_raw_data_on_project_id"
   end
 
-  create_table "tasks", force: :cascade do |t|
+  create_table "tasks", id: :serial, force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.string "task_status"
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
     t.index ["iteration_id"], name: "index_tasks_on_iteration_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider_username", default: "", null: false
     t.string "email", default: ""
     t.string "encrypted_password", default: "", null: false
@@ -134,9 +134,13 @@ ActiveRecord::Schema.define(version: 2019_01_22_194102) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "whitelists", force: :cascade do |t|
+  create_table "whitelists", id: :serial, force: :cascade do |t|
     t.string "username"
     t.index ["username"], name: "index_whitelists_on_username"
   end
 
+  add_foreign_key "iterations", "projects"
+  add_foreign_key "project_issues", "projects"
+  add_foreign_key "tasks", "iterations"
+  add_foreign_key "users", "projects"
 end
