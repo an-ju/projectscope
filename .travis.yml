@@ -7,7 +7,7 @@ rvm:
 services:
   - postgresql
 addons:
-  postgresql: "10"
+  postgresql: '9.6'
 cache:
   bundler: true
   directories:
@@ -17,10 +17,9 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-  - psql -c 'create database projectscope_test;' -U postgres
 script:
   - ./bin/yarn install
-  - RAILS_ENV=test bundle exec rails db:migrate --trace
+  - bundle exec rails db:setup db:migrate RAILS_ENV=test
   - bundle exec rails db:test:prepare
   - RAILS_ENV=test bundle exec rspec --exclude-pattern "spec/need_tokens/*"
   - RAILS_ENV=test bundle exec cucumber
