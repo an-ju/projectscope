@@ -75,6 +75,7 @@ gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
 # gem 'sprockets-rails', '~> 3.1.1', require: 'sprockets/railtie'
 gem 'webpacker'
+gem 'tailwindcss', '~> 0.2.0'
 
 gem 'newrelic_rpm'
 gem 'pg', '~> 0.15'

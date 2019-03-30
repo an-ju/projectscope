@@ -41,16 +41,16 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: 2bc4717751932ca30372bf7dc0bf2c3a65392ccc
+  revision: 27265350b4e609eb46bd9da35c42458a1b721821
   specs:
-    project_metric_github_flow (0.4.0)
+    project_metric_github_flow (0.4.1)
       octokit (~> 4.0)
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_use.git
-  revision: 74e06c806e4c83e5d2410d5d18aa85c04f2576e5
+  revision: 48b3c92bbf923ddf8af90850fb2ea0554cca88d1
   specs:
-    project_metric_github_use (0.2.0)
+    project_metric_github_use (0.2.1)
       octokit
 
 GIT
@@ -77,9 +77,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_pull_requests.git
-  revision: a4d1c99450f7b6cd20e6f0eb27c3bc7bd7dfb57c
+  revision: 195a957fba432bee63b9ad903514822df916d5c8
   specs:
-    project_metric_pull_requests (0.2.0)
+    project_metric_pull_requests (0.2.1)
       octokit
 
 GIT
@@ -98,9 +98,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_tracker_activities
-  revision: c24d8f6b11e2f8a359a1f476ef1a97027576b3d5
+  revision: 2a1d0106fd94c241400f7e0892a7edc6a8e784d2
   specs:
-    project_metric_tracker_activities (0.1.0)
+    project_metric_tracker_activities (0.2.0)
       faraday
 
 GIT
@@ -120,43 +120,43 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (5.2.2.1)
-      actionpack (= 5.2.2.1)
+    actioncable (5.2.3)
+      actionpack (= 5.2.3)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailer (5.2.2.1)
-      actionpack (= 5.2.2.1)
-      actionview (= 5.2.2.1)
-      activejob (= 5.2.2.1)
+    actionmailer (5.2.3)
+      actionpack (= 5.2.3)
+      actionview (= 5.2.3)
+      activejob (= 5.2.3)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.2.2.1)
-      actionview (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    actionpack (5.2.3)
+      actionview (= 5.2.3)
+      activesupport (= 5.2.3)
       rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.2.2.1)
-      activesupport (= 5.2.2.1)
+    actionview (5.2.3)
+      activesupport (= 5.2.3)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.2.2.1)
-      activesupport (= 5.2.2.1)
+    activejob (5.2.3)
+      activesupport (= 5.2.3)
       globalid (>= 0.3.6)
-    activemodel (5.2.2.1)
-      activesupport (= 5.2.2.1)
-    activerecord (5.2.2.1)
-      activemodel (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    activemodel (5.2.3)
+      activesupport (= 5.2.3)
+    activerecord (5.2.3)
+      activemodel (= 5.2.3)
+      activesupport (= 5.2.3)
       arel (>= 9.0)
-    activestorage (5.2.2.1)
-      actionpack (= 5.2.2.1)
-      activerecord (= 5.2.2.1)
+    activestorage (5.2.3)
+      actionpack (= 5.2.3)
+      activerecord (= 5.2.3)
       marcel (~> 0.3.1)
-    activesupport (5.2.2.1)
+    activesupport (5.2.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -179,7 +179,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.4.1)
+    bootsnap (1.4.2)
       msgpack (~> 1.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
@@ -187,9 +187,9 @@ GEM
     bootswatch-rails (3.3.5)
       railties (>= 3.1)
     builder (3.2.3)
-    byebug (11.0.0)
+    byebug (11.0.1)
     cancan (1.6.10)
-    capybara (3.14.0)
+    capybara (3.15.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -198,8 +198,8 @@ GEM
       regexp_parser (~> 1.2)
       xpath (~> 3.2)
     cliver (0.3.2)
-    codeclimate-test-reporter (1.0.9)
-      simplecov (<= 0.13)
+    codeclimate-test-reporter (1.0.7)
+      simplecov
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crack (0.4.3)
@@ -231,17 +231,17 @@ GEM
     cucumber-wire (0.0.1)
     database_cleaner (1.7.0)
     debug_inspector (0.0.3)
-    devise (4.6.1)
+    devise (4.6.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
     diff-lcs (1.3)
-    docile (1.1.5)
-    dotenv (2.7.1)
-    dotenv-rails (2.7.1)
-      dotenv (= 2.7.1)
+    docile (1.3.1)
+    dotenv (2.7.2)
+    dotenv-rails (2.7.2)
+      dotenv (= 2.7.2)
       railties (>= 3.2, < 6.1)
     encryptor (3.0.0)
     erubi (1.8.0)
@@ -313,9 +313,9 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
-    newrelic_rpm (6.1.0.352)
+    newrelic_rpm (6.2.0.354)
     nio4r (2.3.1)
-    nokogiri (1.10.1)
+    nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.1)
       faraday (>= 0.8, < 0.16.0)
@@ -342,24 +342,24 @@ GEM
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     public_suffix (3.0.3)
-    puma (3.12.0)
+    puma (3.12.1)
     rack (2.0.6)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rails (5.2.2.1)
-      actioncable (= 5.2.2.1)
-      actionmailer (= 5.2.2.1)
-      actionpack (= 5.2.2.1)
-      actionview (= 5.2.2.1)
-      activejob (= 5.2.2.1)
-      activemodel (= 5.2.2.1)
-      activerecord (= 5.2.2.1)
-      activestorage (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    rails (5.2.3)
+      actioncable (= 5.2.3)
+      actionmailer (= 5.2.3)
+      actionpack (= 5.2.3)
+      actionview (= 5.2.3)
+      activejob (= 5.2.3)
+      activemodel (= 5.2.3)
+      activerecord (= 5.2.3)
+      activestorage (= 5.2.3)
+      activesupport (= 5.2.3)
       bundler (>= 1.3.0)
-      railties (= 5.2.2.1)
+      railties (= 5.2.3)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.4)
       actionpack (>= 5.0.1.x)
@@ -375,9 +375,9 @@ GEM
       rails_stdout_logging
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
-    railties (5.2.2.1)
-      actionpack (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    railties (5.2.3)
+      actionpack (= 5.2.3)
+      activesupport (= 5.2.3)
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
@@ -428,8 +428,8 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    simplecov (0.13.0)
-      docile (~> 1.1.0)
+    simplecov (0.16.1)
+      docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
@@ -441,6 +441,8 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.13)
+    tailwindcss (0.2.0)
+      railties (>= 4.1.0, < 6.0)
     temple (0.8.1)
     thor (0.20.3)
     thread_safe (0.3.6)
@@ -540,6 +542,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   simplecov
   sqlite3 (~> 1.3.6)
+  tailwindcss (~> 0.2.0)
   timecop
   turbolinks
   uglifier (>= 1.3.0)
