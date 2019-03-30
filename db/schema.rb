@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_01_22_194102) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "configs", force: :cascade do |t|
     t.integer "project_id"
     t.string "metric_name"

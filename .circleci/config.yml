@@ -13,6 +13,10 @@ jobs: # a collection of steps
         PGHOST: 127.0.0.1
         PGUSER: circleci-demo-ruby
         RAILS_ENV: test
+    - image: circleci/postgres:9.6.2-alpine
+      environment:
+        POSTGRES_USER: root
+        POSTGRES_DB: projectscope-test
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
 
@@ -53,9 +57,13 @@ jobs: # a collection of steps
         paths:
         - ~/.cache/yarn
 
+    - run: sudo apt install -y postgresql-client || true
+
     - run:
         name: Database setup
-        command: bin/rails db:schema:load --trace
+        command: |
+          bundle exec rake db:create
+          bundle exec rake db:structure:load
 
     - run:
         name: Run rspec in parallel
