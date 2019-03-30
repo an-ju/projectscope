@@ -108,7 +108,7 @@ describe Iteration do
 
     it 'copy assignment task status should all be unstarted' do
       newiter = Iteration.copy_assignment(@iteration.id,2)
-      tasks = Task.where(Iteration_id: newiter.id)
+      tasks = Task.where(iteration_id: newiter.id)
       tasks.each do |task|
         expect(task.task_status).to eq "unstarted"
       end
