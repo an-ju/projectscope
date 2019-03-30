@@ -35,7 +35,7 @@ module Features
                               project_id: project.id,
                               score: 0.1 * index,
                               image: image_metric_for(project, date, metric),
-                              raw_data: raw_data_for(project, date, metric),
+                              # raw_data: raw_data_for(project, date, metric),
                               created_at: date.beginning_of_day)
         end
       end

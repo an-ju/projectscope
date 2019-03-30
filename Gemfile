@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.3.8'
+ruby '2.5.3'
 
 # Gems for metrics to use
 gem 'project_metrics', git: 'https://github.com/an-ju/project_metrics.git'
