@@ -3,7 +3,7 @@ env:
     - CC_TEST_REPORTER_ID=7bee48f8a6b81501d9ac7d0f45517d7721c15fe1b09a6d23d3928bb05c122b90
 language: ruby
 rvm:
-  - 2.3.8
+  - 2.5.3
 cache:
   bundler: true
   directories:
