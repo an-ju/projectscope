@@ -77,7 +77,6 @@ gem 'jquery-turbolinks'
 gem 'webpacker'
 gem 'tailwindcss', '~> 0.2.0'
 
-gem 'newrelic_rpm'
 gem 'pg', '~> 0.15'
 
 gem 'puma', '~> 3.11'
