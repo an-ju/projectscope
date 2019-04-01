@@ -96,7 +96,7 @@ class ProjectsController < ApplicationController
         end
       end
     end
-    @project.attributes = update_params
+    @project.name = update_params[:name]
     respond_to do |format|
       if @project.save
         format.html { redirect_to projects_path, notice: 'Project was successfully updated.' + notice }
