@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.8'
+ruby '2.5.3'
 
 # Gems for metrics to use
 gem 'project_metrics', git: 'https://github.com/an-ju/project_metrics.git'
@@ -77,7 +77,6 @@ gem 'jquery-turbolinks'
 gem 'webpacker'
 gem 'tailwindcss', '~> 0.2.0'
 
-gem 'newrelic_rpm'
 gem 'pg', '~> 0.15'
 
 gem 'puma', '~> 3.11'
