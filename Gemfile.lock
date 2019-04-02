@@ -84,9 +84,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_story_overall.git
-  revision: 3fba0826de64ac79cfa6cff54bc5b23ec6ed7860
+  revision: 13488004f074c5eaf52286667225b33b228866fb
   specs:
-    project_metric_story_overall (0.5.1)
+    project_metric_story_overall (0.5.2)
       faraday (~> 0.1, >= 0.1.0.0)
 
 GIT
