@@ -105,10 +105,11 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_travis_ci.git
-  revision: fca3b6c952777a12dfe923361701b8069246e0e5
+  revision: eb968e09fcfef2bf2c03cdca9b4475eec51c4104
   specs:
-    project_metric_travis_ci (0.4.0)
+    project_metric_travis_ci (0.4.1)
       faraday (~> 0.1, >= 0.1.0.0)
+      faraday_middleware
 
 GIT
   remote: https://github.com/an-ju/project_metrics.git
