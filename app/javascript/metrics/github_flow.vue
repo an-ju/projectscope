@@ -28,10 +28,10 @@
         },
         computed: {
             pushes() {
-                return this.image.data['pushes']
+                return this.image.data['new_pushes']
             },
             branches() {
-                return this.image.data['branches']
+                return this.image.data['new_branches']
             },
             bg_color() {
                 if (this.pushes.length === 0) {
