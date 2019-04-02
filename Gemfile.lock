@@ -41,16 +41,16 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_flow.git
-  revision: c40a99f952717f05f48aee0c2419bbc53faf1fd4
+  revision: 8ae7eb42c2d6ae0840597289179ec73ee87d88f0
   specs:
     project_metric_github_flow (0.4.3)
       octokit (~> 4.0)
 
 GIT
   remote: https://github.com/an-ju/project_metric_github_use.git
-  revision: 1c1d16e21186075033204d6d9c190ebe8282cd7e
+  revision: 00b632b38b9d5f37998dbb5d990e2969412b9e3e
   specs:
-    project_metric_github_use (0.2.2)
+    project_metric_github_use (0.3.0)
       octokit
 
 GIT
@@ -84,9 +84,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_story_overall.git
-  revision: 26e677b7899f25eeb54b3841bb21f15fcd7b66bc
+  revision: 3fba0826de64ac79cfa6cff54bc5b23ec6ed7860
   specs:
-    project_metric_story_overall (0.5.0)
+    project_metric_story_overall (0.5.1)
       faraday (~> 0.1, >= 0.1.0.0)
 
 GIT
@@ -342,7 +342,7 @@ GEM
       websocket-driver (>= 0.2.0)
     public_suffix (3.0.3)
     puma (3.12.1)
-    rack (2.0.6)
+    rack (2.0.7)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -386,7 +386,7 @@ GEM
       ffi (~> 1.0)
     rb-readline (0.5.5)
     rdoc (4.3.0)
-    regexp_parser (1.3.0)
+    regexp_parser (1.4.0)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
