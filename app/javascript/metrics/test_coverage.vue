@@ -40,7 +40,7 @@
                         return 'bg-yellow-dark'
                     case 'C':
                         return 'bg-orange-dark'
-                    case 'D':
+                    default:
                         return 'bg-red-dark'
                 }
             },

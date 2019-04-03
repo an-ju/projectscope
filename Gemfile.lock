@@ -6,9 +6,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_code_climate.git
-  revision: 88f51ba7ee178f2779159684e372bd0244a81149
+  revision: 83b6ac0c9802b69bd082ad431e38fefc5df82731
   specs:
-    project_metric_code_climate (0.3.2)
+    project_metric_code_climate (0.3.3)
       faraday
 
 GIT
@@ -91,9 +91,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_test_coverage.git
-  revision: 786e935c343f982154fc56526c920ea823185aec
+  revision: 101f5605b83978483957a213fcf37b9f94a9039b
   specs:
-    project_metric_test_coverage (0.3.3)
+    project_metric_test_coverage (0.3.4)
       faraday (~> 0.12.0)
 
 GIT
@@ -105,9 +105,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_travis_ci.git
-  revision: eb968e09fcfef2bf2c03cdca9b4475eec51c4104
+  revision: d8aff0ab56c6e9894ba4b5639bd35a9b95172035
   specs:
-    project_metric_travis_ci (0.4.1)
+    project_metric_travis_ci (0.4.3)
       faraday (~> 0.1, >= 0.1.0.0)
       faraday_middleware
 

@@ -1,5 +1,13 @@
 <template>
-    <p v-if="null_data"> No Data </p>
+    <p v-if="null_data()"> No Data </p>
+    <div v-else-if="is_error()" class="dropdown">
+        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="text-red dropdown-toggle">
+            Error
+        </div>
+        <ul class="dropdown-menu">
+            <li class="px-3 py-3"> {{ this.error_message }}</li>
+        </ul>
+    </div>
    <component v-else :is="this.metric_name" :image="image" :metric="metric"></component>
 </template>
 
@@ -25,14 +33,14 @@
             metric_name: String
         },
         computed: {
-            null_data: function () {
-                return this.d === 'null'
-            },
             image: function () {
                 return this.metric.image
             },
             metric: function() {
                 return JSON.parse(this.d)
+            },
+            error_message: function() {
+                return this.image.message
             }
         },
         components: {
@@ -48,6 +56,14 @@
             'github_branch': GithubBranch,
             'tracker_activities': TrackerActivities,
             'cycle_time': CycleTime
+        },
+        methods: {
+            null_data() {
+                return this.d === 'null'
+            },
+            is_error() {
+                return this.image.chartType === 'error_message'
+            }
         }
     }
 </script>
