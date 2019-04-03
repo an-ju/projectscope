@@ -91,9 +91,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_test_coverage.git
-  revision: 786e935c343f982154fc56526c920ea823185aec
+  revision: 101f5605b83978483957a213fcf37b9f94a9039b
   specs:
-    project_metric_test_coverage (0.3.3)
+    project_metric_test_coverage (0.3.4)
       faraday (~> 0.12.0)
 
 GIT
