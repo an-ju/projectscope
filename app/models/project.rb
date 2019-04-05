@@ -35,6 +35,15 @@ class Project < ApplicationRecord
     # configs.where(:metric_name => metric).first || configs.build(:metric_name => metric)
   end
 
+  def update_config(config_params)
+    config = configs.where(metric_name: config_params[:metric_name],
+                           metrics_params: config_params[:config_name]).first
+    return false if config.nil?
+
+    config.token = config_params[:config_value]
+    config.save
+  end
+
   # These two functions need further revisions.
   def all_metrics
     valid_configs = MetricSample.all.where(:project_id => id)

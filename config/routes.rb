@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     member do
       post '/add_owner', to: 'projects#add_owner'
       get '/metrics/:metric/detail', to: 'projects#show_metric'
+      put 'config', to: 'projects#update_config', as: 'update_config'
     end
   end
   resources :whitelists, only: [:index] do

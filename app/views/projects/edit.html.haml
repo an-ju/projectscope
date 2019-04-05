@@ -25,7 +25,7 @@
         - metric_params.each do |param|
           - param.each do |name, value|
             %div.input-group
-              %div.input-group-addon
+              %div.input-group-addon{'data-toggle': 'modal', 'data-target': "##{metric_name}-#{name}-update"}
                 = name
               %input{type: "text",
                      value: name.to_s.include?('token') ? '' : value,
@@ -34,3 +34,8 @@
                      id: "#{metric_name}-#{name}"}
   = submit_tag "Finish", class: "btn btn-primary"
   = link_to 'Back', projects_path, class: "btn btn-primary"
+
+- @configs.each do |metric_name, metric_params|
+  - metric_params.each do |param|
+    - param.each do |name, value|
+      = render partial: 'config_update', locals: { metric_name: metric_name, config_name: name, config_value: value}
