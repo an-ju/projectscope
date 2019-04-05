@@ -2,7 +2,7 @@ require 'json'
 
 
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %I[show edit update destroy add_owner]
+  before_action :set_project, only: %I[show edit update destroy add_owner update_config]
   before_action :init_existed_configs, only: %I[show edit new]
   before_action :authenticate_user!
 
@@ -108,6 +108,20 @@ class ProjectsController < ApplicationController
     end
   end
 
+
+  # PATCH/PUT /projects/1/config
+  def update_config
+    respond_to do |format|
+      if @project.update_config(config_update_params)
+        format.html { redirect_to edit_project_path(@project), notice: 'Config was successfully updated.' }
+        format.json { render :show, status: :ok, location: @project }
+      else
+        format.html { redirect_to edit_project_path(@project), alert: 'Config could not be updated.'}
+        format.json { render json: { error: 'Config could not be updated'} }
+      end
+    end
+  end
+
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
@@ -171,6 +185,10 @@ class ProjectsController < ApplicationController
 
   def project_update_params
     params.require(:project)
+  end
+
+  def config_update_params
+    params.require(:config).permit(:metric_name, :config_name, :config_value)
   end
 
   def allowed_configs
