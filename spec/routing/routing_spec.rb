@@ -15,8 +15,8 @@ describe 'Routing', type: :routing do
   end
 
   describe 'ProjectsController' do
-    it 'should route /projects/1/config/1 to projects#update_config' do
-      expect(put: '/projects/1/config/tracker_token').to route_to(controller: 'projects', action: 'update_config', id: '1')
+    it 'should route /projects/1/config to projects#update_config' do
+      expect(put: '/projects/1/config').to route_to(controller: 'projects', action: 'update_config', id: '1')
     end
 
   end
