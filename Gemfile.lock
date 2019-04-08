@@ -55,9 +55,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_heroku_status.git
-  revision: 38df3891080b35fd720f1425ddf4fb6f54673425
+  revision: 568b4d8e92f48adb7d5e344e07c7964e392e64f7
   specs:
-    project_metric_heroku_status (0.2.1)
+    project_metric_heroku_status (0.2.2)
       faraday
       faraday_middleware
 
@@ -170,9 +170,9 @@ GEM
     arel (9.0.0)
     attr_encrypted (3.1.0)
       encryptor (~> 3.0.0)
-    autoprefixer-rails (9.5.0)
+    autoprefixer-rails (9.5.1)
       execjs
-    backports (3.12.0)
+    backports (3.13.0)
     bcrypt (3.1.12)
     better_errors (2.5.1)
       coderay (>= 1.0.0)
@@ -180,7 +180,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.4.2)
+    bootsnap (1.4.3)
       msgpack (~> 1.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
@@ -271,12 +271,12 @@ GEM
     hashie (3.6.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    jasmine (3.3.0)
-      jasmine-core (~> 3.3.0)
+    jasmine (3.4.0)
+      jasmine-core (~> 3.4.0)
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (3.3.0)
+    jasmine-core (3.4.0)
     jasmine-jquery-rails (2.0.3)
     jbuilder (2.8.0)
       activesupport (>= 4.2.0)
@@ -411,7 +411,7 @@ GEM
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     safe_yaml (1.0.5)
-    sass (3.7.3)
+    sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
