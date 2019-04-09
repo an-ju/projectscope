@@ -55,7 +55,7 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_heroku_status.git
-  revision: 568b4d8e92f48adb7d5e344e07c7964e392e64f7
+  revision: b275cf7622611103d6376a1c588db9a38163e227
   specs:
     project_metric_heroku_status (0.2.2)
       faraday
@@ -91,9 +91,9 @@ GIT
 
 GIT
   remote: https://github.com/an-ju/project_metric_test_coverage.git
-  revision: 101f5605b83978483957a213fcf37b9f94a9039b
+  revision: ffc351e4bb1646f519008cddac03486b423be51a
   specs:
-    project_metric_test_coverage (0.3.4)
+    project_metric_test_coverage (0.4.0)
       faraday (~> 0.12.0)
 
 GIT
