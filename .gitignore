@@ -33,3 +33,5 @@ Gemfile.lock
 yarn-debug.log*
 .yarn-integrity
 spec/fixtures/files/tokens.json
+.generators
+.rakeTasks
